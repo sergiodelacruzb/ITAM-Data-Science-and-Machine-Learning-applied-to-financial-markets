@@ -1,0 +1,668 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amssymb,latexsym,amsmath,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{bm}
+
+\newtheorem{definition}{Definición}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{observation}{Observación}[section]
+\newtheorem{proposition}{Proposición}[section]
+
+\setlength{\parindent}{0pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rn}{\R^{n}}
+\newcommand{\Rm}{\R^{m}}
+\newcommand{\Rp}{\R^{p}}
+\newcommand{\Rq}{\R^{q}}
+\newcommand{\Rnu}{\R\times\Rn}
+\newcommand{\Runm}{\R\times\Rn\times\Rm}
+
+\newcommand{\mv}{\overline{\mu}}
+\newcommand{\lv}{\overline{\lambda}}
+\newcommand{\xiv}{\overline{\xi}}
+\newcommand{\thv}{\overline{\theta}}
+\newcommand{\uv}{\overline{u}}
+\newcommand{\av}{\overline{\alpha}}
+\newcommand{\bev}{\overline{\beta}}
+\newcommand{\wv}{\overline{w}}
+\newcommand{\bv}{\overline{b}}
+\newcommand{\x}{\overline{x}}
+\newcommand{\xz}{\overline{x}_{0}}
+\newcommand{\y}{\overline{y}}
+\newcommand{\z}{\overline{0}_{n}}
+\newcommand{\Rnz}{\Rn\setminus\{\z\}}
+\newcommand{\zp}{\overline{0}_{p}}
+\newcommand{\zm}{\overline{0}_{m}}
+\newcommand{\znu}{\overline{0}_{n+1}}
+\newcommand{\Jxz}{J(\overline{x}_{0})}
+
+\newcommand{\Sp}{1,2,\ldots, p}
+\newcommand{\Sq}{1,2,\ldots, q}
+\newcommand{\Sn}{1,2,\ldots, n}
+\newcommand{\Sm}{1,2,\ldots, m}
+
+\newcommand{\La}{\mathcal{L}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\xd}{(X,d)}
+
+\newcommand{\po}{p_{*}}
+\newcommand{\eo}{e^{*}}
+\newcommand{\xo}{\overline{x}_{*}}
+\newcommand{\deo}{d^{*}}
+\newcommand{\muo}{\overline{\mu}^{*}}
+\newcommand{\lao}{\overline{\lambda}^{*}}
+\newcommand{\mlo}{(\overline{\mu}^{*},\overline{\lambda}^{*})}
+
+\newcommand{\bo}{b_{*}}
+\newcommand{\bc}{b^{'}}
+\newcommand{\wo}{\wv_{*}}
+\newcommand{\wc}{\wv^{'}}
+\newcommand{\avo}{\av^{*}}
+\newcommand{\bevo}{\bev^{*}}
+\newcommand{\xivo}{\xiv^{*}}
+\newcommand{\alio}{\alpha_{i}^{*}}
+\newcommand{\aljo}{\alpha_{j}^{*}}
+\newcommand{\xiio}{\xi_{i}^{*}}
+\newcommand{\beio}{\beta_{i}^{*}}
+
+\newcommand{\xc}{\widetilde{x}}
+\newcommand{\muc}{\widetilde{\mu}}
+\newcommand{\lac}{\widetilde{\lambda}}
+
+\newcommand{\Dat}{\mathbb{D}}
+\newcommand{\nw}{\|\wv\|}
+
+\newcommand{\SE}{S_{(E)}}
+\newcommand{\SP}{S_{(P)}}
+
+\newcommand{\ali}{\alpha_{i}}
+\newcommand{\alj}{\alpha_{j}}
+\newcommand{\bei}{\beta_{i}}
+\newcommand{\xii}{\xi_{i}}
+
+\addtolength{\oddsidemargin}{-.875in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.75in}
+
+	\addtolength{\topmargin}{-.875in}
+	\addtolength{\textheight}{1.75in}
+
+\begin{document}
+\title{Máquinas de Vectores de Soporte}
+\section{El Problema de Clasificación}
+
+\begin{definition}
+Decimos que un problema es de clasificación binaria si el conjunto de datos es de la siguiente forma:
+$$\Dat=\{(\x_{i}, y_i): \x_{i}\in\Rn,\ \ \y_{i}\in\{\pm1\}\ \ \forall i = \Sm\}$$
+\end{definition}
+
+En este capítulo, a menos que se especifique lo contrario, solamente hablaremos de conjuntos de datos para problemas de clasificación binaria.
+Empezaremos estudiando conjuntos de datos que si se pueden separar con un hiperplano. Empecemos con la definición.
+
+\begin{definition}
+Dados $\wv\in\Rn$ y $b\in\R$, distinguimos los siguientes tres conjuntos:
+\begin{itemize}
+\item[(i)] $H^{+}(\wv, b)=\{\x\in\Rn:\wv^{T}\x+b>0\}$
+\item[(ii)] $H(\wv, b)=\{\x\in\Rn:\wv^{T}\x+b=0\}$
+\item[(iii)] $H^{-}(\wv, b)=\{\x\in\Rn:\wv^{T}\x+b<0\}$
+\end{itemize}
+Al conjunto $H(\wv, b)$ se le llama \emph{hiperplano} y a los conjuntos $H^{+}(\wv, b),\ H^{-}(\wv, b)$ se les llama \emph{semiespacios}.
+\end{definition}
+
+\begin{definition}
+Sea $\Dat$ un conjunto de datos.
+\begin{itemize}
+\item[(i)] Decimos que el hiperplano $H=H(\wv, b)$ separa a $\Dat$ si y solamente si
+$$s(\wv^{T}\x_{i}+b)=y_{i}\ \ \forall i=\Sm$$
+\item[(ii)] Decimos que $\Dat$ es linealmente separable si y solamente existe al menos un hiperplano que separa a $\Dat$.
+\end{itemize}
+\end{definition}
+\section{El Algoritmo del Perceptrón}
+\section{Máquinas de Vectores de Soporte. Caso Linealmente Separable.}
+
+Definiremos el margen de un hiperplano respecto a un conjunto de datos.
+\begin{definition}
+Sean $\Dat$ un conjunto de datos y $H=H(\wv, b)$ un hiperplano. Definimos el margen de $H$ respecto a $\Dat$ como
+$$\gamma_{\Dat}(H)=\gamma_{\Dat}(\wv, b)=\text{mín}\{d(\x_{i}, H):\ i=\Sn\}$$
+\end{definition}
+Hasta este punto, podemos enunciar el problema de encontrar un hiperplano óptimo de la siguiente manera:
+\begin{center}
+Encontrar $\wv\in\Rn$ y $b\in\R$ tales que:\\
+\begin{itemize}
+\item $\gamma_{\Dat}(\wv, b)$ es lo más grande posible
+\item $H(\wv, b)$ separa a $\Dat$\\
+\end{itemize}
+\end{center}
+
+Iremos transformando este problema poco a poco hasta tenerlo en una forma matemáticamente tratable. Todo dependerá de que podamos expresar las dos condiciones de una manera fácil de manipular.
+
+Empezamos con una definición de separabilidad un poco más manejable.
+\begin{proposition}
+Sea $\Dat$ un conjunto de datos. El hiperplano $H$ dado por $(\wv, b)$ separa a $\Dat$ si y solamente si
+$$y_{i}(\wv ^{T}\x_{i}+b)>0\ \ \forall i=\Sm$$
+\end{proposition}
+\begin{proof}
+Supongamos que el hiperplano $H$ dado por $(\wv, b)$ separa a $\Dat$ i.e. $s(\wv^{T}\x_{i}+b)=y_i\ \ \forall i\in\Sm$. Sea $i\in{1,2,\ldots,m}$ cualquiera. Como $h(\x_{i})= y_{i}$ tenemos que si $y_{i}=1$, entonces $\wv^{T}\x_{i}+b>0$ de modo que $y_{i}(\wv^{T}\x_{i}+b)>0$. De manera similar, si $y_{i}=-1$, entonces $\wv^{T}\x_{i}+b<0$ de modo que $y_{i}(\wv^{T}\x_{i}+b)<0$.\\
+Supongamos ahora que $y_{i}(\wv ^{T}\x_{i}+b)>0\ \ \forall i=\Sm$. Sea $i\in{1,2,\ldots,m}$ cualquiera. Sabemos que $y_{i}(\wv ^{T}\x_{i}+b)>0$. Si $y_{i}=1$ entonces, por las leyes de los signos, $\wv ^{T}\x_{i}+b>0$ de modo que $s(\wv ^{T}\x_{i}+b)=1=y_{i}$. Si $y_{i}=-1$ entonces, por las leyes de los signos, $\wv ^{T}\x_{i}+b<0$ de modo que $s(\wv ^{T}\x_{i}+b)=-1=y_{i}$.
+\end{proof}
+
+Esta proposición nos dice que la separabilidad está codificada a través de las cantidades $y_{i}(\wv ^{T}\x_{i}+b)$. Tenemos una consecuencia fácil de esto.
+
+\begin{observation}
+Sean $\Dat$ un conjunto de datos y $H=H(\wv, b)$ un hiperplano que separa a $\Dat$. Si $\Dat$ tiene al menos un punto con etiqueta $+1$ y al menos un punto con etiqueta $-1$, entonces $\wv\ne\z$.
+\end{observation}
+
+Siempre asumiremos que $\Dat$ tiene al menos un punto de cada clase pues de otro modo no estaríamos hablando de clasificación binaria. Por lo tanto una hipótesis que siempre estará presente es $\wv\in\Rnz$.\\
+
+Pensemos ahora en el asunto de las distancias. ¿Cómo se calcula distancia de un punto a un hiperplano? Se sabe que si $\x\in\Rn$ y $H=H(\wv, b)$ es un hiperplano en $\Rn$ entonces:
+$$d(\x, H)=\frac{|\wv^{T}\x+b|}{\|\wv\|}$$
+La fórmula anterior se puede demostrar de varias maneras. La que se presenta a continuación usa las condiciones de Karush--Kuhn--Tucker.
+\begin{proposition}
+Sean $\wv\in\Rnz$, $b\in\R$ y $\xz\in\Rn$ fijos.
+\begin{itemize}
+\item[(i)] El problema
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in \Rn}{\text{mín}}\ \|\x-\xz\| \\
+\text{s.a.}\ \
+& \x\in H(\wv, b)
+\end{aligned}
+\end{equation*}
+tiene solución única $\xo$. Se define la distancia de $\xz$ a $H=H(\wv, b)$ como $d(\xz, H)= d(\xz,\xo)$.
+\item[(ii)] $d(\xz, H)=\frac{|\wv^{T}\xz+b|}{\nw}$
+\end{itemize}
+\end{proposition}
+\begin{proof}
+Para $(i)$, resolveremos el problema equivalente:
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in \Rn}{\text{mín}}\ \frac{1}{2} \|\x-\xz\|^{2} \\
+\text{s.a.}\ \
+& \wv^{T}\x+b=0
+\end{aligned}
+\end{equation*}
+cuya función objetivo es estrictamente convexa. No hay restricciones de desigualdad. Encontraremos la solución usando las condiciones de Karush--Kuhn--Tucker $(i)$ y $(iv)$. Después argumentaremos formalmente el resultado.\\
+Consideremos el lagrangiano:
+$$\La(\x, \lambda)=\frac{1}{2}\|\x-\xz\|^{2}+\lambda(\wv^{T}\x+b)$$
+Tenemos que:
+$$\nabla_{\x}\La(\x, \lambda)=(\x-\xz)+\lambda\wv$$
+y así, $\nabla_{\x}\La(\x, \lambda)=\z$ si y solamente si $\x=\xz-\lambda\wv$. Sustituyendo lo anterior en la restricción tenemos que:
+\begin{equation*}
+\begin{aligned}
+&\wv^{T}(\xz-\lambda\wv)+b=0 \\
+\Leftrightarrow\ \ &\wv^{T}\xz-\lambda\wv^{T}\wv+b=0 \\
+\Leftrightarrow\ \ &\lambda=\frac{\wv^{T}\xz+b}{\wv^{T}\wv}
+\end{aligned}
+\end{equation*}
+Así las cosas, \emph{definimos}:
+\begin{equation*}
+\begin{aligned}
+\lambda^{*}&=\frac{\wv^{T}\xz+b}{\nw^{2}}\\
+\xo&=\xz-\lambda^{*}\wv
+\end{aligned}
+\end{equation*}
+Es fácil ver que $\xo$ y $\lambda^{*}$ satisfacen las cuatro condiciones de Karush--Kuhn--Tucker. Como el problema en cuestión es convexo y diferenciable, se sigue del teorema (PRELIMINARES) que $\xo$ es solución del problema primal, $\lambda^{*}$ es solución del problema dual y hay dualidad fuerte. La unicidad se sigue de que $\xo$ y $\lambda^{*}$ son los únicos valores que satisfacen las condiciones de Karush--Kuhn--Tucker y del teorema (PRELIMINARES).\\
+Para $(ii)$, tenemos que
+\begin{equation*}
+\begin{aligned}
+d(\xz, H)&=d(\xz, \xo) \\%&&\text{... definición}\\
+&=\|\xz-\xo\| \\%&&\text{... definición}\\
+&=\|\xz-(\xz-\lambda^{*}\wv)\| \\%&&\text{... definición}\\
+&=|\lambda^{*}|\nw \\
+&=\left|\frac{\wv^{T}\xz+b}{\nw^{2}}\right| \nw\\
+&=\frac{|\wv^{T}\xz+b|}{\nw}
+\end{aligned}
+\end{equation*}
+\end{proof}
+
+Veamos si con la información que tenemos hasta el momento podemos dar una fórmula para el margen geométrico de un hiperplano respecto a un conjunto de datos.\\
+Sean $\Dat$ un conjunto de datos linealmente separable por el hiperplano $H=H(\wv, b)$ e $i\in\{1,2,\ldots,m\}$ cualquiera. Tenemos que:
+\begin{equation*}
+\begin{aligned}
+d(\x_{i}, H)&=\frac{|\wv^{T}\x_{i}+b|}{\nw} &&\text{... definición}\\
+&=\frac{|y_{i}(\wv^{T}\x_{i}+b)|}{\nw} &&\text{... $y_{i}\in\{1,-1\}$}\\
+&=\frac{y_{i}(\wv^{T}\x_{i}+b)}{\nw} &&\text{... $H$ separa a $\Dat$}
+\end{aligned}
+\end{equation*}
+Así, podemos escribir
+$$\gamma_{\Dat}(H)=\gamma_{\Dat}(\wv, b)=\text{mín}\{d(\x_{i}, H):\ i=\Sm\}=\text{mín}\left\{\frac{y_{i}(\wv^{T}\x_{i}+b)}{\nw}:\ i=\Sm\right\}$$
+de modo que, en lo que se refiere al cálculo del margen de $H$ respecto a $\Dat$, no hemos logrado absolutamente nada. Ambas versiones son igual de díficil de calcular. Usando la segunda versión, tenemos que calcular las $m$ cantidades $y_{i}(\wv ^{T}\x_{i}+b)$, encontrar la más pequeña de todas y después dividirla entre $\nw$. Esto sería para calcular el margen de \emph{un solo} hiperplano. Tendríamos que hacer esto para todos los posibles hiperplanos (i.e. todas las posibles elecciones de $\wv\in\Rn$ y $b\in\R$) y después hallar el que tenga el margen más grande de todos. Claramente esto es imposible.\\
+
+Afortunadamente, resulta que hay un truco algebraico que mejora considerablemente la situación. Empecemos por observar que si $H=H(\wv, b)$ es un hiperplano y $k\in\R\setminus\{0\}$ es cualquier constante diferente de cero, entonces $H=H(k\wv,k b)$. Es decir, un hiperplano se puede representar de una infinidad de maneras diferentes multiplicando sus parámetros por un escalar.
+
+\begin{proposition}
+Sean $\wv\in\Rnz$ y $b, k\in\R$.
+\begin{itemize}
+\item[(i)] Si $k\ne0$ entonces $H(\wv, b)=H(k\wv, kb)$.
+\item[(ii)] Si $k>0$ y $H(\wv, b)$ separa a $\Dat$, entonces $H(k\wv, kb)$ también separa a $\Dat$.
+\end{itemize}
+\end{proposition}
+
+Es importante recalcar que si $H=H(\wv, b)$ separa a $\Dat$, entonces $H(k\wv, kb)$ puede o no seguir separando a $\Dat$. Si $k>0$, demostramos que la nueva representación de $H$ sigue separando a $\Dat$. Si $k<0$, ya no sería el caso. Como objeto geométrico, $H$ seguiría separando ``físicamente'' a los puntos de $\Dat$ pero $k\wv$ apunta en dirección contraria a $\wv$ de modo que la clasificación de los puntos quedaría invertida. (ejercicio)\\
+
+La siguiente cadena de proposiciones nos muestra que si $H$ es un hiperplano que separa a $\Dat$, entonces existe una representación especial de $\Dat$ que sigue separando a $\Dat$ y para la cual el margen es muy fácil de calcular.
+
+\begin{proposition}
+Sean $\Dat$ un conjunto de datos y $H=H(\wv,b)$ un hiperplano que separa a $\Dat$. Entonces $\exists r\in\R$, $r>0$, tal que:
+\begin{itemize}
+\item[(i)] $H=H(r\wv, rb)$ separa a $\Dat$.
+\item[(ii)] $\text{mín}\{y_{i}(r\wv^{T}\x_{i}+rb):\ i=\Sm \}=1$
+\end{itemize}
+\end{proposition}
+\begin{proof}
+Como $H(\wv, b)$ separa a $\Dat$, tenemos que $y_{i}(\wv ^{T}\x_{i}+b)>0\ \ \forall i=\Sm$ y entonces $a=\text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ \ i=\Sm \}>0$. Proponemos $r=a^{-1}$. Efectivamente, por la proposición anterior $H=H(r\wv, rb)$ separa a $\Dat$ pues $r>0$. Esto implica que $y_{i}(r\wv^{T}\x_{i}+rb)>0\ \ \forall i=\Sm $. Ahora,
+\begin{equation*}
+\begin{aligned}
+\text{mín}\{y_{i}(r\wv^{T}\x_{i}+rb):\ i=\Sm \}&=\text{mín}\{ry_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}\\
+&=r\ \text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}\\
+&=a^{-1}a\\
+&=1
+\end{aligned}
+\end{equation*}
+\end{proof}
+
+La siguiente es una especie de recíproco de la anterior.
+
+\begin{proposition}
+Sean $\Dat$ un conjunto de datos y $H=H(\wv, b)$ un hiperplano tal que $\text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}=1$. Entonces $H=H(\wv, b)$ separa a $\Dat$
+\end{proposition}
+\begin{proof}
+Simplemente notamos que $y_{i}(\wv^{T}\x_{i}+b)\geq1>0\ \ \forall i=\Sm$.
+\end{proof}
+
+Combinando las dos proposiciones anteriores tenemos la siguiente que es fundamental.
+
+\begin{proposition}
+Sean $\Dat$ un conjunto de datos y $H$ un hiperplano. Entonces, $H$ separa a $\Dat$ si y solamente si existe una representación de $H=H(\wv, b)$ tal que
+$$\text{mín}\{y_{i}(r\wv^{T}\x_{i}+rb):\ i=\Sm \}=1$$
+Si $H$ separa a $\Dat$, a la representación de $H$ con la virtud anterior se le llamará \emph{representación canónica de $H$ respecto a $\Dat$}.
+\end{proposition}
+
+Finalmente, una manera fácil de expresar el margen de un hiperplano.
+
+\begin{proposition}
+Sean $\Dat$ un conjunto de datos y $H$ un hiperplano que separa $\Dat$. Sea $H=H(\wv, b)$ la representación canónica de $H$ respecto a $\Dat$. Entonces:
+$$\gamma_{\Dat}(\wv, b)=\frac{1}{\nw}$$
+\end{proposition}
+\begin{proof}
+Notemos que
+\begin{equation*}
+\begin{aligned}
+\gamma_{\Dat}(\wv, b)&=\text{mín}\{d(\x_{i}, H):\ i=\Sm\} &&\text{... definición}\\
+&=\text{mín}\left\{\frac{y_{i}(\wv^{T}\x_{i}+b)}{\nw}:\ i=\Sm\right\} &&\text{... fórmula de la distancia}\\
+&=\frac{1}{\nw}\text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm\} &&\text{... $\frac{1}{\nw}>0$}\\
+&=\frac{1}{\nw}\cdot 1 &&\text{... $H$ está en representación canónica}\\
+&=\frac{1}{\nw}
+\end{aligned}
+\end{equation*}
+\end{proof}
+
+Así, cuando el hiperplano separa y está en representación canónica, el margen tiene una expresión muy simple. Podríamos volver a pensar que no hemos avanzado pues calcular la representación canónica de un hiperplano puede ser laborioso si $\Dat$ es grande. Sin embargo, veremos ahora que esto nos tiene sin cuidado.\\
+
+Sea $\Dat$ un conjunto de datos linealmente separable. Recordemos que para encontrar el hiperplano óptimo requerimos
+\begin{center}
+Encontrar $\wv\in\Rnz$ y $b\in\R$ tales que:\\
+\begin{itemize}
+\item $\gamma_{\Dat}(\wv, b)$ es lo más grande posible
+\item $H(\wv, b)$ separa a $\Dat$\\
+\end{itemize}
+\end{center}
+
+Con lo que tenemos hasta ahora, podemos reescribir y generar el siguiente problema equivalente:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b,\wv)\in C}{\text{máx}} \frac{1}{\nw} \\
+\text{s.a.}\ \
+& \text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}=1
+\end{aligned}
+\end{equation*}
+donde $C=\{(b,\wv)\in\Rnu: \wv\ne\z\}$. Notemos que las restricciones del problema obligan a generar un hiperplano separador  representado de manera canónica. Así, la función objetivo $f(b, \wv)=(\nw)^{-1}$ es el margen de dicho hiperplano respecto a $\Dat$ según la proposición anterior.\\
+
+El problema de optimización restricta anterior captura justamente lo queremos hacer: encontrar el hiperplano separador con mayor margen posible. Así escrito es dífícil de trabajar por la naturaleza de la función objetivo y de la restricción. Lo transformaremos en un problema equivalente fácil de trabajar.\\
+
+Empecemos por la función objetivo. Podemos observar que maximizar la cantidad $(\nw)^{-1}$ es equivalente a minimizar $\nw$ que a su vez es equivalente a minimizar $\nw^{2}=\wv^{T}\wv$. Esto último es equivalente a minimizar $f(b, \wv)=\frac{1}{2}\wv^{T}\wv$. Vamos bien, esta nueva función objetivo es convexa (ejercicio, ¿por qué no es estrictamente convexa?).\\
+
+Veamos que podemos hacer respecto a las restricción. Hasta ahora tenemos el problema $(E)$:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b,\wv)\in \Rnu}{\text{mín}}\ \frac{1}{2}\wv^{T}\wv \\
+\text{s.a.}\ \
+& \text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}=1
+\end{aligned}
+\end{equation*}
+El dominio de la función objetivo y de las restricción se toma como $\Rnu$ ya que $\Dat$ tiene al menos un punto de cada clase de modo que las restricción en $(E)$ empuja a que $\wv\ne\z$. Podríamos ahora tratar de hacer algo como el siguiente problema $(P)$:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b,\wv)\in \Rnu}{\text{mín}}\ \frac{1}{2}\wv^{T}\wv \\
+\text{s.a.}\ \
+& y_{i}(\wv^{T}\x_{i}+b)\geq1\ \ \forall i=\Sm
+\end{aligned}
+\end{equation*}
+
+A pesar de que $(P)$ tiene $m$ restricciones y $(E)$ solo tiene una, las restricciones de $(P)$ son mucho más fáciles de trabajar pues son afínes y también garantizan $\wv\ne\z$. Ahora, es claro que todo punto factible de $(E)$ también es punto factible de $(P)$. En principio, no hay ninguna razón que obligue a que lo recíproco sea cierto. Afortunadamente tenemos el siguiente resultado.
+
+\begin{proposition}
+Toda solución del problema $(P)$ también es solución del problema $(E)$
+\end{proposition}
+\begin{proof}
+En ambos problemas la función objetivo es $f:\Rnu\rightarrow\R$ dada por $f(b, \wv)=\frac{1}{2}\wv^{T}\wv$. Sean $\SE$ y $\SP$ los subconjuntos de $\Rnu$ generados por las restricciones de $(E)$ y $(P)$ respectivamente. Notamos que $\SE\subseteq\SP$.\\
+Sea $(\bc,\wc)$ un punto óptimo de $(P)$, i.e., $f(\bc, \wc)\leq f(b, \wv)\ \ \forall(b, \wv)\in\SP$.\\
+empecemos argumentando que $(\bc, \wc)\in\SE$. Si no fuése el caso, querría decir que
+$$k=\text{mín}\{y_{i}(\wv^{T}\x_{i}+b):\ i=\Sm \}>1$$
+Definimos $\wo=k^{-1}\wc$, $\bo=k^{-1}\bc$. Notemos que $0<k^{-1}<1$. Además
+\begin{equation*}
+\begin{aligned}
+\text{mín}\{y_{i}({\wo}^{T}\x_{i}+\bo):\ i=\Sm \}&=\text{mín}\{y_{i}(k^{-1}{\wc}^{T}\x_{i}+k^{-1}{\bc}):\ i=\Sm \}\\
+&=k^{-1}\ \text{mín}\{y_{i}({\wc}^{T}\x_{i}+{\bc}):\ i=\Sm \}\\
+&=k^{-1}k\\
+&=1
+\end{aligned}
+\end{equation*}
+lo cual implica que $(\bo, \wo)\in\SP$. Pero $\|\wo \|=k^{-1}\nw<\nw$ de modo que $f(\bo, \wo)<f(\bc, \wc)$ lo cual contradice que $(\bc,\wc)$ es un punto óptimo de $(P)$.\\
+Ya tenemos que $(\bc,\wc)\in\SE$. Como $\SE\subseteq\SP$, se sigue que $f(\bc, \wc)\leq f(b, \wv)\ \ \forall(b, \wv)\in\SE$. Por lo tanto, $(\bc,\wc)$ es un punto óptimo de $(E)$ como se quería.
+\end{proof}
+
+Así las cosas, podemos concentrarnos en resolver el problema de optimización restricta $(P)$ del cual podemos observar lo siguiente:
+\begin{itemize}
+\item La suposición de que $\Dat$ es linealmente separable implica que el problema es factible.
+\item Es un problema convexo, diferenciable y acotado inferiormente. Esto último porque $f(b, \wv)=\frac{1}{2}\wv^{T}\wv\geq0$ $\forall(b, \wv)\in\Rnu$.
+\item Es un problema de programación cuadrática (¿por qué?).
+\end{itemize}
+Este modelo de aprendizaje de máquina recibe el nombre de ``máquina de vectores de soporte con margen fuerte''.\\
+
+Dado que hay software especializado para resolver problemas de programación cuadrática, podríamos dar por finalizada la discusión. Sin embargo, todavía hay cosas que decir acerca del problema $(P)$. Aplicando la Teoría de Dualidad de Lagrange, podremos comprender más profundamente lo que acabamos de hacer y descubriremos nuevas técnicas en el proceso.
+
+\section{El Problema Dual}
+Empecemos por escribir $(P)$ de la siguiente manera:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b,\wv)\in \Rnu}{\text{mín}}\ \frac{1}{2}\wv^{T}\wv \\
+\text{s.a.}\ \
+& 1-y_{i}(\wv^{T}\x_{i}+b)\leq0\ \ \forall i=\Sm
+\end{aligned}
+\end{equation*}
+
+El lagrangiano $\La:(\Rnu)\times\Rm\rightarrow\R$ está dado por
+\begin{equation*}
+\begin{aligned}
+\La(b, \wv, \av)&=\frac{1}{2}\wv^{T}\wv+\sum_{i=1}^{m}\ali[1-y_{i}(\wv^{T}\x_{i}+b)]\\
+&=\frac{1}{2}\wv^{T}\wv-\sum_{i=1}^{m}\ali y_{i}\wv^{T}\x_{i} -b\sum_{i=1}^{m}\ali y_{i}+\sum_{i=1}^{m}\ali
+\end{aligned}
+\end{equation*}
+
+Calculemos la función dual $g(\av)$. Para ello, fijamos $\av\in\Rm$ y buscamos el valor óptimo del problema irrestricto $(Q_{\av})$:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b, \wv)\in \Rnu}{\text{mín}}\ \ \ \frac{1}{2}\wv^{T}\wv-\sum_{i=1}^{m}\ali y_{i}\wv^{T}\x_{i} -b\sum_{i=1}^{m}\ali y_{i}+\sum_{i=1}^{m}\ali
+\end{aligned}
+\end{equation*}
+Esta función objetivo $k=k_{\av}=\La(\ \cdot\ ,\ \cdot\ ,\av)$ es convexa en $\Rnu$. Por lo tanto, basta resolver $\nabla k(b, \wv)=\overline{0}_{n+1}$.
+Tenemos que:
+\begin{equation*}
+\begin{aligned}
+\frac{\partial k}{\partial b}(b, \wv)&=-\sum_{i=1}^{m}\ali y_{i}\\
+\frac{\partial k}{\partial \wv}(b, \wv)&=\wv-\sum_{i=1}^{m}\ali y_{i}\x_{i}
+\end{aligned}
+\end{equation*}
+de modo que $\nabla k(b, \wv)=\overline{0}_{n+1}$ si y solamente si
+\begin{equation*}
+\begin{aligned}
+&\sum_{i=1}^{m}\ali y_{i}=0\\
+&\wv=\sum_{i=1}^{m}\ali y_{i}\x_{i}
+\end{aligned}
+\end{equation*}
+Parece que hay un problema. La idea era usar la condición $\nabla k(b, \wv)=\overline{0}_{n+1}$ para obtener el punto óptimo de $(R)$ y con el obtener el valor óptimo de $(Q)$. Sin embargo, la condición del gradiente solamente nos dice el valor óptimo de $\wv$, falta el de $b$. ¿Cómo podemos interpretar la situación?\\
+
+La clave está en entender el papel de la condición $\sum_{i=1}^{m}\ali y_{i}=0$ en la función objetivo $k(b, \wv)$. Supongamos que $\sum_{i=1}^{m}\ali y_{i}>0$. Eligiendo $\wv=\z$ y tomando valores de $b\in\R$ positivos y muy grandes, podemos concluir que
+$$g(\av)= \underset{(b, \wv)\in\Rnu}{\text{ínf}}\La(b,\wv,\av)=-\infty$$
+lo cual nos dice que $\av$ no estaría en el dominio de $g$ que se usa para plantear el problema dual. Lo mismo sucede si $\sum_{i=1}^{m}\ali y_{i}<0$. Concluimos que:
+$$A=\{\av\in\Rm: g(\av)>-\infty\}=\{\av\in\Rm: \sum_{i=1}^{m}\ali y_{i}=0\}$$
+Así las cosas, suponer $\sum_{i=1}^{m}\ali y_{i}=0$ es lo mismo que suponer $\av\in A$ y para dichos vectores $\av$, el valor óptimo de $(Q)$ se puede obtener sustituyendo $\wv=\sum_{i=1}^{m}\ali y_{i}\x_{i}$ en $k$ ya que el término correspondiente a $b$ desaparece. Después veremos como encontrar el valor óptimo de $b$.\\
+
+Haciendo la sustitución mencionada tenemos que $\forall\av\in A$:
+\begin{equation*}
+\begin{aligned}
+g(\av)&=\frac{1}{2}\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}\right)-\sum_{i=1}^{m}\ali y_{i}\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}\right)^{T}\x_{i} +\sum_{i=1}^{m}\ali\\
+&=\frac{1}{2}\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}^{T}\right)\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}\right)-\sum_{i=1}^{m}\ali y_{i}\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}^{T}\right)\x_{i} +\sum_{i=1}^{m}\ali\\
+&=\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}-\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{j}^{T}\x_{i}+\sum_{i=1}^{m}\ali\\
+&=\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}-\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}+\sum_{i=1}^{m}\ali\\
+&=-\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}+\sum_{i=1}^{m}\ali
+\end{aligned}
+\end{equation*}
+Recordemos que el problema dual $(D)$ es:
+\begin{equation*}
+\begin{aligned}
+& \underset{\av\in A}{\text{máx}}\ g(\av) \\
+& \text{s.a.}\ \ \av\geq\zm
+\end{aligned}
+\end{equation*}
+que es equivalente a:
+\begin{equation*}
+\begin{aligned}
+& \underset{\av\in\Rm}{\text{máx}}\ g(\av) \\
+\text{s.a.}\ \
+& \av\in A \\
+& \av\geq\zm
+\end{aligned}
+\end{equation*}
+que a su vez es equivalente a:
+\begin{equation*}
+\begin{aligned}
+ \underset{\av\in\Rm}{\text{mín}}\ \frac{1}{2}&\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}x_{j}-\sum_{i=1}^{m}\ali \\
+\text{s.a.}\ \
+& \sum_{i=1}^{m}\ali y_{i}=0\\
+& \av\geq\zm
+\end{aligned}
+\end{equation*}
+El problema dual es convexo, tal como se esperaba según los resultados de(PRELIMINARES). Más aún, es un problema de programación cuadrática. ¿Qué más podemos decir de él?\\
+
+Tenemos que:
+\begin{itemize}
+\item[(i)] El problema $(P)$ es convexo y diferenciable. Además tiene solución lo cual implica que es acotado inferiormente.
+\item[(ii)] El dominio de la función objetivo de $(P)$ es $D=\Rnu$ que es abierto
+\item[(iii)] Las restricciones de $(P)$ son todas funciones afínes.
+\end{itemize}
+Por lo tanto, según el Teorema de Slater (PRELIMINARES), el problema dual $(D)$ tiene solución y hay dualidad fuerte. ¿Cómo podemos aprovechar la dualidad fuerte?\\
+
+Sean $(\bo, \wo)\in\Rnu$ y $\avo\in\Rm$ soluciones de $(P)$ y $(D)$ respectivamente. La dualidad fuerte implica, por el (PRELIMINARES), que se cumplen las 4 condiciones de Karush-Kuhn-Tucker:
+\begin{itemize}
+\item[(i)] $1-y_{i}(\wo^{T}\x_{i}+\bo)\leq0\ \ \forall i=\Sm$
+\item[(ii)] $\alio\geq0$ $\forall i=\Sm$
+\item[(iii)] $\alio[1-y_{i}(\wo^{T}\x_{i}+\bo)]=0$ $\forall i=\Sm$
+\item[(iv)] $\nabla k_{\avo}(\bo, \wo)=\znu$ lo cual significa que:
+\begin{equation*}
+\begin{aligned}
+&\sum_{i=1}^{m}\alio y_{i}=0\\
+&\wo=\sum_{i=1}^{m}\alio y_{i}\x_{i}
+\end{aligned}
+\end{equation*}
+\end{itemize}
+Vemos que el valor óptimo de $\wv$ es $\wo=\sum_{i=1}^{m}\alio y_{i}\x_{i}$. Esto es, el valor óptimo de $\wv$ es una combinación lineal de los vectores en el conjunto de datos $\Dat$. Además, los coeficientes de la combinación lineal coinciden con las entradas del punto óptimo del problema dual.\\
+
+¿Qué hay de $\bo$? Empecemos por notar que $\alio=0\ \ \forall i=\Sm$ es imposible pues de ser así, tendríamos $\wo=\z$ lo cual es imposible porque $\Dat$ tiene al menos un punto de cada clase. Por lo tanto, $\exists\alio>0$ p.a. $i\in\{1,2,\ldots,m\}$. Si $\aljo>0$, la condición (KKT) en (iii) implica que $1-y_{j}(\wo^{T}\x_{j}+\bo)=0$ y por lo tanto:
+$$y_{j}(\wo^{T}\x_{j}+\bo)=1$$
+lo cual significa que $\x_{j}$ está sobre el margen del hiperplano óptimo (además, $\bo$ se puede despejar de la ecuación anterior). Es por esto que si $\aljo>0$ el correspondiente $\x_{j}$ recibe el nombre de \emph{vector de soporte}. En cierto sentido, los vectores de soporte son los que impiden que el margen del hiperplano óptimo se expanda. Es importante notar que todo $\x_{i}$ sobre el margen del hiperplano óptimo es ``candidato'' a ser vector de soporte, pero solamente aquellos con el correspondiente coeficiente $\alio>0$ son los vectores de soporte.\\
+
+Así pues, la solución del problema original se puede obtener a partir de la solución del problema dual:
+\begin{equation*}
+\begin{aligned}
+\wo&=\sum_{\alio>0}\alio y_{i}\x_{i}\\
+\bo&=y_{s}-\wo^{T}\x_{s}
+\end{aligned}
+\end{equation*}
+donde $\x_{s}$ es cualquier vector de soporte. Los vectores de soporte, que son identificados por el problema dual, son los únicos que se requieren para resolver $(P)$. Esto es parte de lo que hace a este modelo de aprendizaje tan robusto.\\
+
+En las siguientes secciones veremos que podemos hacer para trabajar con conjuntos de datos que no son linealmente separables.
+
+\section{Máquinas de Vectores de Soporte con Margen Débil}
+Una manera de trabajar con un conjunto de datos $\Dat$ que no es linealmente separable es permitir que haya puntos dentro del margen lo cual permite que haya puntos mal clasificados. Para precisar esto, tenemos la siguiente definición motivada por los resultados de la (SECCIÓN).
+
+\begin{definition}
+Sea $H=H(\wv, b)$ un hiperplano con $\wv\ne\z$. Definimos el margen de $H(\wv, b)$ como:
+$$\gamma (\wv, b)=\frac{1}{\nw}$$
+\end{definition}
+
+Observamos que esta definición de margen \emph{no depende de $\Dat$}. Un mismo hiperplano, pensado como ente geométrico, tiene una infinidad de márgenes dependiendo del valor de $\nw$ en la representación $H=H(\wv, b)$. Los puntos de $\Rn$ quedan clasificados de la siguiente manera (la clasificación es relativa a la representación $H=H(\wv, b)$:
+\begin{enumerate}
+\item $\x\in\Rn$ tales que $\wv^{T}\x+b\leq -1$ (tipo I).
+\item $\x\in\Rn$ tales que $-1<\wv^{T}\x+b<1$ (tipo II).
+\item $\x\in\Rn$ tales que $1\leq\wv^{T}\x+b$ (tipo III).
+\end{enumerate}
+
+Usar hiperplanos con margen fuerte es equivalente a insistir en que los puntos de $\Dat$ sean de tipo I ó tipo III exclusivamente. De estos, los que satisfacen $\wv^{T}\x+b=-1$ o $\wv^{T}\x+b=1$ están sobre el margen del hiperplano. Para permitir la posibilidad de que haya puntos de $\Dat$ de tipo II, e incluso puntos de $\Dat$ mal clasificados, para cada $(\x_{i}, y_{i})$ introducimos la cantidad $\xi_{i}\geq0$, que captura que tanto el punto $\x_{i}$ puede no respetar el margen de $H(\wv, b)$, y nos concentramos en resolver el problema de optimización restricta $(P')$:
+
+\begin{equation*}
+\begin{aligned}
+ \underset{(b,\wv, \xiv)\in \Runm}{\text{mín}}\ \frac{1}{2}\wv^{T}\wv&+C\sum_{i=1}^{m}\xi_{i}  \\
+\text{s.a.}\ \
+ y_{i}(\wv^{T}\x_{i}+b)&\geq1-\xi_{i}\ \ &&\forall i=\Sm\\
+ \xi_{i}&\geq0\ \ &&\forall i=\Sm
+\end{aligned}
+\end{equation*}
+
+Minimizar el término $\frac{1}{2}\wv^{T}\wv$ maximiza el margen de $H(\wv, b)$. Minimizar $\sum_{i=1}^{m}\xi_{i}$ en presencia de las restricciones $\xi_{i}\geq0$ empuja a que cada $\xi_{i}$ sea pequeño. Por lo tanto, minimizar la suma de ambos términos es encontrar un hiperplano con margen grande y para el cual $\Dat$ tiende a respetar el margen. A mayor valor de $C$, mayor es la importancia que se le dá a respetar el margen del hiperplano.\\
+
+Podemos observar que el problema $(P')$ tiene las mismas propiedades básicas que el problema $(P)$ con margen fuerte:
+\begin{itemize}
+\item Es un problema factible. (ejercicio)
+\item Es un problema convexo, diferenciable y acotado inferiormente. Esto último porque $f(b, \wv, \xiv)=\frac{1}{2}\wv^{T}\wv+C\sum_{i=1}^{m}\xi_{i}\geq0$ $\forall(b,\wv,\xiv)\in S_{(P')}$.
+\item Es un problema de programación cuadrática (¿por qué?).
+\end{itemize}
+
+Como en el caso de margen fuerte, exploraremos el correspondiente problema dual. Comprenderemos con mayor profundidad la situación y veremos una técnica especial para resolver el proble dual: el algoritmo SMO.
+
+\section{Problema Dual para Margen Débil}
+El proceso es completamente análogo al del margen fuerte. Reescribimos $(P')$:
+\begin{equation*}
+\begin{aligned}
+ \underset{(b,\wv, \xiv)\in \Runm}{\text{mín}}\ \frac{1}{2}\wv^{T}\wv&+C\sum_{i=1}^{m}\xi_{i}  \\
+\text{s.a.}\ \
+ 1-\xi_{i}-y_{i}(\wv^{T}\x_{i}+b)&\leq0\ \ &&\forall i=\Sm\\
+ -\xi_{i}&\leq0\ \ &&\forall i=\Sm
+\end{aligned}
+\end{equation*}
+
+El lagrangiano $\La:(\R\times\Rn\times\Rm)\times(\Rm\times\Rm)\rightarrow\R$ está dado por:
+\begin{equation*}
+\begin{aligned}
+\La(b, \wv, \xiv, \av, \bev)&=\frac{1}{2}\wv^{T}\wv+C\sum_{i=1}^{m}\xii+\sum_{i=1}^{m}\ali[1-\xii-y_{i}(\wv^{T}\x_{i}+b)]+\sum_{i=1}^{m}\bei(-\xii)\\
+&=\frac{1}{2}\wv^{T}\wv-\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\wv+\sum_{i=1}^{m}(C-\ali-\bei)\xii+\sum_{i=1}^{m}\ali-b\sum_{i=1}^{m}\ali y_{i}
+\end{aligned}
+\end{equation*}
+Para calcular la función dual $g(\av, \bev)$ fijamos $(\av, \bev)\in\Rm\times\Rm$ y buscamos el valor óptimo del problema irrestricto $(Q'_{\av, \bev})$:
+\begin{equation*}
+\begin{aligned}
+& \underset{(b, \wv, \xiv)\in \Rnu\times\Rm}{\text{mín}}\ \ \ \frac{1}{2}\wv^{T}\wv-\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\wv+\sum_{i=1}^{m}(C-\ali-\bei)\xii+\sum_{i=1}^{m}\ali-b\sum_{i=1}^{m}\ali y_{i}
+\end{aligned}
+\end{equation*}
+Esta función objetivo $k=k_{\av,\bev}=\La(\ \cdot\ ,\ \cdot\ ,\cdot\ , \av, \bev)$ es convexa en $\Runm$. Por lo tanto, es suficiente resolver la ecuación $\nabla k(b, \wv, \xiv)=\overline{0}_{m+n+1}$. Tenemos que:
+\begin{equation*}
+\begin{aligned}
+\frac{\partial k}{\partial b}(b, \wv, \xiv)&=-\sum_{i=1}^{m}\ali y_{i}\\
+\frac{\partial k}{\partial \wv}(b, \wv, \xiv)&=\wv-\sum_{i=1}^{m}\ali y_{i}\x_{i}\\
+\frac{\partial k}{\partial \xiv}(b, \wv, \xiv)&=C\uv-\av-\bev
+\end{aligned}
+\end{equation*}
+donde $\uv=[1, 1,\ldots, 1]^{T}\in\Rm$. Así, $\nabla k(b, \wv, \xiv)=\overline{0}_{m+n+1}$ si y solamente si
+\begin{equation*}
+\begin{aligned}
+&\sum_{i=1}^{m}\ali y_{i}=0\\
+&\wv=\sum_{i=1}^{m}\ali y_{i}\x_{i}\\
+&\ali+\bei=C\ \ \ \ \ \forall i=\Sm
+\end{aligned}
+\end{equation*}
+Razonando como en el caso de margen fuerte, tenemos que:
+\begin{equation*}
+\begin{aligned}
+A&=\{(\av, \bev)\in\Rm\times\Rm:\ g(\av, \bev)>-\infty\}\\
+&=\{(\av, \bev)\in\Rm\times\Rm:\ \sum_{i=1}^{m}\ali y_{i}=0\ \ \text{y}\ \ \ali+\bei=C,\ \ \forall i=\Sm\}
+\end{aligned}
+\end{equation*}
+Por lo tanto, para $(\av, \bev)\in A$ tenemos que:
+\begin{equation*}
+\begin{aligned}
+g(\av, \bev)&=\frac{1}{2}\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}\right)-\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\left(\sum_{j=1}^{m}\alj y_{j}\x_{j}\right)+\sum_{i=1}^{m}\ali\\
+&=\frac{1}{2}\wv^{T}\wv-\left(\sum_{i=1}^{m}\ali y_{i}\x_{i}\right)^{T}\wv+\sum_{i=1}^{m}\ali\\
+&=-\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}+\sum_{i=1}^{m}\ali
+\end{aligned}
+\end{equation*}
+Entonces, el problema dual $(D')$ se puede escribir como:
+\begin{equation*}
+\begin{aligned}
+\underset{(\av, \bev)\in\Rm\times\Rm}{\text{mín}}\ \frac{1}{2}&\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}-\sum_{i=1}^{m}\ali \\
+\text{s.a.}\ \
+& \sum_{i=1}^{m}\ali y_{i}=0\\
+& \ali+\bei=C &&\forall i=\Sm\\
+& \ali\geq0 &&\forall i=\Sm\\
+& \bei\geq0 &&\forall i=\Sm
+\end{aligned}
+\end{equation*}
+
+El problema $(D')$ es un problema convexo de programación cuadrática. Es posible verificar que $(P')$ satisface las hipótesis del Teorema de Slater. Por lo tanto, $(D')$ tiene solución y hay dualidad fuerte.\\
+
+Sean $(\bo, \wo, \xivo)\in\Runm$ y $(\avo, \bevo)\in\Rm\times\Rm$ puntos óptimos de $(P')$ y $(D')$ respectivamente. La dualidad fuerte implica, por el (PRELIMINARES), que se cumplen las cuatro condiciones de Karush--Kuhn--Tucker:
+\begin{itemize}
+\item[(i)] $y_{i}(\wo^{T}\x_{i}+\bo)\geq1-\xiio,\quad \xiio\geq0,\quad \forall i=\Sm$
+\item[(ii)] $\alio\geq0,\quad\beio\geq0,\quad\forall i=\Sm$
+\item[(iii)] $\alio[1-\xiio-y_{i}(\wo^{T}\x_{i}+\bo)]=0,\quad\beio\xiio=0,$ $\forall i=\Sm$
+\item[(iv)] $\nabla k_{\avo,\bevo}(\bo, \wo, \xivo)=\overline{0}_{m+n+1}$ lo cual significa que:
+\begin{equation*}
+\begin{aligned}
+&\sum_{i=1}^{m}\alio y_{i}=0\\
+&\wo=\sum_{i=1}^{m}\alio y_{i}\x_{i}\\
+&\alio+\beio=C\ \ \ \ \ \forall i=\Sm
+\end{aligned}
+\end{equation*}
+\end{itemize}
+Tenemos que entonces $\wo=\sum_{i=1}^{m}\alio y_{i}\x_{i}$. Como en el caso de margen fuerte, el valor óptimo de $\wv$ es una combinación lineal de los vectores en el conjunto de datos $\Dat$. Podemos hacer las siguientes observaciones:\\
+\begin{observation}
+Sea $i=\Sm$ cualquiera.
+\begin{enumerate} 
+\item Si $\alio=0$, entonces $y_{i}(\wo^{T}\x_{i}+\bo)\geq1$.\\
+Esto porque $\alio=0$ implica, por la condición (KKT) en (iv), que $\beio=C>0$. Esto implica, por la condición (KKT) en (ii), que $\xiio=0$. El resultado se sigue entonces de la condición (KKT) en (i).
+
+\item Si $\alio>0$, entonces $y_{i}(\wo^{T}\x_{i}+\bo)\leq1$.\\
+Tener $\alio>0$ implica que $1-\xiio-y_{i}(\wo^{T}\x_{i}+\bo)=0$ por la condición (KKT) en (iii). Entonces:
+$$y_{i}(\wo^{T}\x_{i}+\bo)=1-\xiio\leq1$$
+
+\item Si $\alio<C$, entonces $y_{i}(\wo^{T}\x_{i}+\bo)\geq1$.\\
+Por la condición (KKT) en (iv), $\alio<C$ implica $\beio>0$. El resultado se obtiene razonando como en 1.
+
+\item Si $0<\alio<C$, entonces $y_{i}(\wo^{T}\x_{i}+\bo)=1$.\\
+Esto es consecuencia de las dos observaciones anteriores.
+
+\item Si $\alio=C$, entonces $y_{i}(\wo^{T}\x_{i}+\bo)\leq1$.\\
+Suponer $\alio=C>0$ implica $\alio>0$ y se razona como en 2.
+\end{enumerate}
+\end{observation}
+Sea $j=\Sm$ cualquiera. Tenemos la siguiente terminología:
+\begin{itemize}
+\item[(i)] Si $\aljo>0$, diremos que $\x_{j}$ es un \emph{vector de soporte}.
+\item[(ii)] Si $0<\aljo<C$, diremos que $\x_{j}$ es un \emph{vector de soporte libre o no--acotado}.
+\item[(iii)] Si $\aljo=C$, diremos que $\x_{j}$ es un \emph{vector de soporte acotado}.
+\end{itemize}
+Los vectores de soporte libres son aquellos que están sobre el margen del hiperplano óptimo. Los vectores de soporte acotados pueden estar sobre el margen del hiperplano óptimo, pueden no respetar el margen y estar correctamenta clasificados y también pueden no respetar el margen y estar mal clasificados.\\
+
+Veamos como recuperar $\bo$ y $\xivo$ a partir de la solución del problema dual. Empecemos por $\bo$. Si $\x_{i}$ es un vector de soporte libre, se tiene que:
+$$y_{i}(\wo^{T}\x_{i}+\bo)=1$$
+lo cual es suficiente para despejar $\bo$. En la práctica ``siempre'' sucede que existe al menos un vector de soporte libre. En caso de que no haya ninguno, es posible encontrar al menos un intervalo para $\bo$.\\
+
+Ahora veamos que sucede con $\xivo$. Sabemos que:
+$$y_{i}(\wo^{T}\x_{i}+\bo)\geq1-\xiio,\quad \xiio\geq0,\quad \forall i=\Sm$$
+y por lo tanto, tomamos $\xiio=\text{máx}\{1-y_{i}(\wo^{T}\x_{i}+\bo), 0\}\quad\forall i=\Sm$.\\
+
+Para simplificar un poco el problema $(D')$, observemos que la condición $\ali+\bei=C$ equivale a $\ali\leq C$, en presencia de $\bei\geq0$. Podemos entonces considerar el problema equivalente $(D'')$:(ejercicio)
+\begin{equation*}
+\begin{aligned}
+\underset{(\av, \bev)\in\Rm\times\Rm}{\text{mín}}\ \frac{1}{2}&\sum_{i=1}^{m}\sum_{j=1}^{m}y_{i}y_{j}\ali\alj\x_{i}^{T}\x_{j}-\sum_{i=1}^{m}\ali \\
+\text{s.a.}\ \
+& \sum_{i=1}^{m}\ali y_{i}=0\\
+& 0\leq\ali\leq C &&\forall i=\Sm\\
+\end{aligned}
+\end{equation*}
+
+\end{document}

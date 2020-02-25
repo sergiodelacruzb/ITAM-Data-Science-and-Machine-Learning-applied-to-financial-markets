@@ -1,0 +1,9 @@
+#Latex
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.gz
+*.toc
+*.pdf

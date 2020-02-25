@@ -1,0 +1,691 @@
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amssymb,latexsym,amsmath,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{bm}
+
+\newtheorem{definition}{Definición}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{observation}{Observación}[section]
+\newtheorem{proposition}{Proposición}[section]
+\newtheorem{exercise}{Ejercicio}[section]
+
+\setlength{\parindent}{0pt}
+
+\newcommand{\Rn}{\mathbb{R}^{n}}
+\newcommand{\Rm}{\mathbb{R}^{m}}
+\newcommand{\Rp}{\mathbb{R}^{p}}
+\newcommand{\Rq}{\mathbb{R}^{q}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\mv}{\overline{\mu}}
+\newcommand{\lv}{\overline{\lambda}}
+\newcommand{\thv}{\overline{\theta}}
+\newcommand{\ev}{\overline{e}}
+\newcommand{\azv}{\overline{a}_{0}}
+\newcommand{\bv}{\overline{b}}
+\newcommand{\x}{\overline{x}}
+\newcommand{\xz}{\overline{x}_{0}}
+\newcommand{\y}{\overline{y}}
+\newcommand{\z}{\overline{0}_{n}}
+\newcommand{\zp}{\overline{0}_{p}}
+\newcommand{\Jxz}{J(\overline{x}_{0})}
+
+\newcommand{\Sn}{1,2,\ldots, n}
+\newcommand{\Sp}{1,2,\ldots, p}
+\newcommand{\Sq}{1,2,\ldots, q}
+
+\newcommand{\La}{\mathcal{L}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\xd}{(X,d)}
+
+\newcommand{\po}{p_{*}}
+\newcommand{\xo}{\overline{x}_{*}}
+\newcommand{\deo}{d^{*}}
+\newcommand{\muo}{\overline{\mu}^{*}}
+\newcommand{\lao}{\overline{\lambda}^{*}}
+\newcommand{\mlo}{(\overline{\mu}^{*},\overline{\lambda}^{*})}
+
+\newcommand{\xc}{\widetilde{x}}
+\newcommand{\muc}{\widetilde{\mu}}
+\newcommand{\lac}{\widetilde{\lambda}}
+\newcommand{\tq}{\cdot\backepsilon\cdot}
+
+\newcommand{\dfxi}{\frac{\partial f}{\partial x_{i}}}
+\newcommand{\fxi}{D_{i}f}
+\newcommand{\gxi}{D_{i}g}
+\newcommand{\cfxi}{D_{i}(cf)}
+\newcommand{\fmgxi}{D_{i}(f\pm g)}
+\newcommand{\fpgxi}{D_{i}(fg)}
+\newcommand{\fegxi}{D_{i}\left(\frac{f}{g}\right)}
+
+\addtolength{\oddsidemargin}{-.875in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.75in}
+
+	\addtolength{\topmargin}{-.875in}
+	\addtolength{\textheight}{1.75in}
+
+\begin{document}
+\chapter{Cálculo Diferencial Multivariable}
+La notación
+$$f:D\subseteq\Rn\rightarrow\Rm$$
+significa que $f$ es una función de $\Rn$ a $\Rm$ cuyo dominio es $D=D_{f}$. Cuando $D=\Rn$ escribimos $f:\Rn\rightarrow\Rm$. El rango de $f$ está definido como $R_{f}=\{\y\in\Rm:\ \exists\x\in D_{f}\ \tq\ f(\x)=\y\}$.
+\section{Funciones de $\Rn$ a $\R$}
+Empezaremos con las definiciones y resultados básicos para \emph{funciones reales de variable vectorial}. Cuando $n=1$, se recuperan los enunciados correspondientes para funciones reales de variable real.
+
+\subsection{Límites}
+
+\begin{definition} Sean $f:D\subseteq\Rn\rightarrow\R$, $\xz\in D'$ y $L\in\R$.\\
+Decimos que $L$ es un límite de $f$ en $\xz$ si y solamente si
+$$\forall\epsilon>0\ \ \exists\delta=\delta(\epsilon, \xz)>0\ \ \tq\ \ \forall\x\in D\ \ \text{si}\ \ 0<\| \x-\xz \|<\delta\Rightarrow|f(\x)-L|<\epsilon$$
+Usando vecindades, equivale a:
+$$\forall\epsilon>0\ \ \exists\delta=\delta(\epsilon, \xz)>0\ \ \tq\ \ \forall\x\in V_{\delta}^{\circ}(\xz)\cap D,\ \ f(\x)\in V_{\epsilon}(L)$$
+Usando sucesiones, equivale a:
+$$\forall(\x_{k})_{k=1}^{+\infty}\subseteq D\setminus\{\xz\}\ \ \text{si}\ \ \x_{k}\xrightarrow{k\rightarrow+\infty}\xz\ \ \text{entonces}\ \ f(\x_{k})\xrightarrow{k\rightarrow+\infty}L$$
+\end{definition}
+
+\begin{observation}
+En caso de existir, el límite de $f$ en $\xz$ es único y se representa con el símbolo
+$$\lim_{\x\to\xz}f(\x)$$
+\end{observation}
+
+\begin{proposition}
+Sean $f, g:D\subseteq\Rn\rightarrow\R$ y $\xz\in D'$.\\
+Supongamos que $\exists\lim_{\x\to\xz}f(\x)=L$, $\exists\lim_{\x\to\xz}g(\x)=M$ donde $L, M\in\R$. Entonces:
+\begin{itemize}
+\item[(i)] $\exists\lim_{\x\to\xz}(cf)(\x)=cL$, $\forall c\in\R$.
+\item[(ii)] $\exists\lim_{\x\to\xz}(f\pm g)(\x)=L\pm M$.
+\item[(iii)] $\exists\lim_{\x\to\xz}(fg)(\x)=LM$.
+\item[(iv)] $\exists\lim_{\x\to\xz}\left(\frac{f}{g}\right)(\x)=\frac{L}{M}$, si $M\ne0$.
+\end{itemize}
+\end{proposition}
+
+\subsection{Continuidad}
+
+\begin{definition} Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in D$.\\
+Decimos que $f$ es continua en $\xz$ si y solamente si
+$$\forall\epsilon>0\ \ \exists\delta=\delta(\epsilon, \xz)>0\ \ \tq\ \ \forall\x\in D\ \ \text{si}\ \ \| \x-\xz \|<\delta\Rightarrow|f(\x)-L|<\epsilon$$
+Usando vecindades, equivale a:
+$$\forall\epsilon>0\ \ \exists\delta=\delta(\epsilon, \xz)>0\ \ \tq\ \ \forall\x\in V_{\delta}(\xz)\cap D,\ \ f(\x)\in V_{\epsilon}(L)$$
+Usando sucesiones, equivale a:
+$$\forall(\x_{k})_{k=1}^{+\infty}\subseteq D\ \ \text{si}\ \ \x_{k}\xrightarrow{k\rightarrow+\infty}\xz\ \ \text{entonces}\ \ f(\x_{k})\xrightarrow{k\rightarrow+\infty}L$$
+\end{definition}
+
+\begin{observation} Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in D$.
+\begin{itemize}
+\item[(i)] Si $\xz$ es punto aislado de $D$, entonces $f$ es continua en $\xz$.
+\item[(ii)] Si $\xz\in D'$, entonces $f$ es continua en $\xz$ si y solamente si $\exists\lim_{\x\to\xz}f(\x)=f(\xz)$.
+\end{itemize}
+\end{observation}
+
+\begin{proposition}
+Sean $f, g:D\subseteq\Rn\rightarrow\R$ y $\xz\in D$. Supongamos que $f$ y $g$ son continuas en $\xz$. Entonces:
+\begin{itemize}
+\item[(i)] $cf$ es continua en $\xz$, $\forall c\in\R$.
+\item[(ii)] $f\pm g$ es continua en $\xz$.
+\item[(iii)] $fg$ es continua en $\xz$.
+\item[(iv)] $\frac{f}{g}$ es continua en $\xz$, si $g(\xz)\ne0$.
+\end{itemize}
+\end{proposition}
+
+\begin{definition} Sea $f:D\subseteq\Rn\rightarrow\R$. Decimos que $f$ es continua en $D$, denotado $f\in C_{D}$, si y solamente si $\forall\xz\in D$ se tiene que $f$ es continua en $\xz$.
+\end{definition}
+Notamos que la proposición anterior sigue siendo válida reemplazando continuidad en $\xz$ por continuidad en $D$.
+
+\subsection{Derivabilidad}
+
+\begin{definition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Definimos la derivada parcial de $f$ respecto a la i--ésima variable $x_{i}$ en $\xz$ como el valor del siguiente límite (en caso de existir y ser un número real):
+$$\frac{\partial f}{\partial x_{i}}(\xz)=\fxi(\xz)=\lim_{h\to 0}\frac{f(\xz+h \ev_{i})-f(\xz)}{h}$$
+\end{definition}
+Usaremos la notación según sea conveniente.
+\begin{proposition}
+Sean $f,g:D\subseteq\Rn\rightarrow\R$, $\xz\in int(D)$ e $i\in\{1,2,\ldots,n\}$ cualquiera.\\
+Supongamos que $\exists\fxi(\xz)$, $\exists\gxi(\xz)$. Entonces:
+\begin{itemize}
+\item[(i)] $\exists\cfxi(\xz)=c\fxi(\xz)$, $\forall c\in\R$.
+\item[(ii)] $\exists\fmgxi(\xz)=\fxi(\xz)\pm\gxi(\xz)$
+\item[(iii)] $\exists\fpgxi(\xz)=\fxi(\xz)g(\xz)+f(\xz)\gxi(\xz)$
+\item[(iv)] $\exists\fegxi(\xz)=\frac{\fxi(\xz)g(\xz)-f(\xz)\gxi(\xz)}{[g(\xz)]^{2}}$, si $g\in C_{\{\xz\}}$ y $g(\xz)\ne0$.
+\end{itemize}
+\end{proposition}
+
+\begin{definition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Decimos que $f$ es derivable en $\xz$ si y solamente si $\exists\fxi(\xz)$ $\forall i=\Sn$. En tal caso, se definen:
+\begin{itemize}
+\item[(i)] $D f(\xz)=[f_{x_{1}}(\xz), f_{x_{2}}(\xz), \ldots, f_{x_{n}}(\xz)]\in\R^{1\times n}$
+\item[(ii)] $\nabla f(\xz)=D f(\xz)^{T}\in\R^{n\times 1}$
+\end{itemize}
+\end{definition}
+
+\begin{proposition}
+Sean $f,g:D\subseteq\Rn\rightarrow\R$, $\xz\in int(D)$ e $i\in\{1,2,\ldots,n\}$ cualquiera.\\
+Supongamos que $f$ y $g$ son derivables en $\xz$. Entonces:
+\begin{itemize}
+\item[(i)] $cf$ es derivable en $\xz$, $\forall c\in\R$ y
+$$\nabla(cf)(\xz)=c\nabla f(\xz)$$
+\item[(ii)] $f\pm g$ es derivable en $\xz$ y
+$$\nabla(f\pm g)(\xz)=\nabla f(\xz)+\nabla g(\xz)$$
+\item[(iii)] $fg$ es derivable en $\xz$ y
+$$\nabla (fg)(\xz)=g(\xz)\nabla f(\xz)+f(\xz)\nabla g(\xz)$$
+\item[(iv)] $\frac{f}{g}$ es derivable en $\xz$, si $g\in C_{\{\xz\}}$ y $g(\xz)\ne0$. Además,
+$$\nabla\left(\frac{f}{g}\right)(\xz)=\frac{1}{g(\xz)^{2}}[g(\xz)\nabla f(\xz)-f(\xz)\nabla g(\xz)]$$
+\end{itemize}
+\end{proposition}
+
+\begin{definition} Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Decimos que $f$ es derivable en $D$, denotado $f\in C_{D}^{(1)}$, si y solamente si $\forall\xz\in D$ se tiene que $f$ es derivable en $\xz$.
+\end{definition}
+Notamos que la proposición anterior sigue siendo válida reemplazando derivabilidad en $\xz$ por derivabilidad en $D$. Las ecuaciones en cuestión se vuelven válidas $\forall\xz\in D$.\\
+
+
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto e $i\in\{1, 2, \ldots, n\}$ cualquiera. Supongamos que $\exists\fxi(\x)$ $\forall \x\in D$. Tenemos que entonces:
+$$\fxi:D\subseteq\Rn\rightarrow\R$$
+i.e. $\fxi$ es una función real de variable vectorial con dominio $D$ abierto. Podemos entonces preguntarnos por las derivadas parciales de $\fxi$ que serían ejemplos de \emph{derivadas parciales de segundo orden.}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto e $i\in\{1, 2, \ldots, n\}$ cualquiera. Supongamos que $\exists\fxi(\x)$ $\forall \x\in D$. Para cada $j=\Sn$ definimos (en caso de existir):
+$$\frac{\partial^{2}f}{\partial x_{j}\partial x_{i}}(\xz)=D_{ji}f(\xz)=D_{j}(\fxi)(\xz)$$
+es decir:
+$$\frac{\partial^{2}f}{\partial x_{j}\partial x_{i}}(\xz)=D_{ji}f(\xz)=\lim_{h\to0}\frac{\fxi(\xz+h\ev_{j})-\fxi(\xz)}{h}$$
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Decimos que $f$ es dos veces derivable en $D$, denotado $f\in C_{D}^{(2)}$, si y solamente si todas las derivadas parciales de segundo orden de $f$ existen en $D$.\\
+Esto implica que todas las derivadas parciales de primer orden de $f$ existen en $D$, i.e. $f\in C_{D}^{(1)}$.
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Decimos que:
+\begin{itemize}
+\item[(i)] $f$ es de clase $C^{1}$ en $D$, denotado $f\in C_{D}^{1}$, si y solamente si $f$ todas las derivadas parciales de primer orden de $f$ existen en $D$ y son continuas en $D$.
+\item[(ii)] $f$ es de clase $C^{2}$ en $D$, denotado $f\in C_{D}^{2}$, si y solamente si todas las derivadas parciales de primer y segundo orden de $f$ existen en $D$ y son continuas en $D$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Supongamos que $f\in C_{D}^{2}$. Entonces $\forall i=\Sn$, $\forall j=\Sn$:
+$$D_{ij}f(\x)=D_{ji}(\x)\ \ \forall\x\in D$$
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto y $\xz\in D$. Supongamos que $f\in C_{D}^{2}$. Definimos la matriz Hessiana de $f$ en $\xz$, denotada $\nabla^{2}f(\xz)$, como:
+$$[\nabla^{2}f(\xz)]_{ij}=D_{ij}f(\xz)\ \ \forall i=\Sn\ \ \forall j=\Sn$$
+Observemos que $\nabla^{2}f(\xz)\in\R^{n\times n}$ es simétrica.
+\end{definition}
+
+\subsection{Diferenciabilidad}
+\begin{definition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Decimos que $f$ es diferenciable en $\xz$ si y solamente si $\exists L:\Rn\rightarrow\R$ lineal tal que:
+$$\exists\lim_{\x\to\xz}\frac{f(\x)-f(\xz)-L(\x-\xz)}{\|\x-\xz\|}=0$$
+Es posible demostrar que dicha función lineal $L$ es única cuando existe.
+\end{definition}
+
+\begin{proposition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Si $f$ es diferenciable en $\xz$ entonces $f$ es continua en $\xz$.
+\end{proposition}
+
+\begin{proposition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Si $f$ es diferenciable en $\xz$ entonces $f$ es derivable en $\xz$. Más aún, se tiene que $\forall\x\in\Rn$:
+$$L(\x)=\nabla f(\x)^{T}\x=Df(\xz)\x$$
+donde $L$ es la lineal dada por la diferenciabilidad de $f$ en $\xz$.
+\end{proposition}
+
+\begin{proposition}
+Sean $f,g:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Supongamos que $f$ y $g$ son diferenciables en $\xz$. Entonces:
+\begin{itemize}
+\item[(i)] $cf$ es diferenciable en $\xz$, $\forall c\in\R$.
+\item[(ii)] $f\pm g$ es diferenciable en $\xz$.
+\item[(iii)] $fg$ es diferenciable en $\xz$.
+\item[(iv)] $\frac{f}{g}$ es diferenciable en $\xz$, si $g(\xz)\ne0$.
+\end{itemize}
+\end{proposition}
+
+\begin{definition} Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Decimos que $f$ es diferenciable en $D$ si y solamente si $\forall\xz\in D$ se tiene que $f$ es diferenciable en $\xz$.
+\end{definition}
+Notamos que la proposición anterior sigue siendo válida reemplazando diferenciabilidad en $\xz$ por diferenciabilidad en $D$. Las ecuaciones en cuestión se vuelven válidas $\forall\xz\in D$.
+
+\begin{proposition}
+Sea $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto. Si $f\in C_{D}^{1}$, entonces $f$ es diferenciable en $D$.
+\end{proposition}
+
+\section{Funciones de $\Rn$ a $\Rm$}
+Veremos ahora las definiciones y resultados básicos para \emph{funciones vectoriales de variable vectorial}.
+
+
+\chapter{Convexidad}
+\begin{definition}
+Sean $\x,\y\in\Rn$. Definimos el segmento que une a $\x$ con $\y$ como
+$$[\x;\y] = \{\lambda\y + (1-\lambda)\x: \lambda\in [0,1]\}$$
+\end{definition}
+
+\begin{definition}
+Sea $A\subseteq \mathbb{R}^{n}$. Decimos que $A$ es convexo si y solamente si $\forall\overline{x}, \overline{y}\in A$ se tiene que $[\overline{x}; \overline{y}]\subseteq A$.
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$. Decimos que $f$ es convexa en $D$ si y solamente si
+\begin{itemize}
+\item[(i)] $D$ es convexo
+\item[(ii)] $\forall\x,\y\in D\ \ \forall\lambda\in [0, 1]$ se tiene que: $$f(\lambda\y+(1-\lambda)\x)\leq\lambda f(\y)+(1-\lambda)f(\x)$$
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Sea $f:D\subseteq\Rn\rightarrow\R$. Decimos que $f$ es estrictamente convexa en $D$ si y solamente si
+\begin{itemize}
+\item[(i)] $D$ es convexo
+\item[(ii)] $\forall\x,\y\in D$ con $\x\ne\y$, $\forall\lambda\in (0, 1)$ se tiene que: $$f(\lambda\y+(1-\lambda)\x)<\lambda f(\y)+(1-\lambda)f(\x)$$
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto y convexo. Supongamos que $f$ es diferenciable en $D$. Son equivalentes:
+\begin{itemize}
+\item[(i)] $f$ es convexa en $D$
+\item[(ii)] $\forall\x,\y\in D$ se tiene que: $$f(\y)\geq f(\x)+\nabla f(\x)^{T}(\y - \x)$$
+\item[(iii)] $\forall\x,\y\in D$ se tiene que: $$[\nabla f(\x)-\nabla f(\y)]^{T}(\x-\y)\geq0$$
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto y convexo. Supongamos que $f\in C_{D}^{2}$. Son equivalentes:
+\begin{itemize}
+\item[(i)] $f$ es convexa en $D$
+\item[(ii)] $\nabla^{2}f(\x)\geq0\ \ \forall\x\in D$
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto y convexo. Supongamos que $f$ es diferenciable en $D$. Son equivalentes:
+\begin{itemize}
+\item[(i)] $f$ es estrictamente convexa en $D$
+\item[(ii)] $\forall\x,\y\in D$ con $\x\ne\y$, se tiene que: $$f(\y)> f(\x)+\nabla f(\x)^{T}(\y - \x)$$
+\item[(iii)] $\forall\x,\y\in D$ con $\x\ne\y$, se tiene que: $$[\nabla f(\x)-\nabla f(\y)]^{T}(\x-\y)>0$$
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+Sean $f:D\subseteq\Rn\rightarrow\R$ con $D$ abierto y convexo. Supongamos que $f\in C_{D}^{2}$.
+Si $\nabla^{2}f(\x)>0\ \ \forall\x\in D$, entonces $f$ es estrictamente convexa en $D$.
+\end{theorem}
+\chapter{Optimización}
+Como veremos, resolver problemas de optimización  es una parte fundamental del aprendizaje de máquina. En esta sección se presentan definiciones y resultados fundamentales. Enunciamos todo en términos de problemas de minimización pues los conceptos y resultados correspondientes a problemas de maximización son totalmente análogos. Además, todo problema en términos de maximización tiene una versión equivalente en términos de minimización.
+
+\section{Optimización Irrestricta}
+Empezamos con las definiciones básicas y de carácter general pues no hay ningún tipo de suposición adicional acerca de la función en cuestión ni de su dominio.
+\begin{definition}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in D$. Decimos que:
+\begin{itemize}
+\item[(i)] $f$ alcanza un mínimo local en $\xz$ si y solamente si $$\exists\alpha >0\ \text{tal que}\ f(\xz)\leq f(\x)\ \ \forall\x\in V_{\alpha}(\xz)\cap D$$
+\item[(ii)] $f$ alcanza un mínimo local estricto en $\xz$ si y solamente si $$\exists\alpha >0\ \text{tal que}\ f(\xz)< f(\x)\ \ \forall\x\in V_{\alpha}^{\circ}(\xz)\cap D$$
+\item[(iii)] $f$ alcanza un mínimo global en $\xz$ si y solamente si $$f(\xz)\leq f(\x)\ \ \forall\x\in D$$
+\item[(iv)] $f$ alcanza un mínimo global estricto en $\xz$ si y solamente si $$f(\xz)< f(\x)\ \ \forall\x\in D\setminus\{\xz\}$$
+\end{itemize}
+\end{definition}
+
+Como es costumbre, el cálculo diferencial aporta resultados importantes referentes a la búsqueda y clasificación de puntos óptimos. Enunciamos tres de los resultados más importantes al respecto.
+\begin{theorem}{(Condición Necesaria de Primer Orden)}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $\xz\in int(D)$. Si $f$ alcanza un mínimo local o global en $\xz$ y $f\in C_{\{\xz\}}^{'}$ entonces $\nabla f(\xz)=\z$.
+\end{theorem}
+
+\begin{theorem}{(Condición Necesaria de Segundo Orden)}
+Sean $f:D\subseteq\Rn\rightarrow\R$, $\xz\in int(D)$ y $f\in C_{V_{\alpha}(\xz)}^{2}$. Si $f$ alcanza un mínimo local en $\xz$ entonces $\nabla^{2} f(\xz)\geq0$.
+\end{theorem}
+
+\begin{theorem}{(Condición Suficiente de Segundo Orden)}
+Sean $f:D\subseteq\Rn\rightarrow\R$, $\xz\in int(D)$ y $f\in C_{V_{\alpha}(\xz)}^{2}$. Si $\nabla f(\xz)=\z$ y $\nabla^{2} f(\xz)>0$ entonces $f$ alcanza un mínimo local estricto en $\xz$.
+\end{theorem}
+
+Hablando en general, los problemas que nos resultarán de mayor interés son de carácter global. He aquí una definición precisa.
+\begin{definition}{(Problema de Optimización Global Irrestricta)}\\
+Dada $f:D\subseteq\Rn\rightarrow\R$, minimizar $f(\x)$ sobre todos los $\x\in D$. Esto es, encontrar los vectores $\x \in D$ donde $f$ alcanza un mínimo global de acuerdo a la definición anterior.\\
+Se representa de la siguiente manera:
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}} f(\x) \\
+\end{aligned}
+\end{equation*}
+En este contexto:
+\begin{itemize}
+\item[(i)] a $f$ se le llama \emph{función objetivo}.
+\item[(ii)] el \emph{valor óptimo} del problema  se define como:
+$$\po=\text{ínf}\{f(\x):\x\in D\}\in[-\infty, +\infty]$$
+\item[(iii)] decimos que \emph{el problema es acotado inferiormente} si y solamente si $\{f(\x):\x\in D\}\subseteq\R$ es acotado inferiormente. En dado caso se tiene $\po\in\R$.
+\item[(iv)] decimos que \emph{el problema tiene solución} si y solamente si el problema es acotado inferiormente y $\exists\xo\in D$ tal que $f(\x)=\po$. Tal $\xo$ recibe el nombre de \emph{punto óptimo} o \emph{solución del problema}.
+\end{itemize}
+\end{definition}
+Recordemos las siguientes definiciones/acuerdos. Sea $A\subseteq\R$.
+\begin{enumerate}
+\item $sup A=+\infty$ si y solamente si $A$ no es acotado superiormente.
+\item $sup A=-\infty$ si y solamente si $A=\emptyset$.
+\item $inf A=+\infty$ si y solamente si $A=\emptyset$.
+\item $inf A=-\infty$ si y solamente si $A$ no es acotado inferiormente.
+\end{enumerate}
+
+Así, tenemos que $\po=+\infty$ si y solamente si $D=\emptyset$ lo cual no es de interés (siempre se asume $D\ne\emptyset$). También $\po=-\infty$ si y solamente si el problema no es acotado inferiormente.\\
+
+Observemos también que si $\po=-\infty$ entonces el problema no tiene solución. Al revés no es cierto. Puede suceder que el problema no tenga solución siendo $\po\in\R$ pues podría fallar la existencia del punto óptimo.
+
+\section{Optimización Restricta}
+
+En la sección anterior el vector $\x$ varía libremente en el dominio de la función $f$. En optimización restricta, la variación de $\x$ queda restringida a un subconjunto $S$ del dominio. Aunque las definiciones y terminología son muy parecidas a las del caso irrestricto, hay nuevos detalles que son importantes.
+
+\begin{definition}
+Sean $f:D\subseteq\Rn\rightarrow\R$, $S\subseteq D$ y $\xz\in S$. Decimos que:
+\begin{itemize}
+\item[(i)] $f$ alcanza un mínimo local en $\xz$ sujeta a $S$ si y solamente si $$\exists\alpha >0\ \text{tal que}\ f(\xz)\leq f(\x)\ \ \forall\x\in V_{\alpha}(\xz)\cap S$$
+\item[(ii)] $f$ alcanza un mínimo local estricto en $\xz$ sujeta a $S$ si y solamente si $$\exists\alpha >0\ \text{tal que}\ f(\xz)< f(\x)\ \ \forall\x\in V_{\alpha}^{\circ}(\xz)\cap S$$
+\item[(iii)] $f$ alcanza un mínimo global en $\xz$ sujeta a $S$ si y solamente si $$f(\xz)\leq f(\x)\ \ \forall\x\in S$$
+\item[(iv)] $f$ alcanza un mínimo global estricto en $\xz$ sujeta a $S$ si y solamente si $$f(\xz)< f(\x)\ \ \forall\x\in S\setminus{\{\xz\}}$$
+\end{itemize}
+\end{definition}
+
+Como en el caso irrestricto, son de mayor interés los problemas de tipo global.
+
+\begin{definition}{(Problema de Optimización Global Restricta)}\\
+Dada $f:D\subseteq\Rn\rightarrow\R$ y $S\subseteq D$, minimizar $f(\x)$ sobre todos los $\x\in D$ que satisfacen la restricción $\x\in S$. Esto es, encontrar los vectores $\x \in S$ donde $f$ alcanza un mínimo global de acuerdo a la definición anterior.\\
+Se representa de la siguiente manera:
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}} f(\x) \\
+\text{s.a.}\ \
+& \x\in S
+\end{aligned}
+\end{equation*}
+En este contexto:
+\begin{itemize}
+\item[(i)] a $f$ se le llama \emph{función objetivo}.
+\item[(ii)] decimos que $\x\in\Rn$ es un punto factible del problema si y solamente si $\x\in S$.
+\item[(iii)] decimos que el problema es factible si y solamente si $S\ne\emptyset$.
+\item[(iv)] el \emph{valor óptimo} del problema  se define como:
+$$\po=\text{ínf}\{f(\x):\x\in S\}\in[-\infty, +\infty]$$
+\item[(v)] decimos que \emph{el problema es acotado inferiormente} si y solamente si $\{f(\x):\x\in S\}\subseteq\R$ es acotado inferiormente. En dado caso se tiene $\po\in\R$.
+\item[(vi)] decimos que \emph{el problema tiene solución} si y solamente si el problema es acotado inferiormente y $\exists\xo\in S$ tal que $f(\x)=\po$. Tal $\xo$ recibe el nombre de \emph{punto óptimo} o \emph{solución del problema}.
+\end{itemize}
+\end{definition}
+
+Observamos que $\po=+\infty$ si y solamente si $S=\emptyset$ lo cual sucede si y solamente si el problema no es factible. También $\po=-\infty$ si y solamente si el problema no es acotado inferiormente.\\
+
+ Como en el caso irrestricto, si $\po=-\infty$ entonces el problema no tiene solución y el recíproco no es cierto en general.
+
+\begin{definition}{(Tipos de Problemas)}
+Sean $f:D\subseteq\Rn\rightarrow\R$ y $S\subseteq D$. El Problema de Optimización Global Restricta se suele estar representado de las siguientes maneras:
+\begin{itemize}
+\item[(i)] Si $S=\{\x\in D: h_{j}(\x)=0\ \ \forall j=\Sq\}$ donde $h_{j}:D\subseteq\Rn\rightarrow\R\ \ \forall j = \Sq$, escribimos
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}} f(\x) \\
+\text{s.a.}\ \ & h_j(\x)=0\ \ \ j=\Sq
+\end{aligned}
+\end{equation*}
+\item[(ii)] Si $S=\{\x\in D:g_{i}(\x)\leq0, h_{j}(\x)=0\ \ \forall i=\Sp\ \ \forall j=\Sq\}$ donde $g_{i}, h_{j}:D\subseteq\Rn\rightarrow\R$ para $i=\Sp$ y $j=\Sq$, escribimos
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}} f(\x) \\
+\text{s.a.}\ \
+& g_i(\x) \leq 0, \; i = \Sp \\
+& h_j(\x)=0, \; j=\Sq
+\end{aligned}
+\end{equation*}
+\item[(iii)] En cualquiera de las dos situaciones anteriores, diremos que:
+\begin{itemize}
+\item el problema es \emph{convexo} si solamente si $D$ es convexo, la función objetivo es convexa en $D$, todas las restricciones de desigualdad son convexas en $D$ y las restricciones de igualdad son funciones afínes en $\Rn$.
+\item el problema es \emph{diferenciable} si y solamente si $D$ es abierto y tanto la función objetivo como las funciones de restricción (igualdad y desigualdad) son diferenciables en $D$.
+\end{itemize}
+\end{itemize}
+\end{definition}
+
+\begin{theorem}{(Multiplicadores de Lagrange)}\\
+Sean $f, h_{j}:D\subseteq\Rn\rightarrow\R$ para $j=\Sq$.\\
+Consideremos $S=\{\x\in D: h_{j}(\x)=0\ \ \forall j=\Sq\}$ y $\xz\in S\cap int(D)$.\\
+Supongamos que $f, h_{j}\in C_{V_{r}(\xz)}^{1}\ \ \forall j=\Sq$ y que $f$ alcanza un mínimo local en $\xz$ sujeta a $S$.\\
+Si los vectores $\nabla h_{1}(\xz), \nabla h_{2}(\xz),\ldots,\nabla h_{q}(\xz)$ son linealmente independientes entonces existen $\lambda_{1},\lambda_{2},\ldots,\lambda_{q}\in\R$ tales que $$\nabla f(\xz)=\lambda_{1}\nabla h_{1}(\xz)+\lambda_{2}\nabla h_{2}(\xz)+\ldots+\lambda_{q}\nabla h_{q}(\xz)$$
+\end{theorem}
+
+\begin{theorem}{(Condiciones de Karush--Kuhn--Tucker)}\\
+Sean $f, g_{i}, h_{j}:D\subseteq\Rn\rightarrow\R$ para $i=\Sp$ y $j=\Sq$.\\
+Consideremos $S=\{\x\in D:g_{i}(\x)\leq0, h_{j}(\x)=0\ \ \forall i=\Sp\ \ \forall j=\Sq\}$ y $\xz\in S\cap int(D)$.\\
+Supongamos que $f,g_{i},h_{j}\in C_{V_{r}(\xz)}^{1}$ $\forall i=\Sp\ \ \forall j=\Sq$ y que $f$ alcanza un mínimo local en $\xz$ sujeta a $S$.\\
+Si los vectores $\{\nabla g_{i}(\xz)\}_{i\in\Jxz}\cup\{h_{j}(\xz)\}_{j=\Sq}$ son linealmente independientes entonces existen $\mu_{1}, \mu_{2},\dots,\mu_{p}\geq0$ y $\lambda_{1},\lambda_{2},\ldots,\lambda_{q}\in\R$ tales que $$\nabla f(\xz)+\sum_{i=1}^{p}\mu_{i}\nabla g_{i}(\xz) + \sum_{j=1}^{q}\lambda_{j}\nabla h_{j}(\xz)=\z$$
+con $\mu_{i}g_{i}(\xz)=0\ \ \forall i=\Sp$
+\end{theorem}
+
+\begin{exercise}
+Sean $f:D\subseteq\R^{n}\rightarrow\R$, $S\subseteq D$ y $\xz\in S$. Demuestre que:
+\begin{itemize}
+\item[(i)] si $f\geq0$ en $S$, entonces $f$ alcanza un mínimo global en $\xz$ sujeta a $S$ si y solamente si $f^{2}$ alcanza un mínimo global en $\xz$ sujeta a $S$.
+\item[(ii)] si $f>0$ en $S$, entonces $f$ alcanza un mínimo global en $\xz$ sujeta a $S$ si y solamente si $\frac{1}{f}$ alcanza un mínimo global en $\xz$ sujeta a $S$.
+\item[(iii)] si $c\in\R$ y $c>0$, entonces $f$ alcanza un mínimo global en $\xz$ sujeta a $S$ si y solamente si $cf$ alcanza un mínimo global en $\xz$ sujeta a $S$. 
+\end{itemize} 
+\end{exercise}
+\section*{Ejercicios}
+
+\chapter{Dualidad de Lagrange}
+Los problemas de optimización restricta e irrestricta tienen ventajas y desventajas. En general, no es más fácil resolver uno u otro. Sin embargo, resulta que bajo ciertas condiciones hay una conexión entre ambos tipos de problemas.\\
+
+
+Pensemos en el problema de optimización restricta $(P)$
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}} f(\x) \\
+\text{s.a.}\ \
+& g_i(\x) \leq 0, \; i = \Sp \\
+& h_j(\x)=0, \; j=\Sq
+\end{aligned}
+\end{equation*}
+
+\noindent
+¿Existirá alguna manera de generar un problema de optimización sin restricciones que tenga las mismas soluciones óptimas que $(P)$? Podemos empezar por considerar una función de costo aumentada que tenga a las restricciones integradas:
+$$f(\x)+\sum_{i=1}^{p}\mu_{i} g_{i}(\x) + \sum_{j=1}^{q}\lambda_{j} h_{j}(\x)$$
+Aquí los coeficientes $\mu_{1},\ldots,\mu_{p}, \lambda_{1},\ldots,\lambda_{q}$ son números reales fijos. Cada uno se puede interpretar como un costo/recompensa por no respetar/respetar la restricción correspondiente. La pregunta fundamental es: ¿habrá manera de escoger dichos coeficientes de modo que minimizar sin restricciones la función de costo aumentada sea equivalente a resolver el problema $(P)$? La respuesta es parte de lo que se conoce como teoría de dualidad de Lagrange, la cual se expone brevemente a continuación.\\
+
+\section{El problema dual}
+Definimos $\La: D\times\Rp\times\Rq\subseteq\Rn\times\Rp\times\Rq\rightarrow\R$ $$\La(\x,\mv,\lv)=f(\x)+\sum_{i=1}^{p}\mu_{i} g_{i}(\x) + \sum_{j=1}^{q}\lambda_{j} h_{j}(\x)$$
+conocida como la función lagrangiana o lagrangiano. Representa la función de costo aumentada antes mencionada con la diferencia de que aquí $\mu_{1},\ldots,\mu_{p}, \lambda_{1},\ldots,\lambda_{q}$ son variables al igual que el vector $\x$.\\
+
+También se define $g:\Rp\times\Rq\rightarrow\R\cup\{-\infty\}$ (reales extendidos) como
+$$g(\mv, \lv)= \underset{\x\in D}{\text{ínf}}\La(\x,\mv,\lv)$$
+Notamos que en principio el dominio de $g$ es todo el espacio $\Rp\times\Rq$. Podemos interpretar $g(\mv,\lv)$ como sigue: escogemos los coeficientes de costo $\mu_{1},\ldots,\mu_{p}, \lambda_{1},\ldots,\lambda_{q}$, los fijamos y resolvemos el problema irrestricto
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}}\ \ \ f(\x)+\sum_{i=1}^{p}\mu_{i} g_{i}(\x) + \sum_{j=1}^{q}\lambda_{j} h_{j}(\x) \\
+\end{aligned}
+\end{equation*}\\
+
+La función objetivo del problema anterior podría no estar acotada inferiormente o podría si estarlo sin alcanzar su valor óptimo. Es por eso que en la definición de $g$ usamos ínfimo en vez de mínimo. En el primer caso, tendríamos que $g(\mv, \lv)=-\infty$. Esto es lo que permite tomar a todo el espacio $\Rp\times\Rq$ como dominio de $g$ siempre y cuando el codominio incluya al valor extendido $-\infty$.
+
+\begin{observation} Se tiene que:
+\begin{itemize}
+\item[(i)] El conjunto $A=\{(\mv,\lv)\in\Rp\times\Rq: g(\mv,\lv)>-\infty\}$ es convexo.
+\item[(ii)] $g$ es cóncava en $\Rp\times\Rq$. Por lo tanto también lo es en $A$.
+\item[(iii)] $\forall\x\in S$ $\forall \mv\geq\zp$ $\forall\lv\in\Rq$
+$$\La(\x,\mv, \lv)\leq f(\x)$$
+\item[(iv)] $\forall \mv\geq\zp$ $\forall\lv\in\Rq$
+$$g(\mv,\lv)\leq f(\x)\ \ \forall\x \in S$$
+\item[(v)] $\forall \mv\geq\zp$ $\forall\lv\in\Rq$
+$$g(\mv,\lv)\leq\po$$
+\end{itemize}
+\end{observation}
+
+Los últimos dos incisos de la observación anterior son la clave de todo: cualquier valor $g(\mv,\lv)$ con $\mv\geq\zp$ es una cota inferior para todos los valores de $f(\x)$ con $\x\in S$. Esto implica que, en particular, cualquier valor $g(\mv,\lv)$ con $\mv\geq\zp$ es siempre menor o igual a $\po$, el valor óptimo del problema $(P)$. ¿Será que si encontramos el valor más grande de $g(\mv,\lv)$ con $\mv\geq\zp$, este coincida con $\po$? Sería un buen avance en lo que se refiere a resolver el problema $(P)$, pues ya solamente nos faltaría encontrar $\xo$ sabiendo $\po$.\\
+
+Así las cosas, nos gustaría resolver el siguiente problema $(D)$:
+\begin{equation*}
+\begin{aligned}
+& \underset{(\mv,\lv)\in A}{\text{máx}} g(\mv,\lv) \\
+& \text{s.a.}\ \ \mv\geq\zp
+\end{aligned}
+\end{equation*}
+
+ Vemos que en el problema $(D)$, el dominio de $g$ se toma como el conjunto $A=\{(\mv,\lv)\in\Rp\times\Rq: g(\mv,\lv)>-\infty\}$. Esto se debe a que si $g(\mv,\lv)=-\infty$ con $\mv\geq\zp$, la desigualdad $g(\mv,\lv)\leq\po$ sigue siendo cierta pero realmente no aporta información sobre el valor de $\po$.\\
+
+ Vale la pena notar que, por el inciso $(iv)$ de la observación anterior, si el problema $(P)$ no es acotado inferiormente entonces el problema $(D)$ no es factible. De manera similar, si el problema $(D)$ no es acotado superiormente entonces el problema $(P)$ no es factible.\\
+
+ Denotamos con $\deo$ al valor óptimo de $(D)$. Si $(\muo, \lao)$ es un punto óptimo de $(D)$ entonces $\deo=g\mlo>-\infty$.\\
+
+\begin{observation}
+En este contexto:
+\begin{itemize}
+\item[(i)] El problema $(D)$ siempre es un problema convexo pues es equivalente a:
+\begin{equation*}
+\begin{aligned}
+& \underset{(\mv,\lv)\in A}{\text{mín}} -g(\mv,\lv) \\
+& \text{s.a.}\ \ -\mv\leq\zp
+\end{aligned}
+\end{equation*}
+\item[(ii)] A los problemas $(P)$ y $(D)$ se les llama \emph{problema primal} y \emph{problema dual}, respectivamente.
+\item[(iii)] Siempre se tiene que $\deo\leq\po$. A la relación de desigualdad anterior se le conoce como \emph{dualidad débil}.
+\item[(iv)] A la diferencia $\po - \deo$ se le llama \emph{brecha de dualidad}.
+\item[(v)] A la relación $\deo=\po$ se le llama \emph{dualidad fuerte}.
+
+\end{itemize}
+\end{observation}
+
+\section{Dualidad Fuerte}
+\noindent
+Veamos algunas consecuencias que tiene la dualidad fuerte.
+
+
+\begin{proposition}
+Supongamos que $(P)$ y $(D)$ tienen solución y que hay dualidad fuerte. Sean $\xo$ y $\mlo$ puntos óptimos de $(P)$ y $(D)$ respectivamente. Entonces:
+\begin{itemize}
+\item[(i)] $k=\La(\ \cdot\ ,\muo, \lao):D\subseteq\Rn\rightarrow\R$ alcanza un mínimo global en $\xo$.
+\item[(ii)] $\mu_{i}^{*}g_{i}(\xo)=0$ $\forall i=\Sp$.
+\end{itemize}
+\end{proposition}
+\begin{proof}
+Tenemos que:
+\begin{equation*}
+\begin{aligned}
+f(\xo)&=\po &&\text{... definición}\\
+&=\deo &&\text{... dualidad fuerte}\\
+&=g(\muo,\lao) &&\text{... definición}\\
+&=\underset{\x\in D}{\text{ínf}}\La(\x,\mv,\lv) &&\text{... definición}\\
+&=\underset{\x\in D}{\text{ínf}} \left( f(\x)+\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\x) + \sum_{j=1}^{q}\lambda_{j}^{*} h_{j}(\x) \right) &&\text{... definición}\\
+&\leq f(\xo)+\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\xo) + \sum_{j=1}^{q}\lambda_{j}^{*} h_{j}(\xo) &&\text{... $\xo\in S\subseteq D$}\\
+&\leq f(\xo)
+\end{aligned}
+\end{equation*}
+La última desigualdad se tiene porque $g_{i}(\xo)\leq0$, $\mu_{i}^{*}\geq0$ y $h_{j}(\xo)=0$ $\forall i=\Sp\ \ \forall j=\Sq$. Se sigue que las últimas dos desigualdades se cumplen con igualdad i.e. toda la cadena consta de igualdades. Entonces:
+$$f(\xo)=\underset{\x\in D}{\text{ínf}}\La(\x,\mv,\lv)$$
+lo cual significa que $k(\x)=\La(\x,\muo, \lao)$ alcanza un mínimo global en $\xo$.
+Por otra parte
+\begin{equation*}
+\begin{aligned}
+f(\xo)&=f(\xo)+\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\xo) + \sum_{j=1}^{q}\lambda_{j}^{*} h_{j}(\xo)\\
+\Rightarrow 0&=\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\xo) + \sum_{j=1}^{q}\lambda_{j}^{*} h_{j}(\xo)\\
+\Rightarrow 0&=\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\xo)
+\end{aligned}
+\end{equation*}
+Como para cada $i=\Sp$ se cumple que $g_{i}(\xo)\leq0$ y $\mu_{i}^{*}\geq0$, todos los sumandos de la última suma son no--positivos. Esto implica $\mu_{i}^{*}g_{i}(\xo)=0$ $\forall i=\Sp$.
+\end{proof}
+
+\noindent
+Con este resultado podemos responder la pregunta fundamental planteada la principio de la sección.
+\begin{proposition}
+Supongamos que $(P)$ y $(D)$ tienen solución y que hay dualidad fuerte. Sea $\mlo$ un punto óptimo de $(D)$. Consideremos el problema $(P)'$
+\begin{equation*}
+\begin{aligned}
+& \underset{\x\in D}{\text{mín}}\ \ \ f(\x)+\sum_{i=1}^{p}\mu_{i}^{*} g_{i}(\x) + \sum_{j=1}^{q}\lambda_{j}^{*} h_{j}(\x) \\
+\end{aligned}
+\end{equation*}\\
+Si $(P)'$ tiene un único punto óptimo $\xc\in\Rn$, entonces $\xc$ es punto óptimo de $(P)$ y es el único.
+\end{proposition}
+\begin{proof}
+Esto es consecuencia de la proposición anterior.
+\end{proof}
+
+Sigamos con las consecuencias que tiene la dualidad fuerte agregando ahora la diferenciabilidad del problema $(P)$.
+\begin{theorem}(Condiciones de Karush-Kuhn-Tucker)
+Supongamos que los problemas $(P)$ y $(D)$ tienen solución y que hay dualidad fuerte.  Sean $\xo$ y $\mlo$ puntos óptimos de $(P)$ y $(D)$ respectivamente. Si el problema $(P)$ es diferenciable, entonces: %basta con pedir xoptimo punto interior de D y f,g,h derivables en xoptimo
+\begin{itemize}
+\item[(i)] $g_{i}(\xo)\leq0,\ \ h_{j}(\xo)=0$ $\forall i=\Sp\ \ \forall j=\Sq$
+\item[(ii)] $\mu_{i}^{*}\geq0$ $\forall i=\Sp$
+\item[(iii)] $\mu_{i}^{*}g_{i}(\xo)=0$ $\forall i=\Sp$
+\item[(iv)] $\nabla f(\xo)+\sum_{i=1}^{p}\mu_{i}^{*}\nabla g_{i}(\xo) + \sum_{j=1}^{q}\lambda_{j}^{*}\nabla h_{j}(\xo)=\z$
+\end{itemize}
+\end{theorem}
+\begin{proof}
+Las condiciones $(i)$ y $(ii)$ se siguen, respectivamente, de que $\xo$ es un punto factible de $(P)$ y $\mlo$ es un punto factible de $(D)$. La condición $(iii)$ se sigue de la proposición anterior. Para $(iv)$ notamos que, por la proposición anterior, $k=\La(\ \cdot\ ,\muo, \lao):D\subseteq\Rn\rightarrow\R$ alcanza un mínimo global en $\xo$. La Condición Necesaria de Primer Orden garantiza que $\nabla k(\xo)=\z$ que es precisamente la condición $(iv)$.
+\end{proof}
+
+Las cuatro condiciones de Karush--Kuhn--Tucker (KKT) son condiciones necesarias que deben cumplir las soluciones de $(P)$ y $(D)$ cuando hay dualidad fuerte. Resulta que cuando hay convexidad, también son condiciones suficientes como lo muestra el siguiente teorema.
+
+\begin{theorem}
+Supongamos que el problema $(P)$ es convexo y diferenciable. Sean $\xc\in\Rn$, $(\muc, \lac)\in\Rp\times\Rq$ tales que:
+\begin{itemize}
+\item[(i)] $g_{i}(\xc)\leq0,\ \ h_{j}(\xc)=0$ $\forall i=\Sp\ \ \forall j=\Sq$
+\item[(ii)] $\muc_{i}\geq0$ $\forall i=\Sp$
+\item[(iii)] $\muc_{i}g_{i}(\xc)=0$ $\forall i=\Sp$
+\item[(iv)] $\nabla f(\xc)+\sum_{i=1}^{p}\muc_{i}\nabla g_{i}(\xc) + \sum_{j=1}^{q}\lac_{j}\nabla h_{j}(\xc)=\z$
+\end{itemize}
+Entonces $\xc$ y $(\muc,\lac)$ son puntos óptimos de $(P)$ y $(D)$ respectivamente. Además, $g(\muc,\lac)=f(\xc)$, i.e. hay dualidad fuerte.
+\end{theorem}
+\begin{proof}
+La condición $(i)$ garantiza que $\xc\in S\subseteq D$ i.e. $\xc$ es un punto factible de $(P)$.\\
+Sea $k=\La(\ \cdot\ ,\muc, \lac):D\subseteq\Rn\rightarrow\R$. Por la condición $(ii)$, $k$ es convexa en $D$. Las hipótesis garantizan que $k$ es diferenciable en $D$ y la condición $(iv)$ implica que $\nabla k(\xc)=\z$. Por lo tanto, $k$ alcanza un mínimo global en $\xc$. Así las cosas:
+\begin{equation*}
+\begin{aligned}
+f(\xc)&=f(\xc)+\sum_{i=1}^{p}\muc_{i} g_{i}(\xc) + \sum_{j=1}^{q}\lac_{j} h_{j}(\xc) &&\text{... condiciones (i) y (iii)}\\
+&=k(\xc) &&\text{... definición}\\
+&= \underset{\x\in D}{\text{ínf}} k(\x) &&\text{... $k$ alcanza un mínimo global en $\xc$} \\
+&= \underset{\x\in D}{\text{ínf}}\La(\x,\muc,\lac) &&\text{... definición}\\
+&=g(\muc,\lac) &&\text{... definición}
+\end{aligned}
+\end{equation*}
+Tenemos entonces que $f(\xc)=g(\muc,\lac)$. Esto implica que $(\lac,\muc)\in A$, i.e. $(D)$ es factible. Veamos que $\xc$ es un punto óptimo de $(P)$. Si no lo fuése, tendríamos que $\exists\x \in S$ tal que $f(\x)<f(\xc)$. Entonces:
+\begin{equation*}
+\begin{aligned}
+g(\muc,\lac)&\leq\deo &&\text{... definición}\\
+&\leq\po &&\text{... dualidad débil}\\
+&\leq f(\x) &&\text{... definición}\\
+&<f(\xc)
+\end{aligned}
+\end{equation*}
+lo cual es una contradicción. De manera similar se verifica que $(\muc,\lac)$ es un punto óptimo de $(D)$. Por último, la ecuación $f(\xc)=g(\muc,\lac)$ implica que hay dualidad fuerte.
+\end{proof}
+
+Hemos visto algunas consecuencias de la dualidad fuerte. Finalizamos con el siguiente teorema que da condiciones suficientes para garantizarla. La demostración se omite.
+\begin{theorem}{(Slater)}\\
+Supongamos que:
+\begin{itemize}
+\item[(i)] El problema $(P)$ es convexo y acotado inferiormente.
+\item[(ii)] El dominio $D$ es abierto (y por el inciso anterior, convexo).
+\item[(iii)] $\exists\widetilde{x}\in S$ tal que $g_{i}(\widetilde{x})<0\ \ \forall i\in\Sp$ si $g_{i}$ no es afín (condición de regularidad).
+\end{itemize}
+Entonces, el problema $(D)$ tiene solución y hay dualidad fuerte. %este teorema es válido sin importar si el problema (P) tiene solución o si es o no acotado
+\end{theorem}
+
+\section*{Ejercicios}
+
+\chapter{Optimización 2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

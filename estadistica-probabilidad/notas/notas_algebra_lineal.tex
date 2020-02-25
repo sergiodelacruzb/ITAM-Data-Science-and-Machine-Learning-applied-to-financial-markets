@@ -1,0 +1,1194 @@
+\documentclass[11pt]{report}
+\usepackage{bm}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{dirtytalk}
+\usepackage[none]{hyphenat} %Para evitar el corte de palabras
+\usepackage{amsmath}
+\usepackage{amsthm} %Para definir ambientes con \newtheorem
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\usepackage{caption} % To make fonts on figure smaller
+\captionsetup[figure]{font=small}
+\captionsetup[table]{font=small}
+
+
+%opening
+\title{Módulo 2: Álgebra lineal}
+\author{David R. Montalván Hernández \\ david.montalvan@itam.mx}
+\date{}
+
+%=========Define los ambientes a utilizar =======%
+%Define estilo para dar un salto de línea en el encabezado
+%del 'teorema'
+\newtheoremstyle{break}
+{2ex} %above space
+{2ex} %below space
+{} %Body font)
+{} %indent amount
+{\bfseries} %head font
+{:} %post head puncuation
+{\newline} %post head space
+{}
+
+\theoremstyle{break}
+%Definición
+\newtheorem{definicion}{Definición}[chapter]
+
+%Teorema
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem*{demostracion}{Demostración}
+
+%Proposición
+\newtheorem{proposicion}{Proposición}[chapter]
+
+%Notas importantes
+\newtheorem{nota}{Nota}[chapter]
+
+%Ejercicios
+\newtheorem{ejercicio}{Ejercicio}[chapter]
+
+%Ejemplos
+\newtheorem{ejemplo}{Ejemplo}[chapter]
+
+%Algoritmo (Utiliza el ambiente tabbing)
+\theoremstyle{break}
+\newtheorem{algoritmo}{Algoritmo}[chapter]
+%=================================================%
+
+%=================Macros===================%
+\newcommand{\mbb}[1]{$\mathbb{#1}$}
+\newcommand{\matdim}[2]{$#1 \times #2$}
+
+\begin{document}
+\sloppy %Para justificar correctamente (tiene que ver con \usepackage[none]{hyphenat})
+\pagenumbering{Roman}
+\maketitle
+\renewcommand{\contentsname}{Contenido}
+\tableofcontents
+\renewcommand{\listfigurename}{Lista de imágenes}
+%\listoffigures
+\renewcommand{\listtablename}{Lista de tablas}
+\renewcommand\tablename{Tabla}
+\renewcommand{\bibname}{Referencias}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\chaptername}{Capítulo}
+%\listoftables
+
+\chapter{Espacios vectoriales}
+\label{capitulo:espacios-vectoriales}
+\section{Espacios vectoriales}
+\label{seccion:espacios-vectoriales}
+\pagenumbering{arabic} %Numeración árabe
+Iniciaremos estas notas repasando algunos conceptos básicos del álgebra lineal, estos conceptos son necesarios para entender el desarrollo de los temas posteriores.
+
+\begin{definicion}[Campo]
+\label{definicion:campo}
+Sea $\mathbb{F}$ un subconjunto de los números complejos $\mathbb{C}$. Decimos que $\mathbb{F}$ es un campo, si satisface las siguientes condiciones:
+
+\begin{enumerate}
+\item Si $x,y \in \mathbb{F}$, entonces $x + y \in \mathbb{F}$, $xy \in \mathbb{F}$ (cerradura bajo la suma y el producto).
+\item Los elementos $0$ y $1$ pertenecen a $\mathbb{F}$ (existencia del neutro aditivo y neutro multiplicativo).
+\item Si $x \in \mathbb{F}$, entonces $-x$ es también un elemento de $\mathbb{F}$ (existencia del inverso aditivo).
+\item Si $x \in \mathbb{F}$ y $x \neq 0$, entonces $x^{-1} \in \mathbb{F}$ (existencia del inverso multiplicativo).
+\end{enumerate}
+
+A los elementos de un campo se les llamará \textbf{números} o \textbf{escalares}.
+\end{definicion}
+
+De acuerdo a la definición \ref{definicion:campo}, los siguientes conjuntos son campos:
+\begin{itemize}
+\item El conjunto de los números reales $\mathbb{R}$.
+\item El conjunto de los números racionales $\mathbb{Q}$.
+\item El conjunto de los números complejos $\mathbb{C}$.
+\end{itemize}
+
+\begin{ejercicio}
+El conjunto de los números enteros, $\mathbb{Z}$, ¿es un campo?
+\end{ejercicio}
+
+\begin{definicion}[Espacio vectorial]
+\label{definicion:espacio-vectorial}
+Decimos que un conjunto \mbb{V} (vectores) sobre un campo \mbb{F} (escalares), es un espacio vectorial si:
+
+Existen dos operaciones definidas $(\cdot, +)$ con la propiedad de cerradura:
+\begin{enumerate}
+\item $a \cdot \bm{v} \in$ \mbb{V}, para todo $a \in \mathbb{F}, \bm{v} \in \mathbb{V}$
+\item $\bm{v} + \bm{w} \in \mathbb{V}$, para todo $ \bm{v}, \bm{w} \in \mathbb{V}$
+\end{enumerate}
+
+tales que:
+
+\begin{enumerate}[label=\alph*)]
+\item Para $\bm{u}, \bm{v}, \bm{w} \in \mathbb{V}$, se tiene que:
+$$ (\bm{u} + \bm{v}) + \bm{w} = \bm{u} + (\bm{v} + \bm{w})$$
+\item Existe un elemento $\bm{0} \in \mathbb{V}$, tal que $\bm{0} + \bm{v} = \bm{v} $ para todo $\bm{v} \in \mathbb{V}$.
+\item Para todo $\bm{v} \in \mathbb{V}$ existe un elemento $\bm{-v} \in \mathbb{V}$, tal que $\bm{v} + (\bm{-v}) = \bm{0}$.
+\item Para todo $\bm{v}, \bm{w} \in \mathbb{V}$, se tiene que $\bm{v} + \bm{w} = \bm{w} + \bm{v}$.
+\item Para todo $a \in \mathbb{F}$ y para todo $\bm{v}, \bm{w} \in \mathbb{V}$, tenemos que $a \cdot (\bm{v} + \bm{w}) = a \cdot \bm{v} + a \cdot \bm{w}$.
+\item Para todo $a,b \in \mathbb{F}$ y $\bm{v} \in \mathbb{V}$, se tiene que $a \cdot (b \cdot \bm{v}) = (ab) \cdot \bm{v}$.
+\item Para todo $a,b \in \mathbb{F}$ y $\bm{v} \in \mathbb{V}$, tenemos $(a + b) \cdot \bm{v} = a \cdot \bm{v} + b \cdot \bm{v}$.
+\item Para todo $\bm{v} \in \mathbb{V}$ y $1 \in \mathbb{F}$, tenemos que $1 \cdot \bm{v} = \bm{v}$.
+\end{enumerate}
+\end{definicion}
+
+\begin{nota}
+En la definición \ref{definicion:espacio-vectorial}, para evitar cargar la notación, escribiremos $a \cdot \bm{v}$ como $a\bm{v}$, mientras que para $\bm{v} + (\bm{-w})$ utilizaremos $\bm{v} - \bm{w}$.
+\end{nota}
+
+\begin{ejercicio}
+\label{ejemplo:espacio-vectorial-tuplas}
+Sea $\mathbb{V} = \mathbb{F}^n$, el conjunto de $n-$tuplas con elementos de un campo \mbb{F}. Sean $\bm{a} = (a_1,\ldots,a_n)$ y $\bm{b} = (b_1,\ldots,b_n)$ vectores de \mbb{V}, con $a_i, b_i \in \mathbb{F}$ para toda $i$.
+Definimos $\bm{a} + \bm{b} = (a_1 + b_1, \ldots, a_n + b_n)$ y para $c \in \mathbb{F}$, $c\bm{a} = (ca_1,\ldots,ca_n)$.
+Además el elemento $\bm{0} \in \mathbb{V}$ se define como $(0,\ldots,0)$.\newline
+Demuestre que \mbb{V} es un espacio vectorial sobre el campo \mbb{F}, en particular $\mathbb{R}^n$ es un espacio vectorial sobre \mbb{R}.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que si \mbb{V} es un espacio vectorial sobre un campo \mbb{F}, entonces para todo $\bm{v} \in \mathbb{V}$ tenemos que:
+$$ 0\bm{v} = \bm{0}$$
+En donde $0$ es el elemento cero de \mbb{F} y $\bm{0}$ es el elemento cero de \mbb{V}.\newline
+Sugerencia: Sume $\bm{v}$ en el lado izquierdo de la ecuación.
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Es el conjunto $\mathbb{R}^n$, un espacio vectorial sobre el campo de los números complejos \mbb{C}?
+\end{ejercicio}
+
+\begin{definicion}[Subespacio vectorial]
+\label{definicion:subespacio-vectorial}
+Sea \mbb{V} un espacio vectorial y \mbb{W} $\subset$ \mbb{V}. Decimos que \mbb{W} es un subespacio vectorial si:
+
+\begin{enumerate}[label=\alph*)]
+\item Si $\bm{v}, \bm{w} \in \mathbb{W}$, entonces $\bm{v} + \bm{w} \in \mathbb{W}$.
+
+\item Si $\bm{v} \in \mathbb{W}$ y $c$ es un escalar, entonces $c\bm{v} \in \mathbb{W}$
+
+\item $\bm{0} \in \mathbb{W}$
+\end{enumerate}
+\end{definicion}
+
+\begin{ejercicio}
+Si $\mathbb{V} = \mathbb{R}^n$y $\mathbb{F} = \mathbb{R}$, demuestre que el conjunto de vectores en \mbb{V} cuya primera coordenada es igual a cero forma un subespacio vectorial de \mbb{V}.
+\end{ejercicio}
+
+\section{Combinaciones lineales y bases}
+\label{seccion:Combinaciones-lineales}
+\begin{definicion}[Combinación lineal de vectores]
+\label{definicion:combinacion-lineal-vectores}
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F}. Una expresión del tipo 
+$$ a_1 \bm{v_1} + \ldots + a_n \bm{v_n}$$
+con $a_i \in \mathbb{F}, \bm{v_i} \in \mathbb{V}$ para toda $i$, es llamada una combinación lineal de $\bm{v_1}, \ldots, \bm{v_n}$.
+\end{definicion}
+
+Si todo elemento $\bm{v} \in \mathbb{V}$ se puede expresar como una combinación lineal de vectores $\bm{v_1}, \ldots, \bm{v_n}$ de \mbb{V}, es decir, si existen escalares $a_1, \ldots, a_n$ tales que
+
+$$ \bm{v} = a_1 \bm{v_1} + \ldots + a_n \bm{v_n} $$
+entonces decimos que los vectores, $\bm{v_1}, \ldots, \bm{v_n}$, \textbf{generan el espacio} \mbb{V}
+
+Para entender el concepto de base, es necesario primero definir la independencia entre un conjunto de vectores.
+
+\begin{definicion}[Dependencia lineal de vectores]
+\label{definicion:dependencia-lineal-vectores}
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F} y sea $\bm{v_1}, \ldots, \bm{v_n}$ un conjunto de vectores de \mbb{V}. Decimos que $\bm{v_1}, \ldots, \bm{v_n}$ son linealmente dependientes sobre el campo \mbb{F} si existen escalares $a_1, \ldots, a_n$ con al menos un $a_i$ distinto de cero, tales que
+
+$$a_1 \bm{v_1} + \ldots + a_n \bm{v_n} = \bm{0}$$
+en donde $\bm{0}$ es el vector cero de \mbb{V}
+\end{definicion}
+
+De acuerdo a la definición \ref{definicion:dependencia-lineal-vectores}, en un conjunto linealmente dependiente de vectores, $\bm{v_1}, \ldots, \bm{v_n}$, existe un vector $\bm{v_i}$, tal que 
+
+$$ \bm{v_i} = \sum_{j \neq i} -\dfrac{a_j}{a_i} \bm{v_j}$$
+
+De la misma forma, decimos que un conjunto de vectores, $\bm{v_1}, \ldots, \bm{v_n}$, son \textbf{linealmente independientes}, si la igualdad
+
+$$a_1 \bm{v_1} + \ldots + a_n \bm{v_n} = \bm{0}$$
+implica que $a_1, \ldots, a_n = 0$; en otras palabras, no es posible expresar algún vector $\bm{v_i}$ como combinación lineal de los demás.
+
+\begin{ejercicio}
+\label{ejercicio:Base-e}
+Demuestre que si $ \mathbb{V} = \mathbb{R}^n$ y $F = \mathbb{R}$, entonces el conjunto de vectores
+\begin{align*}
+\bm{e_1} & =  (1,0,\ldots,0) \nonumber \\ 
+\bm{e_2} & =  (0,1,\ldots,0) \nonumber \\
+ & \vdots  \nonumber \\
+\bm{e_n} & =  (0,0,\ldots,1) \nonumber \\ 
+\end{align*}
+es un conjunto linealmente independiente.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que si $\{ \bm{v_1}, \ldots, \bm{v_n} \}$ es un conjunto de vectores linealmente independiente, entonces el conjunto $\{ \bm{v_1}, \ldots, \bm{v_n}, \bm{0} \}$ es linealmente dependiente.
+Sugerencia: Primero demuestre para todo escalar $c$, $c\bm{0} = \bm{0}$.
+\end{ejercicio}
+
+\begin{definicion}[Base de un espacio vectorial]
+\label{definicion:base-de-un-espacio-vectorial}
+Decimos que un conjunto de vectores $\bm{v_1}, \ldots, \bm{v_n}$ de un espacio vectorial \mbb{V} sobre un campo \mbb{F}, forma una base de \mbb{V} si:
+
+\begin{itemize}
+\item $\bm{v_1}, \ldots, \bm{v_n}$ son linealmente independientes.
+\item $\bm{v_1}, \ldots, \bm{v_n}$ generan \mbb{V}.
+\end{itemize}
+\end{definicion}
+
+\begin{ejercicio}
+Demuestre que el conjunto de vectores del ejercicio \ref{ejercicio:Base-e} forma una base de $\mathbb{R}^n$.
+\end{ejercicio}
+
+\section{Dimensión de un espacio vectorial}
+\label{seccion:dimension-espacio}
+\begin{definicion}[Dimensión de un espacio vectorial]
+\label{definicion:dimension-espacio}
+Sea $\mathcal{B} = \{\bm{v_1},\ldots, \bm{v_n}  \}$ una base para el espacio vectorial \mbb{V}, tal que $\left| \mathcal{B} \right| = n < \infty$. Entonces decimos que la dimensión de \mbb{V}, denotada como $dim(\mathbb{V})$, es igual a $n$. En otras palabras, la dimensión de un espacio vectorial, es el número de vectores linealmente independientes, necesarios para generar dicho espacio.
+\end{definicion}
+
+Si un espacio \mbb{V} tiene una base, $\mathcal{B}$, cuya cardinalidad no es finita, decimos que la dimensión de \mbb{V} es infinita.
+Si $\mathbb{V} = \{ \bm{0} \}$, entonces decimos que la dimensión de \mbb{V} es $0$ (no existe una base que genere este espacio).
+
+Los siguientes resultados nos serán de utilidad.
+
+\begin{teorema}
+\label{teorema:conjuntos-maximales}
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F}. Sea $\bm{v_1}, \ldots, \bm{v_m}$ una base de \mbb{V} y sea $\bm{w_1}, \ldots, \bm{w_n}$ un conjunto de elementos de \mbb{V}, supongamos que $n > m$. Entonces $\bm{w_1}, \ldots \bm{w_n}$ forman un conjunto linealmente dependiente.
+\end{teorema}
+\begin{demostracion}
+La idea de la demostración es la siguiente:
+
+Se supone que $\bm{w_1}, \ldots, \bm{w_n}$ son linealmente independientes, por lo tanto $\bm{w_i} \neq \bm{0}$, para todo $i$ y además 
+$$\bm{w_1} = a_{1}\bm{v_1} + \ldots + a_{m}\bm{v_m}$$
+con algún $a_i \neq 0$. Sin pérdida de generalidad (ya que es posible volver a numerar los $\bm{v_i}$) supongamos que $a_1 \neq 0$, tenemos entonces que existen escalares $a_{i}^{'}$ tales que:
+$$\bm{v_1} = a_{1}^{'}\bm{w_1} + a_{2}^{'}\bm{v_2} + \ldots + a_{m}^{'} \bm{v_m}$$
+Utilizando el mismo argumento para
+$$\bm{w_2} = b_{1}\bm{v_1} + \ldots + b_{m}\bm{v_m}$$
+podemos expresar $\bm{v_2}$ como una combinación lineal de $\bm{w_1}, \bm{w_2}, \bm{v_3}, \ldots, \bm{v_m}$. Continuando de la misma forma podemos expresar $\bm{v_1}, \ldots, \bm{v_m}$ como combinación de $\bm{w_1}, \ldots, \bm{w_m}$. Ya que los $\bm{v_i}$ generan \mbb{V}, se sigue que los $\bm{w_i}$ también generan este espacio y por lo tanto, como $n > m$, se tiene que existen escalares $c_i$ tales que:
+$$\bm{w_n} = c_{1}\bm{w_1} + \ldots + c_{m}\bm{w_m}$$
+con lo que llegamos a una contradicción con nuestro supuesto inicial de independencia lineal entre $\bm{w_1}, \ldots \bm{w_n}$. $\qed$
+\end{demostracion}
+
+
+\begin{ejercicio}
+Establezca las dimensiones de los siguientes subespacios vectoriales:
+\begin{itemize}[label=$\bullet$]
+\item $\mathbb{R}^n$ sobre el campo $\mathbb{R}$.
+\item Recta en $\mathbb{R}^2$ que pasa por el origen.
+\item Plano en $\mathbb{R}^3$ que pasa por el origen.
+\item \mbb{Q} sobre \mbb{Z} (sugerencia: It's a trap!!!)
+\end{itemize}
+\end{ejercicio}
+
+
+
+\chapter{Matrices}
+\label{capitulo:matrices}
+\section{Definiciones básicas}
+\label{seccion:matrices-deficiones-basicas}
+\begin{definicion}[Matriz]
+\label{definicion:matriz}
+Sean \mbb{F} un campo y $n,m$ entero positivos. Una matriz de tamaño \matdim{m}{n} es un arreglo rectangular ($m$ renglones y $n$ columnas) de números en \mbb{F}
+$$
+\begin{pmatrix}
+a_{11} & a_{12} & \ldots & a_{1n} \\
+a_{21} & a_{22} & \ldots & a_{2n} \\
+\vdots & \vdots & \vdots & \vdots \\
+a_{m1} & a_{m2} & \ldots & a_{mn}
+\end{pmatrix}
+$$
+Si $n=m$, decimos que es una matriz cuadrada. Para referirnos al elemento en el renglón $i$, columna $j$ utilizaremos la notación $a_{ij}$.
+\end{definicion}
+De acuerdo a la definición \ref{definicion:matriz}, un vector renglón
+$$ \bm{a} = 
+\begin{pmatrix}
+a_{1} & \ldots & a_{n}
+\end{pmatrix}
+$$
+es una matriz de tamaño \matdim{1}{n}, mientras que un vector columna
+$$
+\bm{b} = 
+\begin{pmatrix}
+b_{1} \\
+\vdots \\
+b_{n}
+\end{pmatrix}
+$$
+es una matriz de tamaño \matdim{n}{1}.
+
+\begin{definicion}[Matriz transpuesta]
+\label{definicion:matriz-transpuesta}
+Sea $\bm{A}$ una matriz de tamaño \matdim{m}{n}. La transpuesta de $\bm{A}$, es la matriz, $\bm{B}$, de tamaño \matdim{n}{m} tal que $b_{ij} = a_{ji}$, es decir, se intercambian renglones por columnas.
+Denotaremos a la matriz transpuesta de $\bm{A}$ como $\bm{A}^{T}$.
+\end{definicion}
+
+\begin{ejercicio}
+Si 
+$$
+\bm{A} = 
+\begin{pmatrix}
+2  & 1 & 0 \\
+1 & 3 & 5
+\end{pmatrix}
+$$
+obtener $\bm{A}^T$.
+\end{ejercicio}
+
+\begin{definicion}[Matriz simétrica]
+\label{definicion:matriz-simetrica}
+Si una matriz $\bm{A}$ es tal que $\bm{A} = \bm{A}^T$, se dice que $\bm{A}$ es una matriz \textbf{simétrica}.
+\end{definicion}
+
+\begin{definicion}[Diagonal de una matriz cuadrada]
+\label{definicion:diagonal}
+Sea $\bm{A}$ una matriz cuadrada de \matdim{n}{n}, la diagonal de $\bm{A}$ son los elementos $a_{11}, a_{22}, \ldots, a_{nn}$.
+\end{definicion}
+
+\section{Tipos especiales de matrices}
+\label{seccion:Tipos-matrices}
+\begin{definicion}[Matriz cero]
+\label{definicion:matriz-cero}
+La matriz cero se define como
+$$
+\bm{0} = 
+\begin{pmatrix}
+0 & 0 & \ldots & 0 \\
+\vdots & \vdots & \vdots & \vdots \\
+0 & 0 & \ldots & 0
+\end{pmatrix}
+$$
+\end{definicion}
+
+\begin{definicion}[Matriz diagonal]
+\label{definicion:matriz-diagonal}
+Una matriz cuadradade \matdim{n}{n}, se dice que es una \textbf{matriz diagonal} si los únicos elementos distintos de cero son aquellos que pertenecen a su diagonal, es decir, tiene la siguiente forma:
+$$
+\begin{pmatrix}
+a_{11} & 0 & \ldots & 0 \\
+0 & a_{22} & \ldots & 0 \\
+\vdots & \vdots & \ddots & \ldots \\
+0 & 0 & \ldots & a_{nn}
+\end{pmatrix}
+$$
+
+En particular, si $a_{ii} = 1$ para toda $i$, la matriz recibe el nombre de \textbf{matriz identidad} o \textbf{matriz unitaria}
+
+$$
+\bm{I} = 
+\begin{pmatrix}
+1 & 0 & \ldots & 0 \\
+0 & 1 & \ldots & 0 \\
+\vdots & \vdots & \ddots & \ldots \\
+0 & 0 & \ldots & 1
+\end{pmatrix}
+$$
+\end{definicion}
+
+\begin{definicion}[Matriz triangular]
+Se dice que una matriz cuadrada de \matdim{n}{n} es \textbf{triangular superior} si los elementos que están debajo de la diagonal son igual a cero, es decir, $a_{ij} = 0$ para $i > j$.
+$$
+\begin{pmatrix}
+a_{11} & a_{12} & \ldots & a_{1n} \\
+0 & a_{22} & \ldots & a_{2n} \\
+\ldots & \ldots & \ddots & \ldots \\
+0 & 0 & \ldots & a_{nn}
+\end{pmatrix}
+$$
+
+De manera similar, se dice que es \textbf{triangular inferior} si $a_{ij} = 0$ para $i < j$.
+$$
+\begin{pmatrix}
+a_{11} & 0 & \ldots & 0 \\
+a_{21} & a_{22} & \ldots & 0 \\
+\ldots & \ldots & \ddots & \ldots \\
+a_{n1} & a_{n2} & \ldots & a_{nn}
+\end{pmatrix}
+$$
+\end{definicion}
+
+\begin{ejercicio}
+¿Cuál es la dimensión del espacio de matrices de \matdim{2}{2}? Dé una base para este espacio.
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Cuál es la dimensión del espacio de matrices de \matdim{m}{n}? Dé una base para este espacio.
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Cuál es la dimensión del espacio de matrices triangulares superiores de tamaño \matdim{n}{n}?
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Cual es la dimensión del espacio de matrices simétricas de \matdim{2}{2}? Dé una base para este espacio.
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Cual es la dimensión del espacio de matrices simétricas de \matdim{n}{n}? Dé una base para este espacio.
+\end{ejercicio}
+
+\begin{ejercicio}
+¿Cuál es la dimensión del espacio formado por matrices diagonales de \matdim{n}{n}? Dé una base.
+\end{ejercicio}
+
+
+\section{Operaciones con matrices}
+\label{seccion:operaciones-matrices}
+
+\begin{definicion}[Suma de matrices]
+\label{definicion:suma-matrices}
+Sean $\bm{A}$ y $\bm{B}$ matrices de tamaño \matdim{m}{n}, definimos la suma $\bm{A} + \bm{B}$ como la matriz $\bm{C}$ tal que $c_{ij} = a_{ij} + b_{ij}$. En otras palabras, la suma de matrices se realiza componente por componente.
+\end{definicion}
+
+\begin{ejercicio}
+Si 
+$$
+\bm{A} = 
+\begin{pmatrix}
+1 & -1 & 0 \\
+2 & 3 & 4
+\end{pmatrix}
+$$
+
+y 
+
+$$
+\bm{B} = 
+\begin{pmatrix}
+5 & 1 & -1 \\
+2 & 1 & -1
+\end{pmatrix}
+$$
+Calcule $\bm{A} + \bm{B}$.
+\end{ejercicio}
+
+Claramente, para la matriz cero de la definición \ref{definicion:matriz-cero}, se tiene que $\bm{A} + \bm{0} = \bm{A}$.
+
+\begin{definicion}[Producto escalar]
+\label{definicion:producto-escalar}
+Sea $\bm{A}$ una matriz y $c$ un escalar, definimos la matriz $\bm{B} = c\bm{A}$ como la matriz cuya componente $b_{ij} = ca_{ij}$. Es decir, multiplicamos cada elemento de $\bm{A}$ por el escalar $c$.
+\end{definicion}
+
+\begin{ejercicio}
+Utilizando las definiciones \ref{definicion:suma-matrices} y \ref{definicion:producto-escalar}, demuestre que el espacio de matrices de tamaño \matdim{m}{n} con elementos dentro un campo \mbb{F}, es un espacio vectorial.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que para cualquier matriz cuadrada $\bm{A}$, la matriz $\bm{A} + \bm{A}^{T}$ es una matriz simétrica.
+\end{ejercicio}
+
+\begin{ejercicio}
+Si $\bm{A}$ y $\bm{B}$ son matrices de \matdim{m}{n}, demuestre que
+$$ \left( \bm{A} + \bm{B} \right) ^{T} = \bm{A}^{T} + \bm{B}^{T}.$$
+\end{ejercicio}
+
+\begin{ejercicio}
+Si $\bm{A}$ es una matriz de \matdim{m}{n} y $c$ un escalar, demuestre que 
+$$ (c\bm{A})^{T} = c\bm{A}^{T}.$$
+\end{ejercicio}
+
+\begin{definicion}[Producto punto]
+\label{definicion:producto-punto}
+Sean $\bm{a} = (a_1, \ldots, a_n) $ y $\bm{b} = (b_1, \ldots, b_n) $ dos vectores\footnote{Aunque aquí se expresan como vectores renglón, también pueden ser considerados como vectores columna.} con entradas sobre un campo \mbb{F}, el \textbf{producto punto} entre $\bm{a}$ y $\bm{b}$ se define como
+
+$$ \left< \bm{a}, \bm{b} \right> = \sum_{i=1}^{n} a_{i}b_{i}  $$
+\end{definicion}
+
+\begin{proposicion}
+\label{proposicion:propiedades-producto-punto}
+El producto punto cumple lo siguiente:
+\begin{enumerate}[label=\alph*)]
+\item $ \left< \bm{a}, \bm{b} \right> = \left< \bm{b}, \bm{a} \right>$.
+\item $\left< \bm{a}, \bm{b} + \bm{c} \right> = \left< \bm{a}, \bm{b} \right> + \left< \bm{a}, \bm{c} \right> = \left< \bm{b} + \bm{c}, \bm{a} \right>$.
+\item Si $k$ es un escalar, entonces 
+$$ \left< k\bm{a}, \bm{b} \right> = k\left< \bm{a}, \bm{b} \right> = \left< \bm{a}, k\bm{b} \right>.$$
+\item Si los componentes de $\bm{a}$ son números reales, entonces
+$$\left< \bm{a}, \bm{a} \right> = \sum_{i=1}^{n}a_{i}^{2} \geq 0.$$
+\item Si $\left< \bm{a}, \bm{b} \right> = 0$ para todo $\bm{b}$, entonces $\bm{a} = (0,\ldots,0)$.
+\end{enumerate}
+\end{proposicion}
+
+\begin{ejercicio}
+Demuestre la proposición \ref{proposicion:propiedades-producto-punto}.
+\end{ejercicio}
+
+\begin{definicion}[Producto de matrices]
+\label{definicion:producto-matrices}
+Sea $\bm{A}$ una matriz de \matdim{m}{n} y $\bm{B}$ una matriz de \matdim{n}{k}. El producto $\bm{A}\bm{B}$, se define como la matriz de tamaño \matdim{m}{k}:
+
+$$
+\begin{pmatrix}
+\left< \bm{a_1}, \bm{b_1} \right> & \left< \bm{a_1}, \bm{b_2} \right> & \ldots & \left< \bm{a_1}, \bm{b_k} \right> \\
+\left< \bm{a_2}, \bm{b_1} \right> & \left< \bm{a_2}, \bm{b_2} \right> & \ldots & \left< \bm{a_2}, \bm{b_k} \right> \\
+\vdots & \vdots & \ddots & \vdots\\
+\left< \bm{a_m}, \bm{b_1} \right> & \left< \bm{a_m}, \bm{b_2} \right> & \ldots & \left< \bm{a_m}, \bm{b_k} \right> \\
+\end{pmatrix}
+$$
+en donde $\bm{a_i}$ representa el $i-$ésimo renglón de $\bm{A}$ y $\bm{b_i}$ representa la $i-$ésima columna de $\bm{B}$.
+\end{definicion}
+
+\begin{ejercicio}
+Programe una función que realice la multiplicación de matrices. \newline
+Sugerencia: Programe primero una función que realice el producto punto de vectores.
+\end{ejercicio}
+
+Como se hace observa en la definición \ref{definicion:producto-matrices}, para que el producto de dos matrices esté bien definido, el número de columnas de la matriz $\bm{A}$ debe de ser igual al número de renglones de la matriz $\bm{B}$. En consecuencia, el producto de matrices \textbf{no es conmutativo}.
+
+\begin{proposicion}
+\label{proposicion:producto-matrices}
+Algunas propiedades del producto de matrices son:
+\begin{enumerate}[label=\alph*)]
+\item $\bm{A} (\bm{B} + \bm{C}) = \bm{A}\bm{B} + \bm{A}\bm{C}$.
+\item Si $k$ es un escalar 
+$$\bm{A}(k\bm{B}) = k(\bm{AB})$$
+\item $(\bm{AB})\bm{C} = \bm{A}(\bm{BC})$.
+\item $(\bm{AB})^{T} = \bm{B}^{T} \bm{A}^{T}$ (demostrar).
+\item Si $\bm{A}$ es una matriz cuadrada, entonces $\bm{A}^{0} = \bm{I}$ y para enteros no negativos, $r$ y $s$, tenemos que $\bm{A}^{r+s} = \bm{A}^{r} \bm{A}^{s}$.
+\item El producto punto de la definición \ref{definicion:producto-punto}, puede escribirse como el producto de una matriz renglón con una matriz columna:
+
+$$
+\left< \bm{a}, \bm{b} \right>=
+\begin{pmatrix}
+a_1, \ldots , a_n
+\end{pmatrix}
+\begin{pmatrix}
+b_1 \\
+\vdots \\
+b_n
+\end{pmatrix}
+$$
+En la literatura, es muy común representar al vector $\bm{a}$ como un vector columna y al vector $\bm{b}$ como un vector renglón. por lo tanto
+$$
+\left< \bm{a}, \bm{b} \right> = \bm{a}^{T} \bm{b}.
+$$
+\end{enumerate}
+\end{proposicion}
+
+\section{Sistemas de ecuaciones lineales}
+\label{section:sistemas-ecuaciones-lineales}
+
+\begin{definicion}[Sistemas de ecuaciones lineales]
+\label{definicion:sistema-ecuaciones-lineales}
+Sean \mbb{F} un campo, $\bm{A}$ una matriz de \matdim{m}{n} y $b_1, \ldots, b_m$ escalares de \mbb{F}. Ecuaciones del tipo
+$$
+\begin{array}{rcl}
+a_{11}x_1 + \ldots + a_{1n}x_n & = & b_1 \\
+a_{21}x_1 + \ldots + a_{2n}x_n & = & b_2 \\
+\vdots &  &  \\
+a_{m1}x_1 + \ldots + a_{mn}x_n & = & b_m
+\end{array}
+$$
+son llamados sistemas de ecuaciones lineales. Los elementos de la matriz $\bm{A}$ son llamados \textbf{coeficientes} y los elementos $x_1, \ldots, x_n$ \textbf{incógnitas}.
+
+Si $b_1 = b_2 = \ldots = b_m = 0$, entonces decimos que es un sistema \textbf{homogéneo} y el sistema homogéneo asociado al sistema anterior es:
+
+$$
+\begin{array}{rcl}
+a_{11}x_1 + \ldots + a_{1n}x_n & = & 0 \\
+a_{21}x_1 + \ldots + a_{2n}x_n & = & 0 \\
+\vdots &  &  \\
+a_{m1}x_1 + \ldots + a_{mn}x_n & = & 0
+\end{array}
+$$
+Este sistema siempre tiene una solución, conocida como \textbf{solución trivial} ¿cuál es?
+\end{definicion}
+
+Utilizando las columnas de la matriz $\bm{A}$ de la definición \ref{definicion:sistema-ecuaciones-lineales}, podemos reescribir el sistema de ecuaciones como:
+
+$$
+\begin{array}{crl}
+x_1
+\begin{pmatrix}
+a_{11} \\
+\vdots \\
+a_{m1}
+\end{pmatrix}
++ \ldots + 
+x_n
+\begin{pmatrix}
+a_{1n} \\
+\vdots \\
+a_{mn}
+\end{pmatrix}
+& = & 
+\begin{pmatrix}
+b_1 \\
+\vdots \\
+b_m
+\end{pmatrix},
+\end{array}
+$$
+o denotando a la $j-$ésima columna de $\bm{A}$ como $\bm{a_{j}}$ y al vector (columna) $(b_1, \ldots, b_m)^{T}$ como $\bm{b}$
+$$ x_1\bm{a_{1}} + \ldots + x_n \bm{a_{n}} = \bm{b}.$$
+En el caso de un sistema homogéneo, la existencia de una solución no trivial implica una dependencia lineal entre los vectores formados por las columnas de la matriz $\bm{A}.$
+ 
+\begin{teorema}
+\label{teorema:solucion-no-triv-sist-hom}
+Sea 
+$$
+\begin{array}{rcl}
+a_{11}x_1 + \ldots + a_{1n}x_n & = & 0 \\
+a_{21}x_1 + \ldots + a_{2n}x_n & = & 0 \\
+\vdots &  &  \\
+a_{m1}x_1 + \ldots + a_{mn}x_n & = & 0
+\end{array}
+$$
+un sistema homogéneo de ecuaciones lineales. Si $n>m$, entonces existe una solución no trivial.
+\end{teorema}
+
+\begin{teorema}
+\label{teorema:solucion-unica-sist-no-hom}
+Sea 
+$$
+\begin{array}{rcl}
+a_{11}x_1 + \ldots + a_{1n}x_n & = & b_1 \\
+a_{21}x_1 + \ldots + a_{2n}x_n & = & b_2 \\
+\vdots &  &  \\
+a_{m1}x_1 + \ldots + a_{mn}x_n & = & b_m
+\end{array}
+$$
+un sistema no homogéneo de ecuaciones lineales. Si $n=m$ y las columnas de la matriz $\bm{A}$ son linealmente independientes, entonces existe una solución única para el sistema.
+\end{teorema}
+
+\begin{ejercicio}
+Demuestre los teoremas \ref{teorema:solucion-no-triv-sist-hom} y \ref{teorema:solucion-unica-sist-no-hom}.\newline
+Sugerencia: Utilice el teorema \ref{teorema:conjuntos-maximales}.
+\end{ejercicio}
+
+\begin{ejercicio}
+Suponga que se tiene un sistema lineal homogéneo y que $n = m$. Además suponga que las columnas de la matriz $\bm{A}$ son linealmente independientes. Demuestre que la única solución es la solución trivial.
+\end{ejercicio}
+
+\section{Determinantes y matrices inversas}
+\label{seccion:determinantes-inversas}
+
+\begin{definicion}[Matriz inversa]
+\label{definicion:matriz-inversa}
+Sea $\bm{A}$ una matriz cuadrada de \matdim{n}{n}. Una matriz, $\bm{B}$, de \matdim{n}{n}; se dice que es la \textbf{inversa} de $\bm{A}$ si:
+
+$$ \bm{A} \bm{B} = \bm{B} \bm{A} = \bm{I} $$
+
+en donde $\bm{I}$ es la matriz identidad de tamaño \matdim{n}{n} (ver definición \ref{definicion:matriz-diagonal}). En este caso decimos que $\bm{A}$ es \textbf{invertible} o \textbf{no singular}.
+Denotaremos a la inversa de $\bm{A}$ como $\bm{A}^{-1}$. Si una matriz no tiene inversa, decimos que es \textbf{no invertible} o \textbf{singular}.
+\end{definicion}
+
+\begin{nota}
+Es importante observar que la definición \ref{definicion:matriz-inversa} únicamente aplica para matrices cuadradas.
+\end{nota}
+
+\begin{teorema}
+\label{teorema:inversa-producto}
+Sean $\bm{A}$ y $\bm{B}$ matrices cuadradas del mismo tamaño, entonces tenemos que:
+$$ (\bm{A} \bm{B})^{-1} = \bm{B}^{-1} \bm{A}^{-1}$$
+\end{teorema}
+
+\begin{teorema}
+Si una matriz es singular, entonces al menos uno de sus renglones (o columnas) es una combinación lineal de los otros renglones (o columnas).
+\end{teorema}
+
+\begin{ejercicio}
+Demuestre que si $\bm{A}$ es una matriz invertible, entonces su inversa es única.
+\end{ejercicio}
+Para poder encontrar la inversa de una matriz, es necesario primero definir lo que es el determinante de una matriz.
+
+\begin{definicion}[Determinante - matriz \matdim{2}{2}]
+\label{definicion:determinante-2x2}
+Sea
+$$
+\bm{A} = 
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+$$
+una matriz de \matdim{2}{2}, el determinante de $\bm{A}$, se define como:
+
+$$det(\bm{A}) = \left| \bm{A} \right| =
+\begin{vmatrix}
+a & b \\
+c & d
+\end{vmatrix}
+= ad -bc.
+$$
+\end{definicion}
+
+La definición de determinante para matrices de mayor tamaño se puede definir de forma inductiva.
+
+\begin{definicion}[Determinante - matriz \matdim{n}{n}]
+\label{definicion:determinante-nxn}
+Sea $\bm{A}$ una matriz de \matdim{n}{n}, el determinante de $\bm{A}$ se define como:
+
+$$ det(\bm{A}) = a_{1j}C_{1j} + \ldots + a_{nj}C_{nj}.$$
+
+En donde $C_{ij} = (-1)^{i + j}M_{ij}$ con $M_{ij}$ el determinante obtenido al eliminar el renglón $i$ y la columna $j$ de la matriz $\bm{A}$.
+\end{definicion}
+
+\begin{ejercicio}
+Utilizando las definiciones \ref{definicion:determinante-2x2} y  \ref{definicion:determinante-nxn} calcule el determinante de la matriz
+
+$$
+\bm{A} = 
+\begin{pmatrix}
+1 & 2 & 1 & 0\\
+0 & 1 & -1 & 2 \\
+1 & 0 & 0 & 1 \\
+2 & 2 & 1 & 1
+\end{pmatrix}
+$$
+\end{ejercicio}
+
+\begin{teorema}
+Para una matriz de \matdim{n}{n} $\bm{A}$, el determinante cumple lo siguiente:
+
+\begin{enumerate}[label=\alph*)]
+\item $\bm{A}$ es  no singular si y sólo si $|\bm{A}| \neq 0$
+
+\item $|\bm{A}^{T}| = |\bm{A}|$
+
+\item $|\bm{A}^{-1}| = |\bm{A}|^{-1}$
+
+\item $|\bm{A}| = 0$ para $\bm{A}$ singular.
+
+\item $|c\bm{A}| = c^{n}|\bm{A}|$ para $c$ un escalar.
+
+\item $|\bm{A}\bm{B}| = |\bm{A}| |\bm{B}|$ con $\bm{B}$ una matriz de \matdim{n}{n}
+\end{enumerate}
+\end{teorema}
+
+\begin{teorema}
+Sea $\bm{A}$ una matriz invertible, entonces
+$$
+\bm{A}^{-1} = \dfrac{1}{|\bm{A}|} \bm{C}^{T}
+$$
+en donde 
+
+$$
+\bm{C} =
+\begin{pmatrix}
+C_{11} & C_{12} & \ldots & C_{1n} \\
+C_{21} & C_{22} & \ldots & C_{2n} \\
+\vdots & \vdots & \vdots & \vdots \\
+C_{n1} & C_{n2} & \ldots & C_{nn} \\
+\end{pmatrix}
+$$
+en donde $C_{ij} = (-1)^{i + j}M_{ij}$ con $M_{ij}$ el determinante obtenido al eliminar el renglón $i$ y la columna $j$ de la matriz $\bm{A}$.
+\end{teorema}
+
+\begin{ejercicio}
+Demuestre que una matriz cuadrada con un renglón o una columna llena de ceros, no tiene inversa.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que una matriz cuadrada y triangular (superior o inferior) cuya diagonal tiene un elemento igual a cero, no tiene inversa.
+\end{ejercicio}
+
+\chapter{Producto escalar y ortogonalidad}
+\label{capitulo:productos-escalares}
+%matriz de Gram
+
+\section{Producto escalar}
+\label{seccion:producto-escalar}
+Como vimos, el producto punto satisface las propiedades dadas en la proposición \ref{proposicion:propiedades-producto-punto}. Este producto es un caso particular de un mapeo llamado \textbf{producto escalar}.
+
+\begin{definicion}[Producto escalar]
+\label{definicion:producto-escalar}
+
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F}. Un \textbf{producto escalar} (o producto interno) es un mapeo $\left<\cdot,\cdot \right>:\mathbb{V} \times \mathbb{V} \rightarrow \mathbb{F}$ que satisface las siguiente propiedades:
+
+\begin{enumerate}[label=\alph*)]
+\item $\left< \bm{v}, \bm{v} \right> \geq 0 $, con igualdad si y sólo si $\bm{v} = \bm{0}$.
+
+\item $\left< \bm{v}, \bm{w} \right> = \left< \bm{w}, \bm{v} \right>$ para todo $\bm{v}, \bm{w} \in \mathbb{V}$ (simetría).
+
+\item $\left< \bm{u}, \bm{v} + \bm{w} \right> = \left< \bm{u}, \bm{v} \right> + \left< \bm{u}, \bm{w} \right>.$
+
+\item Si $k \in \mathbb{F}$, entonces:
+
+$$ \left< k \bm{u}, \bm{v} \right> = k \left< \bm{u}, \bm{v} \right> = \left< \bm{u}, k\bm{v} \right> $$
+
+\item Si además se satisface que para un elemento $\bm{v} \in \mathbb{V}$ fijo tal que para todo $\bm{w} \in \mathbb{V}$ se tiene que $\left< \bm{v},\bm{w} \right> = 0$, entonces $\bm{v} = \bm{0}$. Decimos que el producto escalar es \textbf{no degenerado}.
+\end{enumerate}
+\end{definicion}
+
+\begin{ejercicio}
+Sea \mbb{V} el espacio de funciones continuas con valores en \mbb{R} y definidas en el intervalo $[0,1]$. Demuestre que 
+$$ \left< f, g \right> = \int_{0}^{1} f(t) g(t) dt $$
+es un producto escalar.
+\end{ejercicio}
+
+\begin{definicion}[Norma de un vector]
+\label{definicion:norma}
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F}. Sea $\left<\cdot,\cdot \right>$ un producto escalar definido en \mbb{V}. La \textbf{norma} de un vector $\bm{v} \in \mathbb{V}$ se define como:
+$$ ||\bm{v}|| = \sqrt{\left< v, v \right>}.$$
+\end{definicion}
+
+\begin{ejercicio}
+En el caso del producto punto, ¿cuál es la expresión de la norma de un vector? De acuerdo a esta expresión, dé una expresión, en términos de la norma, para la distancia euclidiana en $\mathbb{R}^n$ entre dos vectores. 
+\end{ejercicio}
+
+\begin{proposicion}
+Sea \mbb{V} un espacio vectorial sobre un campo \mbb{F}, algunas de las propiedades de una norma son las siguientes:
+
+\begin{enumerate}[label = \alph*)]
+\item $||k \bm{v}|| = |k|\medspace ||\bm{v}||$, para $k \in \mathbb{F}, \bm{v} \in \mathbb{V}$. 
+
+\item $\left< \bm{v}, \bm{w} \right>^{2} \leq ||\bm{v}||^{2} \medspace ||\bm{w}||^{2}$ con igualdad si y sólo si $\bm{v} = k\bm{w}$ para algún escalar $k \in \mathbb{F}$ (Desigualdad de Cauchy-Schwarz).
+
+\item $||\bm{v} + \bm{w} || \leq ||\bm{v}|| + ||\bm{w}||$ (Desigualdad del triángulo).
+
+\item $||\bm{v} + \bm{w}||^2 + ||\bm{v} - \bm{w}||^2 = 2(||\bm{v}||^2 + ||\bm{w}||^2)$ (Ley del paralelogramo).
+\end{enumerate}
+\end{proposicion}
+
+\begin{ejercicio}
+Utilizando la desigualdad de Cauchy-Schwarz, demuestre la desigualdad del triángulo.\newline
+Sugerencia: exprese $|| \bm{v} + \bm{w} ||^2$ en términos del producto escalar.
+\end{ejercicio}
+
+\begin{definicion}[Vector unitario]
+\label{definicion:vector unitario}
+Un vector $\bm{v}$ en un espacio vectorial \mbb{F} sobre el cual se ha definido una norma, se dice que es un \textbf{vector unitario} (o vector dirección), si $||\bm{v}|| = 1$.
+\end{definicion}
+
+\begin{ejercicio}
+Demostrar la siguiente afirmación:
+
+Dado un vector $\bm{v} \neq \bm{0}$, podemos formar un vector unitario, $\bm{w}$, con la misma dirección que $\bm{v}$ de la siguiente manera:
+$$ \bm{w} = \dfrac{\bm{v}}{||\bm{v}||}.$$
+\end{ejercicio}
+
+\section{Ortogonalidad}
+\label{seccion:ortogonalidad}
+\begin{definicion}[Vectores ortogonales y paralelos]
+Decimos que dos vectores son \textbf{ortogonales} si 
+$$ \left<\bm{v}, \bm{w} \right> = 0.$$
+Si
+$$ \left<\bm{v}, \bm{w} \right> = ||\bm{v}|| \medspace ||\bm{w}||$$
+decimos que son \textbf{paralelos}. En otras palabras, dos vectores son paralelos si uno es múltiplo de otro (ver desigualdad de Cauchy-Schwarz).
+\end{definicion}
+
+
+\begin{definicion}[Conjunto ortonormales]
+Sea $\mathcal{X} = \{\bm{v_1}, \ldots, \bm{v_n} \}$ un conjunto de vectores distintos del vector cero. Decimos que el conjunto $\mathcal{X}$ es un \textbf{conjunto ortogonal} si $\left< \bm{v_i}, \bm{v_j} \right> = 0$ para todo $i \neq j$.
+Si además tenemos que $||\bm{v_i}|| = 1$ para toda $i$, entonces decimos que $\mathcal{X}$ es un \textbf{conjunto ortonormal}.
+\end{definicion}
+
+\begin{ejercicio}
+Sea $\{\bm{v_1}, \ldots, \bm{v_n} \}$ un conjunto de vectores ortogonales, demuestre que
+$$ \left| \left| \sum_{i = 1}^{n} \bm{v_i} \right| \right|^{2} = \sum_{i = 1}^{n}||\bm{v_i}||^{2}.$$
+Sugerencia: Primero analice el caso en que $n = 2$ y argumente la generalización.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que un conjunto ortogonal de vectores distintos del vector cero, $\mathcal{X} = \{\bm{v_1}, \ldots, \bm{v_n} \}$, forma un conjunto linealmente independiente. El recíproco de esta proposición ¿es verdadero? \newline
+%Sugerencia: Demuestre primero que $\left< \bm{v}, \bm{0} \right> = 0$ para todo vector en el espacio vectorial \mbb{V}.
+\end{ejercicio}
+
+\begin{definicion}[Bases ortogonales y ortonormales]
+Llamamos \textbf{base ortogonal} a una base formada por un conjunto de vectores ortogonales, si además estos vectores son ortonomales, la base es llamada \textbf{base ortonormal}.
+\end{definicion}
+
+\begin{definicion}[Matrices ortogonales y ortonormales]
+\label{definicion:matriz-ortogonal}
+Supongamos que tenemos una matriz, $\bm{A}$, de \matdim{n}{n}. Decimos que $\bm{A}$ es una matriz ortogonal, si sus vectores columna forman un conjunto de vectores ortogonales.
+Si además estos vectores columna son ortonormales, decimos que $\bm{A}$ es una matriz ortonormal.
+\end{definicion}
+
+\begin{nota}
+\label{nota:Matrices-ortonormales}
+Nosotros hacemos distinción entre matrices ortogonales y ortonormales, en la literatura es común utilizar únicamente el término matriz ortogonal para referirse a ambos tipos de matrices.
+\end{nota}
+
+\begin{teorema}
+\label{teorema: matrices ortonormales}
+Sea $\bm{A}$ una matriz de \matdim{n}{n}. Entonces los siguientes puntos son equivalentes:
+
+\begin{enumerate}[label=\roman*)]
+\item Las columnas de $\bm{A}$ son vectores ortonormales.
+\item $\bm{A}^{T} \bm{A} = \bm{I} = \bm{A} \bm{A}^{T}.$
+\item Los renglones de $\bm{A}$ son vectores ortonormales.
+\end{enumerate}
+Por lo tanto, para una matriz ortonormal, tenemos que $\bm{A}^{-1} = \bm{A}^{T}.$
+\end{teorema}
+\begin{ejercicio}
+Demuestre el teorema \ref{teorema: matrices ortonormales}.
+\end{ejercicio}
+
+\chapter{Valores y vectores característicos}
+\label{chapter:eigen}
+Cuando multiplicamos un vector $\bm{x}$ por una matriz $\bm{A}$, lo que realmente se está haciendo es una transformación lineal del vector $\bm{x}$. Esta transformación, usualmente, cambia el ángulo de este vector.
+
+Sin embargo, para ciertos vectores  $\bm{x}$, la transformación $\bm{A} \bm{x}$ es igual a $\lambda \bm{x}$, para un escalar $\lambda$. Geométricamente, esto se interpreta como una contracción (si $\lambda < 1$) o una expansión (si $\lambda >1$) del vector.
+
+En esta sección nos restringimos a matrices sobre el campo de los números complejos $\mathbb{C}$.
+
+\begin{definicion}[Valores y vectores característicos]
+\label{definicion:eigenvalues eigenvectors}
+
+Sea $\bm{A}$ una matriz cuadrada de \matdim{n}{n}. Un \textbf{valor característico\footnote{También llamado un eigenvalue}} de la matriz $\bm{A}$ es un escalar tal que satisface la ecuación (\ref{eqn:valor carateristico})
+
+\begin{equation}
+\bm{Ax} = \lambda \bm{x} \label{eqn:valor carateristico}
+\end{equation}
+para un vector $\bm{x} \neq \bm{0}$. Cualquier vector $\bm{x}$ que satisface lo anterior, es llamado \textbf{vector característico\footnote{Eigenvector}} asociado a $\lambda$.
+\end{definicion}
+
+\begin{ejercicio}
+En la definición \ref{definicion:eigenvalues eigenvectors}, ¿es necesario que la matriz $\bm{A}$ sea una matriz cuadrada? Argumente su respuesta.
+\end{ejercicio}
+
+De acuerdo a la ecuación (\ref{eqn:valor carateristico}), se tiene que $\lambda$ es un valor característico de la matriz $\bm{A}$ si y sólo si el sistema (homogéneo) de ecuaciones lineales $\left( \bm{A} - \lambda \bm{I} \right)$ tiene una solución no trivial $\bm{x} \neq \bm{0}$. Esto quiere decir que cualquier $\lambda$ que haga que la matriz  $\bm{A} - \lambda \bm{I}$ se vuelva una matriz singular, será un valor característico de la matriz $\bm{A}$. De manera equivalente, basta  encontrar un $\lambda$, tal que $|\lambda \bm{I} - \bm{A}| = 0.$
+
+\begin{definicion}[Polinómio característico]
+\label{definicion:polinomio caracteristico}
+El polinomio característico de una matriz $\bm{A}$ de \matdim{n}{n}, es el polinomio dado por
+
+\begin{equation}
+p_{\bm{A}}(\lambda) = \left| \lambda \bm{I} - \bm{A} \right|. \label{eqn:polinomio caracteristico}
+\end{equation}
+
+Es fácil ver entonces, que las raíces del polinomio característico son los valores característicos de la matriz $\bm{A}$.
+\end{definicion}
+
+Observemos que el polinomio característico es un polinomio de grado $n$ y por lo tanto, de acuerdo al teorema fundamental del álgebra, tiene $n$ raíces (ya sean complejas o reales). Así, una matriz cuadrada de \matdim{n}{n} tiene $n$ valores característicos, algunos de ellos complejos, otros reales e incluso puede haber valores repetidos.
+
+\begin{ejercicio}
+Demuestre que si una matriz, $\bm{A}$, de tamaño \matdim{n}{n}, tiene menos de $n$ columnas linealmente independientes, entonces existe un valor característico $\lambda$.
+\end{ejercicio}
+
+\begin{ejercicio}
+Si $\bm{U}$ es una matriz triangular superior, encuentre sus valores característicos y dé un posible vector característico asociado a cada uno de ellos.
+\end{ejercicio}
+
+\begin{teorema}[Propiedades de valores y vectores característicos]
+\label{teorema:propiedades eigenvalues}
+
+Sea $\bm{A}$ una matriz de \matdim{n}{n}, tenemos entonces:
+\begin{enumerate}[label=\alph*)]
+\item Si $\lambda$ es un valor característico de la matriz $\bm{A}$, entonces también es un valor característico de $\bm{A}^{T}$
+
+\item El producto de los valores característicos de $\bm{A}$, es igual a $|\bm{A}|$.
+
+\item La suma de los valores característicos de $\bm{A}$, es igual a la \textbf{traza} de $\bm{A}$, $tr(\bm{A})$, es decir, igual a la suma de los elementos en la diagonal de $\bm{A}$
+$$ tr(\bm{A}) = \sum_{i = 1}^{n} a_{ii}.$$
+
+\item Si $\{\lambda_{1}, \lambda_{2}, \ldots, \lambda_{k} \}$ es un conjunto de valores característicos de $\bm{A}$, todos ellos distintos, entonces el conjunto con los vectores característicos $\{\bm{x}_1, \ldots, \bm{x}_k \}$ es un conjunto linealmente independiente (Demostrar). %página 323 de Linear algebra and matrix analysis
+
+\item Si $\bm{A}$ es una matriz \textbf{simétrica} sobre el campo \mbb{R}, entonces todos sus valores característicos pertenecen a \mbb{R}.
+
+\item Si $\bm{x}_1$ y $\bm{x}_2$ son dos vectores característicos, distintos, de una matriz real simétrica $\bm{A}$ y $\lambda_1, \lambda_2$ son sus respectivos valores característicos. Entonces $\bm{x}_1$ y $\bm{x}_2$ son ortogonales (utilizando el producto punto como producto escalar). (Demostrar)
+\end{enumerate}
+
+\end{teorema}
+
+Finalizaremos este capítulo con el siguiente resultado:
+
+\begin{teorema}[Descomposición espectral para matrices simétricas]
+\label{teorema:descomposicion espectral}
+Si $\bm{A}$ es una matriz simétrica sobre el campo \mbb{R}, entonces existe una matriz ortogonal (propiamente ortonormal) $\bm{P}$ y una matriz diagonal $\bm{\Lambda}$ tales que
+
+$$\bm{P}^{T} \bm{A} \bm{P} = \bm{\Lambda}.$$
+
+La diagonal de $\bm{\Lambda}$ está formada por los valores característicos de $\bm{A}$ y las columnas de $\bm{P}$ son los vectores característicos correspondientes.
+\end{teorema}
+
+\chapter{Descomposición por valores singulares}
+\label{capitulo:SVD}
+La descomposición por valores singulares (SVD por sus siglas en inglés) es una de los métodos mas utilizados para factorizar matrices rectangulares. Particularmente, esta descomposición es una de las técnicas más utilizadas para reducir la dimensión en los conjuntos de datos.
+
+Antes de introducir la descomposición necesitamos la siguiente definición.
+
+\begin{definicion}[Rango de una matriz]
+\label{definicion:rango de una matriz}
+El \textbf{rango de las columnas} de una matriz $\bm{A}$, es el número de columnas de $\bm{A}$ que son linealmente independientes.
+
+El \textbf{rango de los renglones} de una matriz $\bm{A}$, es el número de renglones de $\bm{A}$ que son linealmente independientes.
+\end{definicion}
+
+De acuerdo a la definición \ref{definicion:rango de una matriz}, el rango de una matriz es una medida de redundancia, una matriz con un rango bajo (pocos renglones o columnas linealmente independientes) indica que la información contenida en ella es redundante. De acuerdo a lo anterior, una matriz no singular no tiene redundancia
+
+
+\begin{teorema}[Descomposición por valores singulares]
+\label{teorema:descomposicion-svd}
+
+Sea $\bm{A}$ una matriz de \matdim{m}{n} sobre el campo \mbb{R} con un rango $r \leq min(m,n)$. Existen matrices ortogonales $\bm{U}$ de \matdim{m}{m} y $\bm{V}$ de \matdim{n}{n}, tales que
+
+$$
+\begin{array}{lcr}
+\bm{A} = \bm{UD}\bm{V}^{T} & \medspace \text{en donde} \medspace \medspace
+\bm{D} = 
+\begin{pmatrix}
+\bm{\Sigma} & \bm{O} \\
+\bm{O} & \bm{O}
+\end{pmatrix}
+\medspace \text{y} \medspace \medspace
+
+\bm{\Sigma} = 
+\begin{pmatrix}
+\sigma_1 & 0 & \ldots & 0 \\
+0 & \sigma_2 & \ldots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \ldots & \sigma_r
+\end{pmatrix}
+\end{array}
+$$
+
+con $\bm{D}$ una matriz de \matdim{m}{n}, $\bm{\Sigma}$ es una matriz de \matdim{r}{r} y los $\sigma_i$'s son números reales tales que $\sigma_1 \geq \sigma_2 \ldots \geq \sigma_r \geq 0$ estos números son llamados \textbf{valores singulares} de la matriz $\bm{A}$. Las matrices $\bm{O}$ están formadas por ceros y tienen dimensiones que hacen que el producto anterior esté bien definido.
+
+Esta descomposición también se puede expresar de la siguiente manera:
+
+$$
+\bm{A} = \bm{UD}\bm{V}^{T} = 
+\begin{pmatrix}
+\bm{U}_1 : \bm{U}_2 
+\end{pmatrix}
+\begin{pmatrix}
+\bm{\Sigma} & \bm{O} \\
+\bm{O} & \bm{O}
+\end{pmatrix}
+\begin{pmatrix}
+\bm{V}_{1}^{T} \\
+\bm{V}_{2}^{T}
+\end{pmatrix}
+= \bm{U}_{1} \bm{\Sigma} \bm{V}_{1}^{T}.
+$$
+en donde $\bm{U}_1$ y $\bm{V}_1$ son matrices de \matdim{m}{r} y \matdim{n}{r} respectivamente.
+\end{teorema}
+
+\section{Reducción de la dimensión de los datos}
+\label{seccion:reduccion de la dimension}
+Supongamos que tenemos una matriz de \matdim{m}{n}, $\bm{A}$, con un rango $r < min(m,n)$. De acuerdo al teorema \ref{teorema:descomposicion-svd}, tenemos que $\bm{A} = \bm{U\Sigma}\bm{V}^{T}$. Utilizando la ortogonalidad de $\bm{U}$, tenemos que
+
+$$ \bm{U}^{T}\bm{A} = \bm{\Sigma}\bm{V}^{T}$$
+
+lo que también puede expresarse como 
+
+$$
+\begin{pmatrix}
+\bm{U}_{1}^{T} \\
+\bm{U}_{2}^{T}
+\end{pmatrix}
+\bm{A} =
+\begin{pmatrix}
+\bm{\Sigma} & \bm{O} \\
+\bm{O} & \bm{O}
+\end{pmatrix}
+\begin{pmatrix}
+\bm{V}_{1}^{T} \\
+\bm{V}_{2}^{T}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\bm{\Sigma} \bm{V}_{1}^{T}\\
+\bm{O}
+\end{pmatrix}.
+$$
+
+La matriz $\bm{U}_{1}^{T} \bm{A} = \bm{\Sigma}\bm{V}_{1}^{T}$ es una matriz de \matdim{r}{n} con rango $r$, que no presenta redundancia en la información. Por lo tanto, en lugar de utilizar la matriz $\bm{A}$, se puede reducir la dimensión de los datos y su redundancia utilizando la matriz $\bm{\Sigma}\bm{V}_{1}^{T}$.
+
+Observemos además que ya que la matriz $\bm{\Sigma}$ es una matriz diagonal, el único efecto que tiene sobre $\bm{V}_{1}^{T}$ es estirar o encoger sus vectores columna (de acuerdo a si los $\sigma_i$'s son mayores o menores a $1$) por lo tanto, también podríamos utilizar la matriz $\bm{V}_{1}^{T}$ en lugar de $\bm{A}$.
+
+\chapter{Análisis de componentes principales}
+\label{capitulo:pca}
+El análisis de componentes principales (PCA por sus siglas en inglés), está basado en la descomposición espectral del teorema \ref{teorema:descomposicion espectral}. Este análisis, es una de las formas más utilizadas para expresar un conjunto de variables correlacionadas utilizando un conjunto de variables no correlacionadas y es, junto con la descomposición por valores singulares, una de las técnicas más comunes para reducir la dimensión en un conjunto de datos.
+
+
+\section{Formas cuadráticas}
+\label{seccion:formas cuadraticas}
+Antes de detallar el análisis de componentes principales, es útil tener los siguientes resultados.
+
+\begin{definicion}[Forma cuadrática]
+\label{definicion:forma cuadratica}
+Sea $\bm{A}$ una matriz de \matdim{n}{n}, la \textbf{forma cuadrática} asociada a $\bm{A}$, es la expresión
+
+$$ \bm{x}^{T} \bm{Ax}$$
+
+en donde $\bm{x}$ es un vector (columna) de dimensión $n$.
+
+Observemos que la forma cuadrática de una matriz es un escalar.
+\end{definicion}
+
+\begin{definicion}[Matrices definidas]
+\label{definicion:matrices definida}
+Sea $\bm{A}$ una matriz de \matdim{n}{n}, decimos que $\bm{A}$ es una matriz \textbf{definida positiva} si $\bm{x}^{T} \bm{Ax} > 0$ para todo vector $n-$dimensional $\bm{x}$ distinto del vector cero.
+
+Si  $\bm{x}^{T} \bm{Ax} < 0$, para todo vector $\bm{x} \neq \bm{0}$, decimos que $\bm{A}$ es una matriz \textbf{definida negativa}.
+
+Finalmente, si $\bm{x}^{T} \bm{Ax} \geq 0$ para todo vector $\bm{x} \neq \bm{0}$, entonces decimos que es una matriz \textbf{semidefinida positiva}. Si $\bm{x}^{T} \bm{Ax} \leq 0$,  para todo vector $\bm{x} \neq \bm{0}$, decimos que $\bm{A}$ es una matriz \textbf{semidefinida negativa}.
+
+\end{definicion}
+
+\begin{proposicion}
+\label{proposicion:positivas y eigenvalores}
+
+Para una matriz, $\bm{A}$ de \matdim{n}{n}, las siguientes condiciones son equivalentes:
+
+\begin{enumerate}[label=\alph*) ]
+\item $\bm{A}$ es una matriz simétrica definida positiva.
+\item $\bm{x}^{T} \bm{Ax} > 0$ para todo $\bm{x} \neq \bm{0}$.
+\item Todos los valores característicos de $\bm{A}$ son positivos.
+\end{enumerate}
+\end{proposicion}
+
+\begin{proposicion}
+\label{proposicion:semidefinidas y eigenvalores}
+
+Para una matriz, $\bm{A}$ de \matdim{n}{n} sobre el campo \mbb{R}, las siguientes condiciones son equivalentes:
+
+\begin{enumerate}[label=\alph*) ]
+\item $\bm{A}$ es una matriz simétrica semidefinida positiva.
+\item $\bm{x}^{T} \bm{Ax} \geq 0$ para todo $\bm{x} \neq \bm{0}$.
+\item Todos los valores característicos de $\bm{A}$ son no negativos.
+\end{enumerate}
+\end{proposicion}
+
+\begin{ejercicio}
+Demuestre la proposición \ref{proposicion:positivas y eigenvalores}.
+\end{ejercicio}
+
+\section{Componentes principales}
+\label{seccion:componentes principales}
+Supongamos que tenemos una matriz, $\bm{X}$ de \matdim{m}{n} sobre el campo \mbb{R}. Cada columna de $\bm{X}$ (denotadas por $\bm{x}_1, \ldots, \bm{x}_n$) representa una variable y cada renglón una observación para cada variable. Supongamos además que cada columna  tiene media igual a cero y desviación estándar igual a uno.
+
+Los \textbf{componentes principales} de la matriz $\bm{X}$, se definen como una combinación lineal de las columnas de $\bm{X}$, en donde los coeficientes se eligen de tal forma que:
+
+\begin{itemize}
+\item Cada componente principal no está correlacionado con los demás.
+
+\item El primer componente principal explica la mayor variación en los datos de $\bm{X}$, el segundo explica la mayor cantidad de variación que todavía falta por explicar y así sucesivamente.
+\end{itemize}
+
+Ya que cada columna de $\bm{X}$ está estandarizada (media cero y desviación estándar igual a uno) podemos formar la matriz, $\bm{V}$, de correlaciones entre las variables de $\bm{X}$.
+
+$$ \bm{V} = \dfrac{1}{m} \bm{X}^{T} \bm{X}.$$
+
+Utilizando los valores propios de la matriz $\bm{V}$, ordenados de forma decreciente, $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_n$, podemos formar la matriz diagonal $\bm{D}$. Además podemos formar la matriz ortogonal, $\bm{W}$, cuya columna $i$ corresponde al vector característico correspondiente a $\lambda_i$. La matriz de componentes principales, $\bm{P}$, es una matriz de \matdim{m}{n} resultado del siguiente producto:
+
+$$ \bm{P} = \bm{XW}.$$
+
+\begin{ejercicio}
+Compruebe que el $j-$ésimo componente principal, es decir, la columna $j-$ésima de $\bm{P}$, se escribe como una combinación lineal de las columnas de $\bm{X}$ en donde los coeficientes están dados por el $j-$ésimo vector propio de la matriz $\bm{V}$.
+\end{ejercicio}
+
+\begin{definicion}[Variación total]
+\label{definicion:variacion total}
+La variación total de la matriz $\bm{X}$, es la suma de los valores característicos de la matriz $\bm{V}$. Es decir
+
+$$\lambda_1 + \ldots + \lambda_n.$$
+\end{definicion}
+
+Utilizando la variación total de la definición \ref{definicion:variacion total}, podemos calcular la proporción de variación que es explicada por el $j-$ésimo componente principal
+
+$$ \dfrac{\lambda_j}{\lambda_1 + \ldots + \lambda_n}.$$
+
+De esta manera, para reducir la dimensión de nuestros datos, en lugar de utilizar las $n$ columnas de la matriz $\bm{X}$ podemos utilizar las primeras $k$ columnas de la matriz $\bm{P}$.
+
+El número $k$ usualmente se determina estableciendo un umbral $r$ y tomando $k$ como
+
+$$ k = min \left\lbrace k^*: \dfrac{\lambda_1 + \ldots + \lambda_{k^*} }{\lambda_1 + \ldots + \lambda_n} > r \right\rbrace.$$
+
+
+\end{document}

@@ -1,0 +1,813 @@
+\documentclass[11pt]{report}
+\usepackage{bm}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{dirtytalk}
+\usepackage[none]{hyphenat} %Para evitar el corte de palabras
+\usepackage{amsmath}
+\usepackage{amsthm} %Para definir ambientes con \newtheorem
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\usepackage{caption} % To make fonts on figure smaller
+\captionsetup[figure]{font=small}
+\captionsetup[table]{font=small}
+
+
+%opening
+\title{Módulo 2: Estadística y probabilidad con python \newline Probabilidad}
+\author{David R. Montalván Hernández}
+\date{}
+
+%=========Define los ambientes a utilizar =======%
+%Define estilo para dar un salto de línea en el encabezado
+%del 'teorema'
+\newtheoremstyle{break}
+{2ex} %above space
+{2ex} %below space
+{} %Body font)
+{} %indent amount
+{\bfseries} %head font
+{:} %post head puncuation
+{\newline} %post head space
+{}
+
+\theoremstyle{break}
+%Definición
+\newtheorem{definicion}{Definición}[chapter]
+
+%Teorema
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem*{demostracion}{Demostración}
+
+%Proposición
+\newtheorem{proposicion}{Proposición}[chapter]
+
+%Notas importantes
+\newtheorem{nota}{Nota}[chapter]
+
+%Ejercicios
+\newtheorem{ejercicio}{Ejercicio}[chapter]
+
+%Ejemplos
+\newtheorem{ejemplo}{Ejemplo}[chapter]
+
+%Algoritmo (Utiliza el ambiente tabbing)
+\theoremstyle{break}
+\newtheorem{algoritmo}{Algoritmo}[chapter]
+%=================================================%
+
+%=================Macros===================%
+\newcommand{\mbb}[1]{$\mathbb{#1}$}
+\newcommand{\matdim}[2]{$#1 \times #2$}
+
+\begin{document}
+\sloppy %Para justificar correctamente (tiene que ver con \usepackage[none]{hyphenat})
+\pagenumbering{Roman}
+\maketitle
+\renewcommand{\contentsname}{Contenido}
+\tableofcontents
+\renewcommand{\listfigurename}{Lista de imágenes}
+\listoffigures
+\renewcommand{\listtablename}{Lista de tablas}
+\renewcommand\tablename{Tabla}
+\renewcommand{\bibname}{Referencias}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\chaptername}{Capítulo}
+\listoftables
+
+\chapter{Conceptos básicos de probabilidad}
+\pagenumbering{arabic}
+\label{capitulo:conceptos basicos}
+En este capítulo se desarrollan las ideas matemáticas detrás de los espacios de probabilidad. Se define de manera formal un evento y la motivación y definición de una sigma álgebra. Se estudia el paradigma frecuentista de la probabilidad y se establecen algunas propiedades de una medida de probabilidad. Finalmente se estudian los conceptos relacionados a la probabilidad condicional e independencia.
+
+\section{Espacios y medidas de probabilidad}
+\label{seccion:espacios y medidas de probabilidad}
+
+\subsection{Sigma álgebras}
+\label{seccion:sigma algebras}
+%Espacio muestral y ejemplos (prob for ML pag 1)
+%Definición de evento (prob for ML pag 2)
+%Motivación y definición de sigma álgebra (Hoel pag 6)
+
+Supongamos que se quiere modelar algún fenómeno en particular, por ejemplo, la trayectoria del precio de una acción. Lo primero que uno consideraría, es el conjunto de posibles resultados que este fenómeno puede tener.
+
+\begin{definicion}[Espacio muestral]
+\label{definicion: espacio muestral}
+Sea $\omega$ un resultado posible de un experimento, al conjunto de todos los posibles resultados de este experimento se le llama \textbf{espacio muestral}. Este espacio usualmente es denotado como $\Omega$.
+\end{definicion}
+
+Por ejemplo, el lanzamiento de una moneda $2$ veces, tiene el siguiente espacio muestral:
+$$
+\Omega = \{\left(Cara,Cara\right), \left(Cara,Cruz\right),\left(Cruz,Cara\right), \left(Cruz,Cruz\right)  \}
+$$
+
+El espacio muestral $\Omega$, puede ser un conjunto finito, numerable infinito o no numerable infinito y cada elemento de este conjunto se denota con la letra $\omega$.
+
+\begin{ejercicio}
+¿Cuál es  el espacio muestral si se busca modelar el precio de una acción?
+\end{ejercicio}
+
+Una vez establecido el conjunto $\Omega$, buscamos crear un conjunto $\mathcal{F}$, que contendrá los eventos a los cuales buscamos asignar probabilidades.
+
+\begin{definicion}[Evento]
+Sea $\Omega$ un espacio muestral. Cualquier subconjunto $A \subseteq \Omega$, incluyendo el conjunto vacío $\emptyset$ y el mismo conjunto $\Omega$, es llamado un \textbf{evento}.
+\end{definicion}
+
+Para tener una idea intuitiva de los conjuntos que deben de pertenecer a $\mathcal{F}$ consideremos dos eventos $A$ y $B$. Claramente si vamos a hablar de la probabilidad de $A$ y $B$, también tendría sentido hablar de la probabilidad de $A \cup B$ y $A \cap B$. Por lo tanto, requerimos que si $A, B \in \mathcal{F}$, entonces $A \cup B \in \mathcal{F}$ y  $A \cap B \in \mathcal{F}$. Finalmente si vamos a decir algo sobre la probabilidad de $A$, claramente tenemos que ser capaces de decir algo también sobre la probabilidad de $A^{c}$, es decir, si $A \in \mathcal{F}$, entonces requerimos que $A^{c} \in \mathcal{F}$.
+
+De manera formal, tenemos la siguiente definición.
+
+\begin{definicion}[Sigma álgebra]
+\label{definicion:sigma algebra}
+Una colección, $\mathcal{F}$, no vacía de subconjuntos de un conjunto $\Omega$, se llama una \textbf{sigma álgebra} ($\sigma$-álgebra) de subconjuntos de $\Omega$ si las siguientes propiedades se cumplen:
+
+\begin{enumerate}
+\item Si $A \in \mathcal{F}$, entonces $A^{c} \in \mathcal{F}$.
+
+\item Si $A_n \in \mathcal{F}$, $n = 1,2, \ldots$, entonces $\cup_{n=1}^{\infty}A_n \in \mathcal{F}$ y $\cap_{n=1}^{\infty}A_n \in \mathcal{F}$.
+\end{enumerate}
+
+\end{definicion}
+
+De acuerdo a la definición \ref{definicion:sigma algebra}, podemos restringir nuestra atención únicamente a los eventos que pertenecen a una sigma álgebra.
+
+\begin{ejercicio}
+Demuestre que si $\mathcal{F}$ es una sigma álgebra y $A_n, B_n$, $n=1,2,\ldots$ son una sucesión de eventos de $\mathcal{F}$, entonces el conjunto
+$$
+\left(\cap_{n = 1}^{\infty} A_{n}^{c}  \right) \cup \left(\cup_{n = 1}^{\infty} B_{n}^{c}  \right)
+$$
+pertenece a $\mathcal{F}$.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que si $\mathcal{F}$ satisface las propiedades de la definición \ref{definicion:sigma algebra}, entonces $\Omega \in \mathcal{F}$ y $\emptyset \in \mathcal{F}$.
+\end{ejercicio}
+
+\begin{ejercicio}
+Demuestre que una sigma álgebra es cerrada bajo intersecciones y uniones finitas.
+\end{ejercicio}
+
+\subsection{Medidas de probabilidad}
+\label{seccion:medidas de probabilidad}
+%Definición de probabilidad frecuentista (ML a Bayesian pag 11)
+%Definición de medida de probabilidad (Hoel pag 8)
+%Propiedades de una medida de probabildiad (Hoel 10)
+%Fórmula de inclusión y exclusión (prob for ML pag 4)
+A continuación se enuncian dos definiciones de  probabilidad, la primera de ellas se basa fuertemente en la intuición frecuentista, mientras que la segunda está basada en la definición axiomática propuesta por Andrey Kolmogorov (1933)
+
+\begin{definicion}[Probabilidad versión frecuentista]
+\label{definicion:probabilidad frecuentista}
+Sea $\Omega$ un espacio muestral y $\mathcal{F}$ una $\sigma$-álgebra de subconjuntos de $\Omega$. La probabilidad de un evento $A \in \mathcal{F}$, está dada por el límite
+$$
+\mathbb{P}(A) = \lim_{n \rightarrow \infty} \dfrac{n_A}{n}
+$$
+en donde $n$ es el número total de ensayos y $n_A$ es el número de veces que ocurre el evento $A$.
+\end{definicion}
+En la práctica, la definición \ref{definicion:probabilidad frecuentista} se encuentra limitada debido al hecho de que en la realidad $n$ y $n_A$ son números finitos y por lo tanto, lo que realmente se tiene es la aproximación
+$$
+\mathbb{P}(A) \approx \lim_{n \rightarrow \infty} \dfrac{n_A}{n}
+$$
+
+\begin{ejercicio}
+Utilizando la definición \ref{definicion:probabilidad frecuentista}, ¿qué implicaría la probabilidad del evento \textit{La empresa $X$ cae en incumplimiento}, si la empresa $X$ es relativamente joven?
+\end{ejercicio}
+
+\begin{definicion}[Probabilidad versión axiomática]
+Una medida de probabilidad $\mathbb{P}$, definida sobre elementos de una $\sigma$-álgebra $\mathcal{F}$ de subconjuntos de un conjunto $\Omega$, es una función $\mathbb{P}:\mathcal{F} \rightarrow [0,1]$ que cumple lo siguiente:
+
+\begin{enumerate}
+\item $\mathbb{P}(\Omega) = 1$.
+\item $\mathbb{P}(A) \geq 0$ para todo $A \in \mathcal{F}$.
+\item Si $A_n$, $n=1,2,\ldots$ son eventos mutuamente excluyentes (es decir, se tiene que  $A_i \cap A_j = \emptyset$ para $i \neq j$), entonces 
+$$
+\mathbb{P}\left(\cup_{n=1}^{\infty}A_n \right) = \sum_{n=1}^{\infty}\mathbb{P}(A_n)
+$$
+\end{enumerate}
+\end{definicion}
+
+\begin{definicion}[Espacio de probabilidad]
+\label{definicion:espacio de probabilidad}
+Un \textbf{espacio de probabilidad} es una $3$-tupla $\left( \Omega, \mathcal{F}, \mathbb{P} \right)$ en donde $\Omega$ es un conjunto, $\mathcal{F}$ es una sigma álgebra de subconjuntos de $\Omega$ y $\mathbb{P}$ es una medida de probabilidad definida sobre $\mathcal{F}$.
+\end{definicion}
+
+\begin{ejercicio}
+Sea $(\Omega, \mathcal{F}, \mathbb{P})$ un espacio de probabilidad tal que $\mathbb{P}$ asigna a cada punto de $\Omega$ una misma probabilidad $p > 0$.
+\begin{enumerate}[label=\alph*)]
+\item Demuestre que $\Omega$ tiene un número finito de puntos.\\ \textbf{sugerencia:} Demuestre que $\Omega$ no puede tener más de $p^{-1}$ puntos.
+
+\item Demuestre que si $|\Omega| = n$, entonces $p = \dfrac{1}{n}$.
+\end{enumerate}
+
+\end{ejercicio}
+
+\subsubsection{Propiedades de las medidas de probabilidad}
+
+\begin{teorema}
+\label{teorema:propiedades de las medidas de probabilidad}
+Sea $\left( \Omega, \mathcal{F}, \mathbb{P} \right)$ un espacio de probabilidad. La medida $\mathbb{P}$ tiene las siguientes propiedades:
+
+\begin{enumerate}
+\item Para cualesquiera eventos $A,B$, $\mathbb{P}(B) = \mathbb{P}(A \cap B) + \mathbb{P}(A^c \cap B)$ (demostrar, sugerencia $\Omega = A \cup A^c$).
+
+\item $\mathbb{P}(A^c) = 1 - \mathbb{P}(A)$, en particular $\mathbb{P}(\emptyset) = 1 - \mathbb{P}(\Omega)$ (demostrar, sugerencia utilizar el punto anterior).
+
+\item Si $A \subset B$, entonces $\mathbb{P}(B) \geq \mathbb{P}(A)$ (demostrar).
+
+\item Sean $A_1, A_2, \ldots, A_n$  eventos, entonces 
+\begin{align*}
+\mathbb{P}(\cup_{i=1}^{n}A_i)  = & \sum_{i=1}^{n}\mathbb{P}(A_i) - \sum_{1 \leq i < j \leq n} \mathbb{P}(A_i \cap A_j) \\
++ & \sum_{1 \leq i < j < k \leq n} \mathbb{P}(A_i \cap A_j \cap A_k) \\
+- & \ldots + (-1)^{n + 1}\mathbb{P}(A_1 \cap A_2 \cap \ldots \cap A_n)
+\end{align*}
+
+como consecuencia
+
+$$
+\mathbb{P}(A \cup B) \leq \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)
+$$
+
+\end{enumerate}
+
+\end{teorema}
+
+\subsection{Probabilidad condicional e independencia}
+\label{seccion:probabilidad condicional e independencia}
+%Definición de probabilidad condicional
+%teorema 1.4 (prob for ML pag 5)
+%Eventos mutuamente independientes (caso dos eventos y general Hoel pag 19)
+%Ejemplo 4 pág 15 Hoel, solución analítica y solución de simulación
+%Ejemplo 8 Hoel pag 20
+%Ejercicio 12 Hoel pag 23
+La definición de probabilidad condicional es fácil de motivar utilizando la intuición frecuentista. Supongamos que un experimento es repetido $n$ veces. Si $N_n(A), N_n(B), N_n(A \cap B)$ denotan, respectivamente, el número de veces que ocurrieron los eventos $A, B, A \cap B$, entonces para $n$ lo suficientemente grande $N_n(A)/n, N_n(B)/n, N_n(A \cap B)/n$ aproximan $\mathbb{P}(A), \mathbb{P}(B), \mathbb{P}(A \cap B)$ respectivamente. Dentro de los $N_n(A)$ experimentos en los que el evento $A$ ocurre, el evento $B$ ocurre un número de $N_n(A \cap B)$ veces. Por lo tanto la proporción de veces que ocurre el evento $B$ dado que $A$ también ha ocurrido, está dada por
+$$
+\dfrac{N_n(A \cap B)}{N_n(A)} = \dfrac{N_n(A \cap B) / n}{N_n(A) / n}
+$$
+y para $n$ lo suficientemente grande
+$$
+\dfrac{N_n(A \cap B)}{N_n(A)} \approx \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(A)}
+$$
+\begin{definicion}[Probabilidad condicional]
+\label{definicion:probabilidad condicional}
+Sean $A,B$ dos eventos tales que $\mathbb{P}(A) > 0$. La probabilidad condicional de $B$ dado el evento $A$, se define como
+$$
+\mathbb{P}(B | A) = \dfrac{\mathbb{P}(B \cap A) }{\mathbb{P}(A)}
+$$
+\end{definicion}
+Las probabilidades condicionales pueden interpretarse como una actualización del espacio muestral $\Omega$ debido al arribo de nueva información.
+
+\begin{ejemplo}
+Supongamos que tenemos una caja con $r$ esferas rojas etiquetadas $1,2,\ldots,r$ y $b$ esferas negras etiquetadas $1,2,\ldots,b$. Supongamos que las esferas son equiprobables. Si elegimos una esfera de la caja y sabemos que es de color rojo, ¿cuál es la probabilidad de que tenga la etiqueta $1$?
+\\ \textbf{Solución:}\\
+Dado que sabemos que la bola es roja, nuestra espacio muestral original $\Omega$ se reduce al nuevo espacio $\Omega{'}$, el cual está compuesto únicamente por las $r$ bolas rojas. Ya que estas bolas son equiprobables, se tiene que la probabilidad de tener la etiqueta $1$ es $\tfrac{1}{r}$.
+\end{ejemplo}
+
+\begin{ejercicio}
+Resuelva el ejemplo anterior utilizando la definición \ref{definicion:probabilidad condicional}.
+\end{ejercicio}
+
+\begin{ejercicio}
+Supongamos que la población de una ciudad está compuesta por $40\%$ hombres y $60\%$ mujeres. Supongamos también que $50\%$ de los hombres y $30\%$ de las mujeres fuman. Encuentre la probabilidad de que un fumador sea hombre.
+\end{ejercicio}
+
+\begin{teorema}[Propiedades de la probabilidad condicional]
+\label{teorema:propiedades probabilidad condicional}
+La probabilidad condicional cumple las siguientes propiedades:
+\begin{enumerate}[label=\alph*)]
+\item (\textbf{Fórmula de la probabilidad total}) Si $A_1, \ldots, A_k$ forman una partición del espacio muestral $\Omega$, es decir, $A_i \cap A_j = \emptyset$ para $i \neq j$ y $\cup_{i=1}^{k}A_i = \Omega$ y si $0 < \mathbb{P}(A_i) < 1$ para toda $i$, entonces para todo evento $B$
+$$
+\mathbb{P}(B) = \sum_{i=1}^{k}\mathbb{P}(B|A_i)\mathbb{P}(A_i)
+$$
+Utilizando este resultado, puede obtenerse la \textbf{fórmula de Bayes}
+$$
+\mathbb{P}(A_i|B) = \dfrac{\mathbb{P}(A_i) \mathbb{P}(B|A_i) }{\sum_{j=1}^{k} \mathbb{P}(A_j) \mathbb{P}(B|A_j)}
+$$
+
+Puede obtenerse también lo siguiente:
+$$
+\mathbb{P}(B) = \mathbb{P}(B|A)\mathbb{P}(A) + \mathbb{P}(B|A^c)\mathbb{P}(A^c)
+$$
+
+\item Sean $A_1, \ldots, A_k$ eventos cualesquiera, entonces
+\begin{align*}
+\mathbb{P}(A_1 \cap A_2 \cap \ldots \cap A_k)  = & \mathbb{P}(A_1)\mathbb{P}(A_2|A_1)\mathbb{P}(A_3|A_1 \cap A_2)\ldots \\
+ \times & \mathbb{P}(A_k|A_1 \cap A_2 \cap \ldots \cap A_{k-1})
+\end{align*}
+\end{enumerate}
+\end{teorema}
+\begin{ejercicio}
+Demuestre el teorema \ref{teorema:propiedades probabilidad condicional}.
+\end{ejercicio}
+\begin{ejercicio}
+Supongamos que tenemos una moneda $A$ que cae en cara con probabilidad $s$ y una moneda $B$ que cae en cara con probabilidad $t$. Si cada moneda se tira de manera alternada, empezando con la moneda $A$, ¿cuál es la probilidad de que la primera cara se obtenga con la moneda $A$?
+\end{ejercicio}
+
+\begin{definicion}[Independencia de eventos]
+\label{definicion:independencia de eventos}
+Una colección de eventos $A_1, \ldots, A_n$ se dice que es \textbf{mutuamente independiente} si para cada $k, 1 \leq k \leq n$, y cualesquiera $k$ eventos, $A_{i_1}, \ldots A_{i_k}$, se tiene que $\mathbb{P}(A_{i_1} \cap \ldots A_{i_k}) = \mathbb{P}(A_{i_1}) \times \ldots \times \mathbb{P}(A_{i_k})$.
+En particular, dos eventos son independientes si
+$$
+\mathbb{P}(A \cap B) = \mathbb{P}(A)\mathbb{P}(B)
+$$ 
+\end{definicion}
+Utilizando la probabilidad condicional, para dos eventos independientes tenemos que
+$$
+\mathbb{P}(B|A) = \dfrac{\mathbb{P}(A \cap B)}{\mathbb{P}(A)} = \mathbb{P}(B)
+$$
+es decir, la ocurrencia del evento $A$ no afecta el resultado del evento $B$.
+
+\chapter{Variables aleatorias}
+\label{capitulo:variables aleatorias}
+%Definición formal de una variable aleatoria
+%Definición de una función de densidad
+%Definición de una función de distribución
+%Ejemplos de distribuciones
+%Funciones de una variable aleatoria
+%Independencia entre variables aleatorias
+%Momentos de una variable aleatoria
+%Fórmula de cambio de variable 
+%Desigualdades famosas (prob for ML pag 19)
+%Fórmula del jacobiano
+%Funciones generadoras
+%Distribuciones relacionadas a la distribución normal
+%Ley de los grandes número y teorema del límite central
+%Distribuciones multivariadas
+%Distribuciones condicionales
+%Ejemplo curse of dimensionality (prob for ML pag 131)
+%Ejercicio esperanza condicional minimiza error cuadrático medio
+
+Recordemos que el espacio muestral $\Omega$, contiene todos los resultados posibles de un experimento. Para cada uno de estos posibles resultados, $\omega$, una variable aleatoria asigna un valor (generalmente numérico), es decir, una variable aleatoria, $X$, es realmente una función $X: \Omega \rightarrow \mathbb{R}$, o $X: \Omega \rightarrow \mathbb{R}^n$.
+
+La definición formal (es decir, desde el punto de vista de la teoría de la medida) de una variable aleatoria está dada por
+
+\begin{definicion}[Variable aleatoria caso real]
+\label{definicion: variable aleatoria caso real}
+Dado un espacio de probabilidad $(\Omega, \mathcal{F}, \mathbb{P})$, una \textbf{variable aleatoria} es una función $X$ de $\Omega$ a los números reales $\mathbb{R}$ tal que
+$$
+X(]\infty, x])^{-1} = \{\omega  \in \Omega: X(\omega) \leq x  \} \in \mathcal{F}, \medspace \mbox{para todo } x \in \mathbb{R}
+$$
+\end{definicion}
+\begin{nota}
+\label{nota: notacion probabilidades}
+Se utilizará la siguiente notación
+$$
+\mathbb{P}[X(]\infty, x])^{-1}] :=\mathbb{P}[X \leq x]
+$$
+de manera similar para los otros eventos.
+\end{nota}
+
+\section{Caso discreto}
+\label{seccion:variables discretas}
+\begin{definicion}[Variable aleatoria discreta, caso real]
+Una variable aleatoria \textbf{discreta} con valores sobre el conjunto $\mathbb{R}$, es una función de $\Omega$ sobre un subconjunto finito o numerable infinito $\{x_1, x_2, \ldots\}$ de números reales, de tal manera que $\{\omega: X(\omega) = x_i \} \in \mathcal{F}$ para toda $i$.
+\end{definicion}
+Cada variable aleatoria discreta, $X$, tiene asociada una función, $f$, llamada la \textbf{función de densidad} (o función de masa).
+
+\begin{definicion}[Función de densidad, caso discreto]
+\label{definicion:funcion de densidad, caso discreto}
+Sea $X$ una variable aleatoria discreta con valores en $\mathbb{R}$. Si $f$ es una función tal que:
+\begin{enumerate}[label=\alph*)]
+\item $f(x) = \mathbb{P}(X = x) \geq 0$ para todo $x \in \mathbb{R}$.
+\item El conjunto $A = \{x: f(x) \neq 0 \}$ es un subconjunto finito o numerable infinito de $\mathbb{R}$.
+\item $\sum_{x \in A} f(x) = 1$.
+\end{enumerate}
+entonces decimos que $f$ es una función de densidad (o función de masa) de $X$.
+\end{definicion}
+
+Es posible asignar una variable aleatoria a cada función que satisface las condiciones de la definición \ref{definicion:funcion de densidad, caso discreto}. Es decir, podemos construir un espacio de probabilidad $(\Omega, \mathcal{F}, \mathbb{P})$ y una variable $X$ definida sobre $\Omega$ cuya densidad sea $f$. Sea $\{x_1, x_2, \ldots \}$ el conjunto de valores para los cuales $f(x) \neq 0$. Definamos $\Omega = \{x_1, x_2, \ldots \}$, $\mathcal{F} = \mathcal{P}(\Omega)$ (el conjunto potencia de $\Omega$) y $\mathbb{P}$ la medida de probabilidad definida sobre $\mathcal{F}$ como $\mathbb{P}( \{\omega \} ) = f(x_i)$ si $\omega = x_i$. Si definimos $X$ como $X(\omega) = x_i$ si $\omega = x_i$, entonces
+$$
+\mathbb{P}(X = x_i) = \mathbb{P}(\{\omega: X(\omega) = x_i \}) = \mathbb{P}(\{x_i\}) = f(x_i)
+$$
+
+Sea $A \subseteq \mathbb{R}$ y sea $X$ una variable aleatoria discreta con posibles valores $x_1, x_2, \ldots$. Entonces el conjunto $\{\omega: X(\omega) \in A  \}$ es un evento, esto se debe a que
+$$
+\{\omega: X(\omega) \in A  \} = \bigcup_{x_i \in A} \{\omega: X(\omega) = x_i \}
+$$
+\begin{nota}
+Es común utilizar la siguiente notación
+$$
+\{\omega: X(\omega) \in A  \} = \{X \in A\}
+$$
+\end{nota}
+Podemos calcular $\mathbb{P}(X \in A)$ utilizando la siguiente fórmula
+$$
+\mathbb{P}(X \in A) = \sum_{x_i \in A}f(x_i)
+$$
+
+\begin{ejercicio}
+Demuestre que 
+$$
+\mathbb{P}(X \in A) = \sum_{x_i \in A}f(x_i)
+$$
+\end{ejercicio}
+
+\begin{definicion}[Función de distribución acumulativa, caso discreto]
+\label{definicion:funcion de distribucion caso discreto}
+La función $F(t), -\infty < t < \infty$ definida por
+$$
+F(t) = \mathbb{P}(X \leq t) = \sum_{x \leq t} f(x)
+$$
+recibe el nombre de \textbf{función de distribución acumulativa} (o simplemente función de distribución) de la variable aleatoria discreta $X$.
+\end{definicion}
+
+\begin{teorema}[Propiedades de la función de distribución]
+\label{teorema: propiedades de la funcion de distribucion}
+Sea $X:\Omega \rightarrow \mathbb{R}$, una variable aleatoria. Una función $F(x)$ es la función de distribución de $X$ si y sólo si satisface las siguientes condiciones:
+\begin{enumerate}[label=\alph*)]
+\item Para toda $x \in \mathbb{R}$, $0 \leq F(x) \leq 1$.
+\item $F(x) \rightarrow 0$ cuando $x \rightarrow -\infty$, y  $F(x) \rightarrow 1$ cuando $x \rightarrow \infty$.
+\item Dado un número real $a$, $F(x) \downarrow F(a)$ cuando $x \downarrow a$ (continuidad por la derecha).
+\item Para cualesquiera dos números reales $x < y$, $F(x) \leq F(y)$.
+\end{enumerate}
+\end{teorema}
+\begin{nota}
+El teorema \ref{teorema: propiedades de la funcion de distribucion}, es válido para cualquier tipo de variables con valores en los reales (discretas, continuas o mixtas).
+\end{nota}
+
+\begin{ejercicio}
+%Hoel pág 110
+Demuestre que para cualesquiera numeros $a \leq b$
+$$
+\mathbb{P}(a < X \leq b) = F(b) - F(a)
+$$
+\textbf{Sugerencia:} Considere los conjuntos $A = \{ \omega: X(\omega) \leq a\}, B = \{\omega: X(\omega) \leq b\}$ y recuerde que para todo conjunto $A$
+$$\mathbb{P}(A) = \mathbb{P}(A \cap B) + \mathbb{P}(A \cap B^c).$$
+\end{ejercicio}
+
+\begin{ejemplo}
+Considere un juego de baraja inglesa. Si $X$ denota el número de ases en una mano, encuentre la función de densidad y la función de distribución de $X$.\\
+\textbf{Solución:}\\
+Utilizando argumentos de cálculo combinatorio tenemos que:
+$$
+\mathbb{P}(X = x) = \dfrac{\begin{pmatrix} 4 \\ x
+\end{pmatrix} \begin{pmatrix} 48 \\ 13 - x \end{pmatrix}} { \begin{pmatrix} 52 \\ 13\end{pmatrix} }
+$$
+para $x =0,1,2,3,4$.
+Utilizando la función de densidad, podemos calcular la función de distribución acumulativa de la siguiente manera:
+$$
+\begin{array}{lcr}
+F(x) & = & 0 \medspace \mbox{ Si } x < 0.\\
+ & = & f(0) \medspace \mbox{ Si } 0\leq x < 1\\
+ & = & f(0) + f(1) \medspace \mbox{ Si } 1\leq x < 2\\
+ & = & f(0) + f(1) + f(2) \medspace \mbox{ Si } 2\leq x < 3\\
+ & = & f(0) + f(1) + f(2) + f(3) \medspace \mbox{ Si } 3\leq x < 4\\
+ & = & 1 \medspace \mbox{ Si } x \geq 4.
+\end{array}
+$$
+\end{ejemplo}
+
+\begin{proposicion}[Función de una variable aleatoria]
+\label{proposicion:funcion de una variable aleatoria}
+Sea $X$ una variable aleatoria discreta y sea $Y = g(X)$. Entonces
+$$
+\mathbb{P}(Y = y) = \sum_{x: g(x) = y} \mathbb{P}(X = x)
+$$
+\end{proposicion}
+
+\begin{ejercicio}
+Si $X$ tiene función de densidad
+$$
+f(x) = \dfrac{c}{1 + x^2}
+$$
+para $x = 0, \pm 1, \pm 2, \pm 3$. Encuentre el valor de $c$ y la función de densidad de
+$$
+Y = sen\left( \dfrac{\pi}{2}X \right)
+$$
+\end{ejercicio}
+
+\subsection{Esperanza y momentos}
+El concepto de esperanza de una variable aleatoria está relacionado con la idea de promediar los posibles valores que la variable puede tomar. En lugar de utilizar un promedio común, en donde a cada posible valor se le da la misma ponderación, las ponderaciones son asignadas a través de la función de densidad de la variable.
+
+\begin{definicion}[Esperanza, caso discreto]
+\label{definicion:esperanza caso discreto}
+Sea $X$ una variable aleatoria discreta. Si $\sum_{i} |x_i|f(x_i) < \infty$, definimos la esperanza (media) de $X$ como
+$$
+\mu = E[X] = \sum_{i}x_if(x_i)
+$$
+\end{definicion}
+
+\begin{teorema}[Propiedades de la esperanza]
+\label{teorema:propiedades de la esperanza}
+La esperanza cumple lo siguiente:
+\begin{enumerate}[label=\alph*)]
+\item Si $\mathbb{P}(X = c) = 1$ para una constante $c$, entonces $E[X] = c$.
+\item Si $X,Y$ son variables aleatorias definidas sobre el mismo espacio $\Omega$, ambas con esperanza finita y si $\mathbb{P}(X \leq Y) = 1$, entonces $E[X] \leq E[Y]$.
+\item Si $X$ tiene esperanza finita y si $\mathbb{P}(X \geq c) = 1$, entonces $E[X] \geq c$. De la misma forma, si $\mathbb{P}(X \leq c) = 1$, entonces $E[X] \leq c$.
+\item $|E[X]| \leq E[|X|]$.
+\item Si $Y = g(X)$, entonces $E[Y] = \sum_{i}g(x_i)f(x_i)$.
+\item Si $X_1, X_2, \ldots, X_n$ son variables aleatorias definidas sobre el mismo espacio $\Omega$, con esperanza finita y si $c_1, \ldots, c_n$ son constantes, entonces
+$$
+E\left[ \sum_{i=1}^{n}c_{i}X_i \right] = \sum_{i=1}^{n}c_iE[X_i]
+$$
+\end{enumerate}
+\end{teorema}
+
+\begin{ejercicio}
+Demuestre que si $X$ es una variable aleatoria que toma los valores $0,1,2,\ldots$ y con esperanza finita, entonces
+$$
+E[X] = \sum_{n=0}^{\infty} \mathbb{P}(X > n)
+$$
+\end{ejercicio}
+La esperanza se calcula con la intención de entender el valor típico de la variable aleatoria. Sin embargo, esta cantidad no nos dice nada sobre la variabilidad de los mismos. Una de las medidas más utilizadas para cuantificar esta variabilidad es la varianza, la cual se define a continuación.
+
+\begin{definicion}[Varianza de una variable aleatoria]
+Sea $X$ una variable con media finita. La varianza de $X$ se define como
+$$
+\sigma^2 = Var[X] =  E[(X - \mu)^2]
+$$
+La desviación estándar de $X$ se define como $\sigma = \sqrt{\sigma^2}$.
+\end{definicion}
+
+\begin{proposicion}[Propiedades de la varianza]
+\label{proposicion:propiedades de la varianza}
+La varianza cumple lo siguiente:
+\begin{enumerate}[label=\alph*)]
+\item Para toda constante $c \in \mathbb{R}$, $Var(cX) = c^2Var(X)$.
+\item Para toda constante $c \in \mathbb{R}$, $Var(X + c) = Var(X)$.
+\item $Var(X) \geq 0$, para toda variable aleatoria $X$. La igualdad se cumple sólo si $\mathbb{P}(X = c)=1$ para algún número $c$ constante.
+\item $Var(X) = E(X^2) - (E[X])^2$.
+\end{enumerate}
+\end{proposicion}
+
+\begin{ejercicio}
+Demuestre la proposición \ref{proposicion:propiedades de la varianza}.
+\end{ejercicio}
+
+\begin{definicion}[K-ésimo momento]
+Sea $X$ una variable aleatoria y $k \geq 1$ un entero. El k-ésimo momento de $X$ está dado por $E[X^k]$.
+\end{definicion}
+
+\begin{definicion}[Sesgo y curtosis]
+\label{definicion:sesgo y curtosis}
+Sea $X$ una variable aleatoria con $E[|X|^3]<\infty$. El sesgo de $X$ se define como
+$$
+\dfrac{E[(X- \mu)^3]}{\sigma^3}.
+$$
+Supongamos que $E[X^4] < \infty$. La curtosis de $X$ está dada por
+$$
+\dfrac{E[(X - \mu)^4]}{\sigma^4} - 3.
+$$
+\end{definicion}
+El sesgo es utilizado como una medida de asimetría en la distribución de los valores de la variable aleatoria. Si la variable $X$ tiene una distribución simétrica, entonces todos los momentos impares alrededor de la media, $E[(X - \mu)^{2k + 1}]$ serán iguales a cero, en particular, el sesgo será igual a cero.
+
+Por otro lado, la curtosis de una variable nos indica que tan concentrada (puntiaguda por así decirlo) es la distribución de los valores alrededor de la media.
+
+
+\subsection{Distribuciones discretas más comúnes}
+\label{seccion: distribuciones discretas}
+\begin{enumerate}[label=\alph*)]
+\item \textbf{Binomial:} $Bin(n,p)$
+$$
+\mathbb{P}(X=x) = \begin{pmatrix}
+n \\
+x
+\end{pmatrix} p^{x}(1 - p)^{n -x} \qquad x=0,1,\ldots,n.
+$$
+$$
+\begin{matrix}
+E[X] = np & Var(X) = np(1-p) \\
+E[(X - \mu)^3] = np(1-3p+2p^2) & E[(X - \mu)^4] = np(1-p)[1 + 3(n-2)p(1-p)]
+\end{matrix}
+$$
+\item \textbf{Geométrica:} $Geom(p)$
+$$
+\mathbb{P}(X = x) = p(1-p)^{x-1} \qquad x=1,2,3,\ldots.
+$$
+$$
+\begin{matrix}
+E[X] = \dfrac{1}{p} & Var(X) = \dfrac{1-p}{p^2} \\
+\end{matrix}
+$$
+\item \textbf{Binomial negativa:} $NegBin(r,p)$
+$$
+\mathbb{P}(X=x) = \begin{pmatrix}
+x-1 \\
+r-1
+\end{pmatrix} p^{r}(1-p)^{x-r}, \qquad x=r,r+1,\ldots.
+$$
+$$
+\begin{matrix}
+E[X] = \dfrac{r}{p} & Var(X) = \dfrac{r(1-p)}{p^2}.
+\end{matrix}
+$$
+\item \textbf{Hipergeométrica:} $Hiper(n,D,N)$
+$$
+\mathbb{P}(X = x) = \dfrac{ \begin{pmatrix}
+D \\
+x
+\end{pmatrix} \begin{pmatrix}
+N-D \\
+n-x
+\end{pmatrix} }{ \begin{pmatrix}
+N \\
+n
+\end{pmatrix}}, \qquad n-N+D \leq x \leq D.
+$$
+$$
+\begin{matrix}
+E[X] = np & Var(X) = np(1-p)\left( \dfrac{N-n}{N-1} \right)
+\end{matrix}
+$$
+\item \textbf{Poisson:}$Poi(\lambda)$
+$$
+\mathbb{P}(X = x) = \dfrac{e^{-\lambda} \lambda^x }{x!} \qquad x=0,1,2,\ldots. 
+$$
+$$
+\begin{matrix}
+E[X] = \lambda & Var(X) = \lambda \\
+E[(X-\lambda)^3] = \lambda & E[(X - \lambda)^4] = 3\lambda^2 + \lambda
+\end{matrix}
+$$
+\end{enumerate}
+\section{Caso continuo}
+\label{seccion:variables continuas}
+Una variable aleatoria continua, toma valores en subintervalos o dentro de conjuntos generados por subintervalos de $\mathbb{R}$. Algunos ejemplos de variables aleatorias continuas son:
+\begin{itemize}
+\item Precio de un instrumento financiero.
+\item Tiempo para que una compañía caiga en incumplimiento de sus obligaciones contractuales.
+\item Número de veces que una acción presenta ganancias en un intervalo de tiempo dado.
+\item Rendimientos de un portafolio.
+\end{itemize}
+
+\begin{definicion}[Variable aleatoria, caso continuo]
+\label{definicion: Variable aleatoria caso continuo}
+Una variable, $X$, sobre un espacio de probabilidad $(\Omega, \mathcal{F}, \mathbb{P})$ es una función $X:\Omega \rightarrow \mathbb{R}$ tal que para toda $x \in \mathbb{R}$ se tiene que
+$$
+\{ \omega \in \Omega: X(\omega) \leq x \} \in \mathcal{F}
+$$
+es decir, el conjunto $\{ \omega \in \Omega: X(\omega) \leq x \}$ es un evento.
+\end{definicion}
+Al igual que en el caso discreto, la función de distribución de una variable aleatoria continua, es la función, $F$, tal que 
+$$
+F(x) = \mathbb{P}(X \leq x)
+$$
+\begin{ejercicio}
+%Hoel pag 110
+Considere el experimento de elegir un punto al azar dentro del disco de radio $R$ centrado en el origen. Sea $X$ la variable aleatoria que denota la distancia entre el punto elegido y el origen. Encuentre la función de distribución de $X$.
+\end{ejercicio}
+
+\begin{teorema}
+Una variable aleatoria, $X$, es una variable aleatoria continua si y sólo si su función de distribución, $F$, es continua en todo punto $x$.
+\end{teorema}
+Como consecuencia del teorema anterior, tenemos que para cualesquiera números $a \leq b$.
+$$
+\mathbb{P}(a < X < b) = \mathbb{P}(a \leq X \leq b) = \mathbb{P}(a \leq X < b)
+$$
+
+\begin{definicion}[Función de densidad, caso continuo]
+\label{definicion:funcion de densidad caso continuo}
+Una funcióin de densidad (con respecto a la integración) es una función no negativa, $f\geq 0$, tal que 
+$$
+\int_{-\infty}^{\infty} f(x)dx = 1
+$$
+Observemos que si $f$ es una función de densidad, entonces la función, $F$, definida por
+$$
+F(x) = \int_{- \infty}^{x} f(y)dy, \qquad -\infty < x < \infty.
+$$
+es una función de distribución.
+
+No todas las funciones de distribución tienen asociadas una función de densidad, aquellas que sí la tienen son llamadas \textbf{absolutamente continuas}.
+\end{definicion}
+
+De lo anterior, se sigue que para una variable aleatoria continua $X$ con densidad $f$
+$$
+\mathbb{P}(a \leq X \leq b) = \int_{a}^{b}f(x)dx
+$$
+o de manera más general, si $A$ es la unión (numerable) de intervalos disjuntos
+$$
+\mathbb{P}(X \in A) = \int_{A}f(x)dx.
+$$
+
+Finalmente, es importante señalar que si $F$ es absolutamente continua, la densidad $f$ no es única, ya que puede ser modificada en un conjunto finito de puntos (de manera más general, cualquier conjunto de medida cero) sin alterar el valor de la integral.
+
+\begin{teorema}[Teorema de cambio de variable]
+\label{teorema:cambio de variable}
+Sea $\psi$ una función derivable, estrictamente creciente o decreciente sobre un intervalo $I$ y sea $\psi(I)$ el rango de $\psi$. Sea $X$ una función aleatoria continua $X$ con densidad $f$, tal que $f(x) = 0$ para $x \notin I$. Entonces $Y = \psi(X)$ tiene densidad $g$ dada por $g(y) = 0$ para $y \notin \psi(I)$ y 
+$$
+g(y) = f(\psi^{-1}(y)) \left| \dfrac{d}{dy}\psi{-1}(y)\right|, \qquad y \in \psi(I).
+$$
+\end{teorema}
+
+\begin{demostracion}
+Sean $F$ y $G$ las funciones de distribución de $X$ y $Y$ respectivamente. Primero supongamos que $\psi$ es estrictamente creciente, por lo tanto, $\psi{-1}$ también es estrictamente creciente sobre $\psi(I)$ y para $y \in \psi(I)$
+$$
+\begin{array}{lll}
+G(y) & = & \mathbb{P}(Y \leq y)\\
+ & = & \mathbb{P}(\psi(X) \leq y) \\
+ & = & \mathbb{P}(X \leq \psi^{-1}(y))\\
+ & = & F(\psi^{-1}(y)).
+\end{array}
+$$
+Derivando respecto a $y$, se obtiene
+$$
+\begin{array}{lll}
+G^{'}(y) & = & \dfrac{d}{dy}F(\psi^{-1}(y))\\
+& = & F^{'}(\psi^{-1}(y))\dfrac{d}{dy}\psi^{-1}(y)\\
+& = & f(\psi{-1}(y))\dfrac{d}{dy}\psi{-1}(y).
+\end{array}
+$$
+Y como
+$$
+\dfrac{d}{dy}\psi^{-1}(y) = \left| \dfrac{d}{dy}\psi{-1}(y) \right| \qquad \mbox{¿por qué?}
+$$
+se tiene que le ecuación se cumple.
+
+Ahora supongamos que $\psi$ es estrictamente decreciente, por lo tanto también lo es $\psi^{-1}$, para $y \in \psi(I)$ tenemos
+$$
+\begin{array}{lcl}
+G(y) & = & \mathbb{P}(Y \leq y) \\
+& = & \mathbb{P}(\psi(X) \leq y) \\
+& = & \mathbb{P}(X \geq \psi^{-1}(y)) \qquad \mbox{¿por qué?} \\
+& = & 1 - F(\psi^{-1}(y)).
+\end{array}
+$$
+Derivando respecto a $y$
+$$
+\begin{array}{lcl}
+G^{'}(y) & = & -F^{'}(\psi{-1}(y))\dfrac{d}{dy}\psi{-1}(y)\\
+& = & f(\psi^{-1}(y))\left( - \dfrac{d}{dy} \psi^{-1}(y)  \right) \\
+ & = & f(\psi^{-1}(y))\left| \dfrac{d}{dy} \psi^{-1}(y)  \right| \qquad \mbox{¿por qué?}. 
+\end{array}
+$$
+lo que finaliza la demostración $\qed$.
+\end{demostracion}
+
+\begin{ejercicio}
+%Hoel pág 117
+Sea $X$ una variable aleatoria continua con densidad $f$. Encuentre la densidad de $Y = X^2$.
+\end{ejercicio}
+
+\chapter{Variables aleatorias multivariadas}
+\label{capitulo:variables aleatorias multivariadas}
+\begin{definicion}[Covarianza y coeficiente de variación]
+\label{definicion:covarianza}
+Sean $X,Y$ dos variables aleatorias con esperanza finita, la covarianza de $X$ y $Y$ está dada por
+$$
+Cov(X,Y) = E[(X - \mu_{X})(Y - \mu_{Y})]
+$$
+La covarianza busca medir el grado de dependencia (lineal) entre dos variables, sin embargo, al ser una cantidad no acotada y que depende de las unidades de las variables involucradas, su interpretación es difícil. Una forma de solucionar es a través del coeficiente de variación, el cual se define como
+$$
+\rho(X,Y) = \dfrac{ Cov(X,Y)  }{ \sqrt{Var(X) Var(Y)} }.
+$$
+Utilizando la desigualdad de Schwarz es fácil ver que $-1\leq \rho(X,Y) \leq 1$.
+\end{definicion}
+
+
+\begin{ejercicio}
+Demuestre que $Cov(X,Y) = E[XY] - E[X]E[Y]$.
+\end{ejercicio}
+
+\begin{definicion}[Variables independientes]
+Sean $X_1, X_2,\ldots,X_k$ variables aleatorias definidas sobre el mismo espacio $\Omega$. Decimos que las variables $X_1, X_2,\ldots,X_k$ son independientes si
+$$
+\mathbb{P}(X_1 = x1, X_2 = x_2, \ldots, X_k = x_k) = \mathbb{P}(X_1 = x_2)\mathbb{P}(X_2 = x_2)\ldots\mathbb{P}(X_k = x_k).
+$$
+\end{definicion}
+
+\begin{ejercicio}
+Suponga que $X,Y$ son variables aleatorias independientes con funciones de densidad $f_x, f_y$ respectivamente. Demuestre que para cualesquiera subconjuntos $A,B \in \mathcal{F}$, se tiene que
+$$
+\mathbb{P}(X \in A, Y \in B) = \mathbb{P}(X \in A)\mathbb{P}(Y \in B)
+$$
+\end{ejercicio}
+
+\begin{ejercicio}
+Suponga que las variables $X_1, X_2, \ldots, X_n$ son variables independientes con esperanza finita. Demuestre la igualdad
+$$
+E[\Pi_{i=1}^{n}X_i] = \Pi_{i=1}^{n}E[X_i].
+$$
+En particular, si $X,Y$ son independientes, $Cov(X,Y) = 0$.
+\end{ejercicio}
+
+\begin{ejercicio}
+Sean $X,Y$ variables aleatorias independientes.
+\begin{enumerate}[label=\alph*)]
+\item Encuentre la distribución de $\min(X,Y)$.
+\item Encuentre la distribución de $\max(X,Y)$.
+\item Encuentre $\mathbb{P}(\min(X,Y) = X) = \mathbb{P}(Y \geq X)$.
+\item Encuentre la distribución de $X + Y$.
+\end{enumerate}
+\end{ejercicio}
+
+\begin{ejercicio}
+Suponga que las variables $X_1, X_2, \ldots, X_n$ son independientes. Demuestre
+$$
+Var(X_1 + X_2 + \ldots + X_n) = \sum_{i=1}^{n}Var(X_i).
+$$
+\textbf{Sugerencia:} Demuestre primero el caso con dos variables.
+\end{ejercicio}
+
+\begin{ejercicio}
+Sean $X_1, X_2, \ldots, X_n$ variables independientes con varianza común $\sigma^2 < \infty$. Sea $\bar{X} = \dfrac{\sum_{i=1}^{n} X_i }{n}$, demuestre que $Var(\bar{X}) = \dfrac{\sigma^2}{n}$.
+\end{ejercicio}
+
+
+
+
+\end{document}

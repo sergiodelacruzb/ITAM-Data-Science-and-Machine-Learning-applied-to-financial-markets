@@ -1,0 +1,16 @@
+Gradient descent optimization
+BGD
+SGD
+Mini-Batch 6D
+
+Crossvalidation
+- Insesgar
+- Overfitting / Underfitting
+
+Sklearn
+    Pipeline
+    Model => Linear Regression, Lasso, Bridge
+    Transformer => agarrar una función y la va a transformar
+
+==============================================================================
+
